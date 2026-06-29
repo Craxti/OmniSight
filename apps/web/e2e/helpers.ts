@@ -35,6 +35,7 @@ export {
   runCorrelationIngest,
   runAutodiscoverInventoryUi,
   runAutodiscoverGraphUi,
+  validateRelationsModel,
   inventoryTable,
   relationsTable,
   auditTable,

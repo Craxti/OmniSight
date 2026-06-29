@@ -10,6 +10,7 @@ import {
   login,
   openGraphForCi,
   runCorrelationIngest,
+  validateRelationsModel,
 } from './helpers'
 
 test.describe('OmniSight full tab flow', () => {
@@ -42,10 +43,7 @@ test.describe('OmniSight full tab flow', () => {
 
       // Relations — link A → B and validate model
       await createRelation(page, nameA, nameB)
-      await page.getByRole('button', { name: /Проверить целостность|Validate/i }).click()
-      await expect(page.locator('.card').filter({ hasText: /Модель корректна|Model is valid|Проблемы|Issues/i })).toBeVisible({
-        timeout: 10_000,
-      })
+      await validateRelationsModel(page)
 
       // Graph — verify nodes from root A
       await openGraphForCi(page, nameA, 2)
@@ -63,14 +61,14 @@ test.describe('OmniSight full tab flow', () => {
       // Audit — entries from this session
       await page.goto('/audit')
       await expect(page.getByRole('heading', { name: /Аудит|Audit/i })).toBeVisible()
-      await page.locator('select[aria-label="Entity type"]').selectOption('ci')
-      await page.locator('select[aria-label="Action"]').selectOption('create')
+      await page.getByLabel(/Тип сущности|Entity type/i).selectOption('ci')
+      await page.getByLabel(/Действие|Action/i).selectOption('create')
       await expect(auditTable(page)).toContainText(nameA, { timeout: 10_000 })
 
       // Settings — create temporary CI type, then remove it
       await page.goto('/settings')
       await expect(page.getByRole('heading', { name: /Настройки|Settings/i })).toBeVisible()
-      await page.getByRole('button', { name: /Новый тип|New type/i }).click()
+      await page.getByRole('button', { name: /^(Новый тип|New type)$/i }).click()
       await page.locator('input.input').first().fill(typeName)
       await page.getByRole('button', { name: /Сохранить|Save/i }).click()
       await expect(page.getByText(typeName)).toBeVisible({ timeout: 10_000 })

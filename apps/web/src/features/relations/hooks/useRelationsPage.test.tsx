@@ -21,7 +21,7 @@ vi.mock('@/shared/hooks/useCiList', () => ({
 }))
 
 vi.mock('@/shared/hooks/useRelationValidation', () => ({
-  useRelationValidation: () => ({ validation: null, validate: vi.fn() }),
+  useRelationValidation: () => ({ validation: null, validate: vi.fn(), validating: false }),
 }))
 
 vi.mock('@/shared/api', () => ({

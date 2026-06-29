@@ -5,11 +5,19 @@ type Props = {
   validLabel: string
   issuesLabel: string
   className?: string
+  testId?: string
 }
 
-export function RelationValidationBanner({ validation, validLabel, issuesLabel, className = '' }: Props) {
+export function RelationValidationBanner({
+  validation,
+  validLabel,
+  issuesLabel,
+  className = '',
+  testId = 'relation-validation-banner',
+}: Props) {
   return (
     <div
+      data-testid={testId}
       className={`alert ${validation.valid ? 'alert-success' : 'alert-error'} ${className}`.trim()}
     >
       {validation.valid ? (

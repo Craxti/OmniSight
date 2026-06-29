@@ -52,7 +52,7 @@ export function useRelationsPage() {
     queryFn: () => relationsApi.listPage({ page, page_size: PAGE_SIZE, ...activeFilters }),
   })
   const { data: cis } = useCiList()
-  const { validation, validate } = useRelationValidation()
+  const { validation, validate, validating } = useRelationValidation()
   const { data: relAudit } = useQuery({
     queryKey: queryKeys.relations.audit(auditRelId!),
     queryFn: () => miscApi.entityAudit('relation', auditRelId!),
@@ -90,6 +90,7 @@ export function useRelationsPage() {
     cis,
     validation,
     validate,
+    validating,
     relAudit,
     createMut,
     deleteMut,

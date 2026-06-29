@@ -114,9 +114,23 @@ export async function createRelation(page: Page, sourceName: string, targetName:
   await page.locator('#rel-source').selectOption({ label: sourceName })
   await page.locator('#rel-target').selectOption({ label: targetName })
   await page.getByTestId('relation-submit').click()
+  await expect(page.getByRole('dialog')).toBeHidden({ timeout: 10_000 })
   const table = relationsTable(page)
   await expect(table).toContainText(sourceName, { timeout: 10_000 })
   await expect(table).toContainText(targetName, { timeout: 10_000 })
+}
+
+export async function validateRelationsModel(page: Page) {
+  await expect(page.getByRole('dialog')).toBeHidden({ timeout: 5_000 })
+  const responsePromise = page.waitForResponse(
+    (res) => res.url().includes('/relations/validate') && res.request().method() === 'GET',
+    { timeout: 30_000 },
+  )
+  await page.getByTestId('relations-validate').click()
+  const response = await responsePromise
+  const body = await response.text()
+  expect(response.ok(), `relations validate failed (${response.status()}): ${body.slice(0, 500)}`).toBeTruthy()
+  await expect(page.getByTestId('relation-validation-banner')).toBeVisible({ timeout: 10_000 })
 }
 
 export async function deleteRelation(page: Page, sourceName: string, targetName: string) {

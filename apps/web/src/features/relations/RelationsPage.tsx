@@ -33,6 +33,7 @@ export default function RelationsPage() {
     cis,
     validation,
     validate,
+    validating,
     relAudit,
     createMut,
     deleteMut,
@@ -57,7 +58,12 @@ export default function RelationsPage() {
         subtitle={t.relations.subtitle}
         actions={(
           <>
-            <Button variant="secondary" onClick={() => validate()}>
+            <Button
+              variant="secondary"
+              onClick={() => void validate()}
+              disabled={validating}
+              data-testid="relations-validate"
+            >
               {t.relations.validate}
             </Button>
             <RelationsImportExportToolbar
