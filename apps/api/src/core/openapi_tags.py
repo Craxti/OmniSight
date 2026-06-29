@@ -25,9 +25,7 @@ OPENAPI_TAGS: list[dict[str, str]] = [
     },
     {
         "name": TAG_INTEGRATION_CORRELATION,
-        "description": (
-            "Корреляционный контекст ТЗ §8: общий граф по группе объектов, ingest, chain-check."
-        ),
+        "description": ("Корреляционный контекст ТЗ §8: общий граф по группе объектов, ingest, chain-check."),
     },
     {
         "name": TAG_INTEGRATION_META,
