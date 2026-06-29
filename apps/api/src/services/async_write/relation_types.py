@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from sqlalchemy import func, select
-
 from src.core.async_repository_bundle import AsyncRepositoryBundle
 from src.core.constants import CACHE_PREFIXES_CORRELATION, RELATION_TYPES
 from src.core.exceptions import ConflictError, DomainValidationError

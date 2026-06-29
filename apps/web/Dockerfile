@@ -1,15 +1,20 @@
 FROM node:22-alpine AS build
 
 WORKDIR /app
-COPY package.json package-lock.json ./
+
+# Local file: dependency (@omnisight/contract) lives outside apps/web
+COPY packages/omnisight-contract /app/packages/omnisight-contract
+
+WORKDIR /app/apps/web
+COPY apps/web/package.json apps/web/package-lock.json ./
 RUN npm ci
-COPY . .
+COPY apps/web .
 RUN npm run build
 
 FROM nginx:1.27-alpine AS runtime
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/apps/web/dist /usr/share/nginx/html
 
 EXPOSE 80
 

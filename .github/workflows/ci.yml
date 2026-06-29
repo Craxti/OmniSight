@@ -129,7 +129,7 @@ jobs:
       - name: Build Web image
         uses: docker/build-push-action@v6
         with:
-          context: apps/web
+          context: .
           file: apps/web/Dockerfile
           push: false
           tags: omnisight-web:ci

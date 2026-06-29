@@ -16,6 +16,7 @@ from src.repositories.async_orm.autodiscover_repository import (
 )
 from src.repositories.async_orm.ci_repository import AsyncCiRepository
 from src.repositories.async_orm.ci_type_repository import AsyncCITypeRepository
+from src.repositories.async_orm.relation_repository import AsyncRelationRepository
 from src.repositories.async_orm.relation_type_repository import AsyncRelationTypeRepository
 from src.schemas.autodiscover import (
     AutodiscoverScanRequest,

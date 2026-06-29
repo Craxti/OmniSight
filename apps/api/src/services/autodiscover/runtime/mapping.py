@@ -5,6 +5,7 @@ from __future__ import annotations
 from src.models import CI
 from src.repositories.async_orm.ci_repository import AsyncCiRepository
 from src.repositories.async_orm.ci_type_repository import AsyncCITypeRepository
+from src.repositories.async_orm.relation_repository import AsyncRelationRepository
 from src.repositories.async_orm.relation_type_repository import AsyncRelationTypeRepository
 from src.services.async_import_validate import find_external_id_conflict_async
 from src.services.autodiscover.connectors.base import DiscoveredEntity

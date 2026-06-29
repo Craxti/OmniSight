@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from sqlalchemy.orm import Session
-
 from src.core.constants import RELATION_TYPES, RSM_OFFICIAL_TYPE_NAMES
 from src.core.session_commit import commit_session
 from src.models import CIType

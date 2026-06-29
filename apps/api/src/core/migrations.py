@@ -20,6 +20,8 @@ _BASELINE_REVISION = "001_baseline"
 
 def alembic_config(database_url: str | None = None) -> Config:
     cfg = Config(str(_ALEMBIC_INI))
+    cfg.set_main_option("script_location", str(_API_ROOT / "alembic"))
+    cfg.set_main_option("prepend_sys_path", str(_API_ROOT))
     cfg.set_main_option("sqlalchemy.url", database_url or settings.database_url)
     return cfg
 
