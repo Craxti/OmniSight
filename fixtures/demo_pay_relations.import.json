@@ -1,0 +1,67 @@
+{
+  "description": "Связи PAY: цепочка depends_on для §3.2 + все 7 типов связей ТЗ на узле demo-app",
+  "scenario": "night_incident_pay",
+  "requirements": ["FR11-14", "FR37-39", "§3.2"],
+  "relations": [
+    {
+      "source_name": "demo-app",
+      "target_name": "demo-db",
+      "relation_type": "depends_on",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-biz",
+      "target_name": "demo-pay-it",
+      "relation_type": "depends_on",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-pay-it",
+      "target_name": "demo-app",
+      "relation_type": "depends_on",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-app",
+      "target_name": "demo-pay-srv",
+      "relation_type": "hosted_on",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-app",
+      "target_name": "demo-pay-k8s",
+      "relation_type": "part_of",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-app",
+      "target_name": "demo-pay-queue",
+      "relation_type": "uses",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-db",
+      "target_name": "demo-net-mon",
+      "relation_type": "linked_to",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-app",
+      "target_name": "demo-pay-ext",
+      "relation_type": "affects",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-app",
+      "target_name": "demo-pay-tc",
+      "relation_type": "reserves",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-db",
+      "target_name": "demo-pay-vm",
+      "relation_type": "hosted_on",
+      "status": "active"
+    }
+  ]
+}

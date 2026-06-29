@@ -1,0 +1,43 @@
+.page-header {
+  @apply mb-6 flex flex-wrap items-start justify-between gap-4;
+}
+
+.skeleton {
+  @apply animate-pulse rounded-lg;
+  background: color-mix(in srgb, var(--text-muted) 18%, transparent);
+}
+
+.stat-card-value {
+  @apply text-2xl font-bold tabular-nums;
+  color: var(--text-primary);
+}
+
+.audit-feed-item {
+  @apply flex items-start justify-between gap-3 rounded-lg px-3 py-2 text-sm transition-colors;
+}
+
+.audit-feed-item:hover {
+  background: var(--bg-hover);
+}
+
+.health-pill {
+  @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium;
+}
+
+.health-pill--ok {
+  background: color-mix(in srgb, #10b981 18%, transparent);
+  color: #34d399;
+}
+
+html[data-theme="light"] .health-pill--ok {
+  color: #047857;
+}
+
+.health-pill--warn {
+  background: color-mix(in srgb, #f59e0b 18%, transparent);
+  color: #fbbf24;
+}
+
+html[data-theme="light"] .health-pill--warn {
+  color: #b45309;
+}

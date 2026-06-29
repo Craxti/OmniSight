@@ -1,0 +1,66 @@
+{
+  "description": "Пример импорта с новыми типами элементов (не из эталонных 11 типов РСМ). При импорте откроется модалка сопоставления типов.",
+  "elements": [
+    {
+      "name": "edge-gw-frankfurt-01",
+      "type_name": "Edge Gateway",
+      "status": "active",
+      "criticality": "high",
+      "environment": "production",
+      "owner": "network-ops",
+      "team": "edge",
+      "description": "Пограничный шлюз во Франкфурте",
+      "attributes": {
+        "region": "eu-central-1",
+        "firmware": "3.2.1",
+        "hostname": "edge-gw-frankfurt-01"
+      },
+      "external_ids": {
+        "hostname": "edge-gw-frankfurt-01",
+        "externalId": "edge-gw-frankfurt-01"
+      }
+    },
+    {
+      "name": "edge-gw-london-01",
+      "type_name": "Edge Gateway",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "network-ops",
+      "attributes": {
+        "region": "eu-west-2",
+        "firmware": "3.1.0",
+        "hostname": "edge-gw-london-01"
+      },
+      "external_ids": {
+        "hostname": "edge-gw-london-01"
+      }
+    },
+    {
+      "name": "stream-proc-orders",
+      "type_name": "Stream Processor",
+      "status": "active",
+      "criticality": "high",
+      "environment": "production",
+      "owner": "data-platform",
+      "attributes": {
+        "topic": "orders.events",
+        "partitions": "24",
+        "engine": "Flink"
+      }
+    },
+    {
+      "name": "datalake-raw-zone",
+      "type_name": "Data Lake",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "staging",
+      "owner": "analytics",
+      "attributes": {
+        "storage_tier": "hot",
+        "retention_days": "90",
+        "bucket": "raw-analytics"
+      }
+    }
+  ]
+}

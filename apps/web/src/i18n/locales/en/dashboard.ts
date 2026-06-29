@@ -1,0 +1,16 @@
+export const dashboard = {
+      title: 'Dashboard',
+      subtitle: 'Resource-service model overview',
+      statCi: 'RSM elements',
+      statRelations: 'Relations',
+      statActive: 'Active',
+      byType: 'By type',
+      byStatus: 'By status',
+      modelHealth: 'Relation integrity',
+      healthOk: 'No issues found',
+      healthIssues: 'Review required',
+      healthIssuesCount: 'Issues',
+      validateLink: 'Open relations',
+      recentAudit: 'Recent changes',
+      viewAll: 'Full audit log',
+    }

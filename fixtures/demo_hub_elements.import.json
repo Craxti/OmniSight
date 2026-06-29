@@ -1,0 +1,114 @@
+{
+  "elements": [
+    {
+      "name": "demo-hub",
+      "type_name": "Application",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "external_ids": {
+        "hostname": "demo-hub"
+      }
+    },
+    {
+      "name": "demo-hub-db",
+      "type_name": "Database",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "external_ids": {
+        "hostname": "demo-hub-db"
+      }
+    },
+    {
+      "name": "demo-hub-srv",
+      "type_name": "Server",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "external_ids": {
+        "hostname": "demo-hub-srv"
+      }
+    },
+    {
+      "name": "demo-hub-vm",
+      "type_name": "Virtual Machine",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "external_ids": {
+        "hostname": "demo-hub-vm"
+      }
+    },
+    {
+      "name": "demo-hub-queue",
+      "type_name": "Queue",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "external_ids": {
+        "hostname": "demo-hub-queue"
+      }
+    },
+    {
+      "name": "demo-hub-net",
+      "type_name": "Network Element",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "external_ids": {
+        "hostname": "demo-hub-net"
+      }
+    },
+    {
+      "name": "demo-hub-ext",
+      "type_name": "External Service",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "external_ids": {
+        "hostname": "demo-hub-ext"
+      }
+    },
+    {
+      "name": "demo-hub-backup",
+      "type_name": "Technical Component",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "external_ids": {
+        "hostname": "demo-hub-backup"
+      }
+    },
+    {
+      "name": "demo-hub-biz",
+      "type_name": "Business Service",
+      "status": "active",
+      "criticality": "high",
+      "environment": "production",
+      "owner": "ops",
+      "external_ids": {
+        "serviceCode": "HUB-SVC"
+      }
+    },
+    {
+      "name": "demo-hub-it",
+      "type_name": "IT Service",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "external_ids": {
+        "serviceCode": "HUB-IT-SVC"
+      }
+    }
+  ]
+}

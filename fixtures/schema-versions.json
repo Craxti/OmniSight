@@ -1,0 +1,9 @@
+{
+  "auth": "rsm-auth-v1",
+  "autodiscover": "rsm-autodiscover-v1",
+  "correlation": "rsm-correlation-v1",
+  "inventory": "rsm-inventory-v1",
+  "meta": "rsm-meta-v1",
+  "ops": "rsm-ops-v1",
+  "topology": "rsm-topology-v1"
+}

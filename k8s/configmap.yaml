@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: omnisight-config
+  namespace: omnisight
+data:
+  LOG_JSON: "true"
+  DOCS_ENABLED: "true"
+  RATE_LIMIT_MAX_REQUESTS: "300"
+  # REDIS_URL is in omnisight-api-secrets (redis://omnisight-redis:6379/0).
+  CACHE_ENABLED: "true"
+  DATABASE_ASYNC_ENABLED: "true"
+  # Optional read replica — set DATABASE_READ_URL in secrets (postgresql+asyncpg://...).
+  # Async read pool and sync ReadSessionLocal both honor this when set.
+  # Per-process pool caps (read + write engines). Formula:
+  # maxReplicas × UVICORN_WORKERS × (pool_size + max_overflow) × 2 pools < Postgres max_connections
+  # Default ceiling: 4 × 2 × (3+5) × 2 = 128 (safe for Postgres max_connections=200).
+  DATABASE_POOL_SIZE: "3"
+  DATABASE_MAX_OVERFLOW: "5"

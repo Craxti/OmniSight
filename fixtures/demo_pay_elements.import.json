@@ -1,0 +1,163 @@
+{
+  "description": "Цепочка PAY для сценария §3.2 ТЗ: корреляция алертов demo-db → demo-app → demo-biz",
+  "scenario": "night_incident_pay",
+  "requirements": ["FR1-10", "FR4", "FR31", "§3.2"],
+  "elements": [
+    {
+      "name": "demo-db",
+      "type_name": "Database",
+      "status": "active",
+      "criticality": "high",
+      "environment": "production",
+      "owner": "ops",
+      "team": "platform",
+      "description": "БД платёжного контура (демо: PostgreSQL)",
+      "external_ids": {
+        "hostname": "demo-db",
+        "ip": "10.0.0.5",
+        "externalId": "ext-db-1"
+      },
+      "attributes": {
+        "engine": "PostgreSQL"
+      }
+    },
+    {
+      "name": "demo-app",
+      "type_name": "Application",
+      "status": "active",
+      "criticality": "high",
+      "environment": "production",
+      "owner": "ops",
+      "team": "platform",
+      "description": "Платёжный шлюз (демо)",
+      "external_ids": {
+        "hostname": "app-01",
+        "serviceCode": "PAY",
+        "applicationCode": "PAY-APP"
+      }
+    },
+    {
+      "name": "demo-biz",
+      "type_name": "Business Service",
+      "status": "active",
+      "criticality": "high",
+      "environment": "production",
+      "owner": "ops",
+      "team": "product-payments",
+      "description": "Бизнес-сервис «Переводы физлиц» (демо)",
+      "external_ids": {
+        "serviceCode": "PAY-SVC"
+      },
+      "attributes": {
+        "sla_tier": "P1"
+      }
+    },
+    {
+      "name": "demo-pay-srv",
+      "type_name": "Server",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "team": "platform",
+      "description": "Сервер размещения платёжного приложения",
+      "external_ids": {
+        "hostname": "pay-srv-01",
+        "ip": "10.0.0.21"
+      },
+      "attributes": {
+        "os": "Ubuntu 24.04"
+      }
+    },
+    {
+      "name": "demo-pay-k8s",
+      "type_name": "Container",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "team": "platform",
+      "external_ids": {
+        "hostname": "pay-k8s-01",
+        "externalId": "k8s-pay-app"
+      }
+    },
+    {
+      "name": "demo-pay-queue",
+      "type_name": "Queue",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "team": "platform",
+      "description": "Очередь платёжного контура (демо)",
+      "external_ids": {
+        "hostname": "pay-queue-01"
+      }
+    },
+    {
+      "name": "demo-pay-ext",
+      "type_name": "External Service",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "team": "integrations",
+      "description": "Внешний платёжный провайдер (демо)",
+      "external_ids": {
+        "hostname": "pay-ext-gw"
+      }
+    },
+    {
+      "name": "demo-pay-tc",
+      "type_name": "Technical Component",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "team": "platform",
+      "description": "Технический компонент шифрования (демо)",
+      "external_ids": {
+        "hostname": "pay-hsm-01"
+      }
+    },
+    {
+      "name": "demo-pay-vm",
+      "type_name": "Virtual Machine",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "team": "platform",
+      "external_ids": {
+        "hostname": "pay-vm-01"
+      }
+    },
+    {
+      "name": "demo-pay-it",
+      "type_name": "IT Service",
+      "status": "active",
+      "criticality": "high",
+      "environment": "production",
+      "owner": "ops",
+      "team": "platform",
+      "description": "ИТ-сервис платёжного контура (демо)",
+      "external_ids": {
+        "serviceCode": "PAY-IT-SVC"
+      }
+    },
+    {
+      "name": "demo-net-mon",
+      "type_name": "Network Element",
+      "status": "active",
+      "criticality": "medium",
+      "environment": "production",
+      "owner": "ops",
+      "team": "network",
+      "external_ids": {
+        "hostname": "net-mon-01",
+        "externalId": "zbx-net-db"
+      }
+    }
+  ]
+}

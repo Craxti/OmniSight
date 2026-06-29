@@ -1,0 +1,64 @@
+{
+  "relations": [
+    {
+      "source_name": "demo-hub-biz",
+      "target_name": "demo-hub-it",
+      "relation_type": "depends_on",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-hub-it",
+      "target_name": "demo-hub",
+      "relation_type": "depends_on",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-hub-biz",
+      "target_name": "demo-hub",
+      "relation_type": "depends_on",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-hub",
+      "target_name": "demo-hub-db",
+      "relation_type": "depends_on",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-hub",
+      "target_name": "demo-hub-srv",
+      "relation_type": "hosted_on",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-hub",
+      "target_name": "demo-hub-vm",
+      "relation_type": "part_of",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-hub",
+      "target_name": "demo-hub-queue",
+      "relation_type": "uses",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-hub",
+      "target_name": "demo-hub-net",
+      "relation_type": "linked_to",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-hub",
+      "target_name": "demo-hub-ext",
+      "relation_type": "affects",
+      "status": "active"
+    },
+    {
+      "source_name": "demo-hub",
+      "target_name": "demo-hub-backup",
+      "relation_type": "reserves",
+      "status": "active"
+    }
+  ]
+}

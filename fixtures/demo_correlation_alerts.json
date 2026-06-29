@@ -1,0 +1,66 @@
+{
+  "description": "Пакет алертов для демо §3.2: четыре события из разных систем мониторинга с разными полями идентификации",
+  "scenario": "night_incident_pay",
+  "requirements": ["§3.2", "FR37", "FR38", "FR39"],
+  "narrative": {
+    "problem": "В 02:00 приходят четыре алерта: Zabbix — hostname app-01, Prometheus — IP 10.0.0.5, CMDB — externalId ext-db-1, APM — serviceCode PAY. Дежурный не знает: один инцидент или четыре, затронуты ли переводы клиентам.",
+    "business_service": "demo-biz",
+    "business_label": "Переводы физлиц (PAY-SVC)",
+    "root_zone_hint": "demo-db"
+  },
+  "alerts": [
+    {
+      "id": "alert-1",
+      "monitor": "Zabbix",
+      "title": "CPU > 90%",
+      "severity": "high",
+      "payload": {
+        "hostname": "app-01"
+      }
+    },
+    {
+      "id": "alert-2",
+      "monitor": "Prometheus",
+      "title": "Disk space low",
+      "severity": "warning",
+      "payload": {
+        "ip": "10.0.0.5"
+      }
+    },
+    {
+      "id": "alert-3",
+      "monitor": "Nagios",
+      "title": "DB connection errors",
+      "severity": "critical",
+      "payload": {
+        "externalId": "ext-db-1"
+      }
+    },
+    {
+      "id": "alert-4",
+      "monitor": "APM",
+      "title": "Latency spike",
+      "severity": "high",
+      "payload": {
+        "serviceCode": "PAY",
+        "applicationCode": "PAY-APP"
+      }
+    }
+  ],
+  "ingest_request": {
+    "source": "demo-fixture",
+    "alerts": [
+      { "hostname": "app-01" },
+      { "ip": "10.0.0.5" },
+      { "externalId": "ext-db-1" },
+      { "serviceCode": "PAY", "applicationCode": "PAY-APP" }
+    ]
+  },
+  "expected": {
+    "resolved": 4,
+    "unresolved": 0,
+    "chain_related": true,
+    "impacted_business_services": ["demo-biz"],
+    "potential_root_cause_zone": ["demo-db"]
+  }
+}

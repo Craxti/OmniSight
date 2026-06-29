@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omnisight-worker
+  namespace: omnisight
+spec:
+  # Keep at 1: scheduler uses PostgreSQL advisory lock; outbox uses SKIP LOCKED for safe scale-out.
+  replicas: 1
+  selector:
+    matchLabels:
+      app: omnisight-worker
+  template:
+    metadata:
+      labels:
+        app: omnisight-worker
+    spec:
+      containers:
+        - name: worker
+          image: omnisight-api:latest
+          command: ["python", "-m", "src.worker"]
+          envFrom:
+            - secretRef:
+                name: omnisight-api-secrets
+            - configMapRef:
+                name: omnisight-config
+          env:
+            - name: APP_ENV
+              value: production
+            - name: BACKGROUND_TASKS_ENABLED
+              value: "true"
+            - name: AUTO_SYNC_SCHEDULER_ENABLED
+              value: "true"
+            - name: WEBHOOK_SYNC_DELIVERY
+              value: "false"
+            - name: DATABASE_ASYNC_ENABLED
+              value: "true"

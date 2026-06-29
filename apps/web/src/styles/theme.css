@@ -1,0 +1,138 @@
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-400: #818cf8;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+}
+
+:root,
+html[data-theme="dark"] {
+  --bg-app: #0b0f19;
+  --bg-sidebar: rgba(0, 0, 0, 0.3);
+  --bg-header: rgba(11, 15, 25, 0.75);
+  --bg-code: rgba(0, 0, 0, 0.35);
+  --bg-input: rgba(0, 0, 0, 0.2);
+  --bg-hover: rgba(255, 255, 255, 0.05);
+  --bg-card: rgba(255, 255, 255, 0.05);
+  --bg-popover: #161b28;
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border: rgba(255, 255, 255, 0.12);
+  --surface-muted: rgba(255, 255, 255, 0.04);
+  --text-primary: #e5e7eb;
+  --text-muted: #9ca3af;
+  --text-error: #f87171;
+  --text-warning: #fcd34d;
+  --text-success: #6ee7b7;
+  --text-info: #a5b4fc;
+  --link: #a5b4fc;
+  --alert-warning-bg: rgba(245, 158, 11, 0.1);
+  --alert-warning-border: rgba(245, 158, 11, 0.35);
+  --alert-warning-text: #fcd34d;
+  --alert-info-bg: rgba(99, 102, 241, 0.1);
+  --alert-info-border: rgba(99, 102, 241, 0.35);
+  --alert-info-text: #c7d2fe;
+  --alert-error-bg: rgba(239, 68, 68, 0.1);
+  --alert-error-border: rgba(239, 68, 68, 0.35);
+  --alert-error-text: #f87171;
+  --alert-success-bg: rgba(34, 197, 94, 0.1);
+  --alert-success-border: rgba(34, 197, 94, 0.35);
+  --alert-success-text: #6ee7b7;
+  --graph-canvas-bg: #0d1117;
+  --graph-grid-color: #1e293b;
+  --graph-node-bg: rgba(3, 7, 18, 0.92);
+  --graph-node-border: rgba(255, 255, 255, 0.1);
+  --graph-node-title: #ffffff;
+  --graph-node-type-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --graph-handle-border: #111827;
+  --graph-controls-bg: rgba(31, 41, 55, 0.92);
+  --graph-controls-border: rgba(255, 255, 255, 0.12);
+  --graph-controls-text: #e5e7eb;
+  --graph-controls-hover: rgba(79, 70, 229, 0.85);
+  --graph-controls-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --graph-legend-btn-bg: rgba(15, 23, 42, 0.88);
+  --graph-legend-btn-border: rgba(255, 255, 255, 0.14);
+  --graph-export-bg: #111827;
+}
+
+html[data-theme="light"] {
+  --bg-app: #f3f4f6;
+  --bg-sidebar: #ffffff;
+  --bg-header: rgba(255, 255, 255, 0.85);
+  --bg-code: #f3f4f6;
+  --bg-input: #ffffff;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --bg-card: #ffffff;
+  --bg-popover: #ffffff;
+  --border-subtle: rgba(0, 0, 0, 0.1);
+  --border: rgba(0, 0, 0, 0.12);
+  --surface-muted: rgba(0, 0, 0, 0.03);
+  --text-primary: #111827;
+  --text-muted: #6b7280;
+  --text-error: #dc2626;
+  --text-warning: #b45309;
+  --text-success: #047857;
+  --text-info: #4338ca;
+  --link: #4f46e5;
+  --alert-warning-bg: rgba(245, 158, 11, 0.12);
+  --alert-warning-border: rgba(245, 158, 11, 0.4);
+  --alert-warning-text: #92400e;
+  --alert-info-bg: rgba(99, 102, 241, 0.08);
+  --alert-info-border: rgba(99, 102, 241, 0.35);
+  --alert-info-text: #3730a3;
+  --alert-error-bg: rgba(239, 68, 68, 0.08);
+  --alert-error-border: rgba(239, 68, 68, 0.35);
+  --alert-error-text: #b91c1c;
+  --alert-success-bg: rgba(34, 197, 94, 0.08);
+  --alert-success-border: rgba(34, 197, 94, 0.35);
+  --alert-success-text: #047857;
+  --graph-canvas-bg: #f4f6f9;
+  --graph-grid-color: #cbd5e1;
+  --graph-node-bg: rgba(255, 255, 255, 0.97);
+  --graph-node-border: rgba(0, 0, 0, 0.12);
+  --graph-node-title: #111827;
+  --graph-node-type-shadow: none;
+  --graph-handle-border: #e5e7eb;
+  --graph-controls-bg: rgba(255, 255, 255, 0.96);
+  --graph-controls-border: rgba(0, 0, 0, 0.12);
+  --graph-controls-text: #111827;
+  --graph-controls-hover: rgba(99, 102, 241, 0.12);
+  --graph-controls-shadow: 0 4px 16px rgba(15, 23, 42, 0.1);
+  --graph-legend-btn-bg: rgba(255, 255, 255, 0.96);
+  --graph-legend-btn-border: rgba(0, 0, 0, 0.12);
+  --graph-export-bg: #f4f6f9;
+}
+
+html[data-theme="light"] .graph-flow-panel .react-flow {
+  background: var(--graph-canvas-bg);
+}
+
+html[data-theme="light"] .graph-flow-canvas .react-flow__background {
+  opacity: 0.28;
+}
+
+html[data-theme="light"] .graph-edge-label {
+  background: rgba(255, 255, 255, 0.97);
+  color: #0f172a;
+  border-color: #64748b;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+  text-shadow: none;
+}
+
+html[data-theme="light"] .graph-edge-label--path {
+  background: rgba(236, 253, 245, 0.97);
+  border-color: #059669;
+  color: #064e3b;
+}
+
+html[data-theme="light"] .data-table th {
+  color: #6b7280;
+}
+
+html[data-theme="light"] .input {
+  color: #111827;
+}
+
+.skip-link {
+  @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white focus:shadow-lg focus:outline-none;
+  background: var(--rsm-color-brand);
+}

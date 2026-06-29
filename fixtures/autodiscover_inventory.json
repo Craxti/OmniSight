@@ -1,0 +1,19 @@
+[
+  {
+    "match_hostname": "pay-srv-01",
+    "hostname": "pay-srv-01",
+    "ip": "10.0.0.21",
+    "os": "Ubuntu 24.04",
+    "entity_type": "Server"
+  },
+  {
+    "match_hostname": "app-01",
+    "hostname": "app-01",
+    "ip": "10.0.0.10",
+    "serviceCode": "PAY",
+    "applicationCode": "PAY-APP",
+    "entity_type": "Application",
+    "depends_on": "demo-db",
+    "hosted_on": "pay-srv-01"
+  }
+]

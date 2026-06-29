@@ -1,0 +1,41 @@
+{
+  "version": "1.1",
+  "product": "OmniSight РСМ",
+  "presentation": "fast_start/ПРЕЗЕНТАЦИЯ.md",
+  "fixtures": {
+    "pay": {
+      "elements": "demo_pay_elements.import.json",
+      "relations": "demo_pay_relations.import.json",
+      "alerts": "demo_correlation_alerts.json",
+      "host_snapshot": "host_snapshot_pay_srv.json",
+      "autodiscover": "autodiscover_inventory.json"
+    }
+  },
+  "scenarios": [
+    {
+      "id": "correlation_merge",
+      "title": "Сценарий 1: четыре алерта — одна цепочка",
+      "screen": "/correlation",
+      "expected": { "resolved": 4, "chain_related": true, "root_cause": "demo-db" },
+      "fixtures": ["demo_correlation_alerts.json"]
+    },
+    {
+      "id": "correlation_split",
+      "title": "Сценарий 2: два узла PAY — не объединять",
+      "screen": "/correlation",
+      "alerts": [
+        { "hostname": "pay-srv-01" },
+        { "hostname": "app-01" }
+      ],
+      "expected": { "resolved": 2, "chain_related": false }
+    },
+    {
+      "id": "autodiscover_pay_srv",
+      "title": "Сценарий 3: Autodiscover с pay-srv-01",
+      "screen": "/inventory",
+      "server_ci": "demo-pay-srv",
+      "expected": { "demo-app.ip": "10.0.0.10" },
+      "fixtures": ["host_snapshot_pay_srv.json"]
+    }
+  ]
+}

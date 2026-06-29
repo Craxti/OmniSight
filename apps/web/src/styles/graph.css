@@ -1,0 +1,282 @@
+/* React Flow — плавное перемещение узлов и polish */
+.graph-flow-panel {
+  position: relative;
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  min-height: 240px;
+  overflow: hidden;
+}
+
+.graph-flow-panel .react-flow {
+  background: var(--graph-canvas-bg);
+  flex: 1 1 0%;
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+}
+
+.graph-flow-canvas .react-flow__background {
+  opacity: 0.38;
+}
+
+.graph-sidebar {
+  z-index: 2;
+  overflow: visible;
+}
+
+.graph-flow-canvas .react-flow__node {
+  overflow: visible;
+  transition: transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.graph-flow-canvas .react-flow__node.dragging,
+.graph-flow-canvas .react-flow__node:active {
+  transition: none;
+  z-index: 10 !important;
+}
+
+.graph-node-card {
+  border: 1px solid var(--graph-node-border);
+  background: var(--graph-node-bg);
+  transition: box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+.graph-node-title {
+  color: var(--graph-node-title);
+}
+
+.graph-node-type {
+  text-shadow: var(--graph-node-type-shadow);
+}
+
+.graph-node-handle {
+  border-color: var(--graph-handle-border) !important;
+}
+
+.graph-node-root {
+  border-color: rgba(248, 113, 113, 0.8) !important;
+  box-shadow:
+    0 0 0 2px #f87171,
+    0 0 22px rgba(248, 113, 113, 0.45);
+}
+
+.graph-node-path {
+  border-color: rgba(52, 211, 153, 0.75) !important;
+  box-shadow:
+    0 0 0 2px #34d399,
+    0 0 18px rgba(52, 211, 153, 0.35);
+}
+
+.graph-node-impact {
+  border-color: rgba(251, 191, 36, 0.8) !important;
+  box-shadow:
+    0 0 0 2px #fbbf24,
+    0 0 18px rgba(251, 191, 36, 0.35);
+}
+
+.graph-node-components {
+  border-color: rgba(56, 189, 248, 0.8) !important;
+  box-shadow:
+    0 0 0 2px #38bdf8,
+    0 0 18px rgba(56, 189, 248, 0.35);
+}
+
+.graph-node-alert {
+  border-color: rgba(52, 211, 153, 0.8) !important;
+  box-shadow:
+    0 0 0 2px #34d399,
+    0 0 18px rgba(52, 211, 153, 0.35);
+}
+
+.graph-flow-canvas .react-flow__node:hover .graph-node-card:not(.graph-node-root):not(.graph-node-path):not(.graph-node-impact):not(.graph-node-components):not(.graph-node-alert) {
+  filter: drop-shadow(0 12px 28px rgba(99, 102, 241, 0.35));
+}
+
+.graph-flow-canvas .react-flow__node:hover .graph-node-root {
+  filter: drop-shadow(0 0 26px rgba(248, 113, 113, 0.55));
+}
+
+.graph-flow-canvas .react-flow__node:hover .graph-node-path {
+  filter: drop-shadow(0 0 22px rgba(52, 211, 153, 0.5));
+}
+
+.graph-flow-canvas .react-flow__node:hover .graph-node-impact {
+  filter: drop-shadow(0 0 22px rgba(251, 191, 36, 0.5));
+}
+
+.graph-flow-canvas .react-flow__node:hover .graph-node-components {
+  filter: drop-shadow(0 0 22px rgba(56, 189, 248, 0.5));
+}
+
+.graph-flow-canvas .react-flow__node:hover .graph-node-alert {
+  filter: drop-shadow(0 0 22px rgba(52, 211, 153, 0.5));
+}
+
+.graph-flow-canvas .graph-node-selected {
+  filter: drop-shadow(0 0 20px rgba(129, 140, 248, 0.5));
+  transform: scale(1.02);
+}
+
+.graph-flow-canvas .graph-node-dimmed {
+  filter: grayscale(0.35);
+}
+
+.graph-flow-canvas .react-flow__edge-path {
+  transition: stroke 0.3s ease, stroke-width 0.3s ease, opacity 0.3s ease;
+}
+
+.graph-flow-canvas .graph-edge-animated {
+  stroke-dasharray: 6 4;
+  animation: graph-edge-flow 0.8s linear infinite;
+}
+
+.graph-flow-canvas .graph-edge-path {
+  stroke-dasharray: none !important;
+  filter: drop-shadow(0 0 6px rgba(52, 211, 153, 0.75));
+}
+
+@keyframes graph-edge-flow {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+/* HTML-метки типов связей — фиксированный размер, не сжимаются при zoom (FR 12–13) */
+.graph-edge-label {
+  z-index: 10;
+  font-size: var(--rsm-font-caption);
+  line-height: var(--rsm-line-caption);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.96);
+  color: #f8fafc;
+  border: 1px solid #94a3b8;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+.graph-edge-label--path {
+  background: rgba(6, 95, 70, 0.96);
+  border-color: #6ee7b7;
+  color: #ecfdf5;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+.graph-flow-canvas .react-flow__controls button {
+  background: var(--graph-controls-bg) !important;
+  border-color: var(--graph-controls-border) !important;
+  color: var(--graph-controls-text) !important;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.graph-flow-canvas .react-flow__controls button:hover {
+  background: var(--graph-controls-hover) !important;
+}
+
+.graph-flow-canvas .react-flow__handle {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.graph-flow-canvas .react-flow__node:hover .react-flow__handle,
+.graph-flow-canvas .react-flow__node.connectable .react-flow__handle {
+  transform: scale(1.15);
+}
+
+.graph-flow-canvas .react-flow__node.connectable .react-flow__handle {
+  opacity: 1 !important;
+}
+
+.graph-controls {
+  border: 1px solid var(--graph-controls-border) !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-shadow: var(--graph-controls-shadow);
+}
+
+.graph-legend-help-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  border: 1px solid var(--graph-legend-btn-border);
+  background: var(--graph-legend-btn-bg);
+  color: var(--text-muted);
+  box-shadow: var(--graph-controls-shadow);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.graph-legend-help-btn:hover,
+.graph-legend-help-btn:focus-visible {
+  background: var(--graph-controls-hover);
+  color: var(--text-primary);
+  outline: none;
+  transform: scale(1.05);
+}
+
+.graph-legend-help-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 30;
+  width: 15rem;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  user-select: none;
+}
+
+.graph-node-badge {
+  font-size: var(--rsm-font-caption);
+  line-height: var(--rsm-line-caption);
+  @apply rounded border px-1.5 py-0.5 font-medium;
+}
+
+.graph-node-badge--origin {
+  background: var(--alert-error-bg);
+  border-color: var(--alert-error-border);
+  color: var(--alert-error-text);
+}
+
+.graph-node-badge--path {
+  background: var(--alert-success-bg);
+  border-color: var(--alert-success-border);
+  color: var(--alert-success-text);
+}
+
+.graph-node-badge--impact {
+  background: var(--alert-warning-bg);
+  border-color: var(--alert-warning-border);
+  color: var(--alert-warning-text);
+}
+
+.graph-node-badge--components {
+  background: var(--alert-info-bg);
+  border-color: var(--alert-info-border);
+  color: var(--alert-info-text);
+}
+
+.graph-node-badge--alert {
+  background: var(--alert-success-bg);
+  border-color: var(--alert-success-border);
+  color: var(--alert-success-text);
+}
+
+.graph-legend-swatch {
+  @apply h-3 w-5 shrink-0 rounded border;
+  background: var(--bg-popover);
+  border-color: var(--border-subtle);
+  box-shadow:
+    inset 0 0 0 2px var(--swatch-color, var(--text-muted)),
+    0 0 6px color-mix(in srgb, var(--swatch-color, var(--text-muted)) 33%, transparent);
+}

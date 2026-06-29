@@ -1,0 +1,16 @@
+export const dashboard = {
+      title: 'Обзор',
+      subtitle: 'Сводка по ресурсно-сервисной модели',
+      statCi: 'Элементов РСМ',
+      statRelations: 'Связей',
+      statActive: 'Активных',
+      byType: 'По типам',
+      byStatus: 'По статусам',
+      modelHealth: 'Целостность связей',
+      healthOk: 'Проблем не обнаружено',
+      healthIssues: 'Требуется проверка',
+      healthIssuesCount: 'Замечаний',
+      validateLink: 'Открыть зависимости',
+      recentAudit: 'Последние изменения',
+      viewAll: 'Весь журнал',
+    }

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omnisight-web
+  namespace: omnisight
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: omnisight-web
+  template:
+    metadata:
+      labels:
+        app: omnisight-web
+    spec:
+      containers:
+        - name: web
+          image: omnisight-web:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: omnisight-web
+  namespace: omnisight
+spec:
+  selector:
+    app: omnisight-web
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer

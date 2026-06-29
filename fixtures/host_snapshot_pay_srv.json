@@ -1,0 +1,28 @@
+{
+  "host": {
+    "hostname": "pay-srv-01",
+    "ip": "10.0.0.21",
+    "os": "Ubuntu 24.04"
+  },
+  "processes": [
+    {
+      "name": "java",
+      "pid": 4821,
+      "listen": "0.0.0.0:8080",
+      "hostname": "app-01",
+      "entity_type": "Application",
+      "ip": "10.0.0.10",
+      "serviceCode": "PAY",
+      "applicationCode": "PAY-APP"
+    }
+  ],
+  "connections": [
+    {
+      "source_hostname": "app-01",
+      "target_ip": "10.0.0.5",
+      "target_port": 5432,
+      "target_hostname": "demo-db",
+      "relation_type": "depends_on"
+    }
+  ]
+}

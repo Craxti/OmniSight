@@ -1,0 +1,60 @@
+# PostgreSQL primary + streaming replica (development / staging HA topology).
+# For production use managed PostgreSQL with automatic failover.
+
+services:
+  postgres-primary:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-omnisight}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-omnisight}
+    volumes:
+      - pg-primary:/var/lib/postgresql/data
+      - ./postgres/primary-init.sh:/docker-entrypoint-initdb.d/01-replication.sh:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-omnisight}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  postgres-replica:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    depends_on:
+      postgres-primary:
+        condition: service_healthy
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-omnisight}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-omnisight}
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - pg-replica:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    command: >
+      bash -c "
+      until pg_isready -h postgres-primary -p 5432; do sleep 2; done;
+      rm -rf /var/lib/postgresql/data/*;
+      PGPASSWORD=$$POSTGRES_PASSWORD pg_basebackup -h postgres-primary -D /var/lib/postgresql/data -U $$POSTGRES_USER -Fp -Xs -P -R;
+      echo \"hot_standby = on\" >> /var/lib/postgresql/data/postgresql.auto.conf;
+      exec docker-entrypoint.sh postgres
+      "
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  pg-primary:
+  pg-replica:

@@ -1,0 +1,79 @@
+{
+  "relation_types": [
+    "depends_on",
+    "affects",
+    "part_of",
+    "hosted_on",
+    "uses",
+    "linked_to",
+    "reserves"
+  ],
+  "relation_type_aliases": {
+    "depends on": "depends_on",
+    "affects": "affects",
+    "part of": "part_of",
+    "hosted on": "hosted_on",
+    "uses": "uses",
+    "linked to": "linked_to",
+    "reserves": "reserves"
+  },
+  "relation_statuses": [
+    "active",
+    "inactive",
+    "archived"
+  ],
+  "ci_statuses": [
+    "active",
+    "temporarily_disabled",
+    "decommissioned",
+    "archived"
+  ],
+  "criticality_levels": [
+    "critical",
+    "high",
+    "medium",
+    "low"
+  ],
+  "environments": [
+    "production",
+    "pre-production",
+    "test",
+    "development"
+  ],
+  "external_id_fields": [
+    "hostname",
+    "ip",
+    "serviceCode",
+    "applicationCode",
+    "externalId",
+    "cmdbId"
+  ],
+  "field_aliases": {
+    "host": "hostname",
+    "host_name": "hostname",
+    "fqdn": "hostname",
+    "ip_address": "ip",
+    "ipv4": "ip",
+    "external_id": "externalId",
+    "service_code": "serviceCode",
+    "application_code": "applicationCode"
+  },
+  "roles": [
+    "viewer",
+    "editor",
+    "admin"
+  ],
+  "rsm_official_type_names": [
+    "Business Service",
+    "IT Service",
+    "Application",
+    "Technical Component",
+    "Server",
+    "Virtual Machine",
+    "Container",
+    "Database",
+    "Queue",
+    "Network Element",
+    "External Service"
+  ]
+}

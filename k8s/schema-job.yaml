@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: omnisight-schema
+  namespace: omnisight
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: schema
+          image: omnisight-api:latest
+          command: ["python", "scripts/deploy_db.py", "--seed"]
+          envFrom:
+            - secretRef:
+                name: omnisight-api-secrets
+          env:
+            - name: APP_ENV
+              value: production
+            - name: ENSURE_SCHEMA_ON_START
+              value: "false"

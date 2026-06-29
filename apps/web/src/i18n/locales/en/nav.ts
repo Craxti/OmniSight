@@ -1,0 +1,15 @@
+export const nav = {
+      dashboard: 'Dashboard',
+      inventory: 'RSM Elements',
+      relations: 'Relations',
+      graph: 'Graph',
+      correlation: 'Correlation',
+      audit: 'Audit',
+      settings: 'Settings',
+      search: 'Search…',
+      searchPlaceholder: 'name, hostname, IP, serviceCode, externalId…',
+      logout: 'Log out',
+      theme: 'Theme',
+      lang: 'Language',
+      noResults: '—',
+    }

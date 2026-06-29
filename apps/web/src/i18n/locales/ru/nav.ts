@@ -1,0 +1,15 @@
+export const nav = {
+      dashboard: 'Обзор',
+      inventory: 'Элементы РСМ',
+      relations: 'Зависимости',
+      graph: 'Карта',
+      correlation: 'Корреляция',
+      audit: 'Аудит',
+      settings: 'Настройки',
+      search: 'Поиск…',
+      searchPlaceholder: 'name, hostname, IP, serviceCode, externalId…',
+      logout: 'Выйти',
+      theme: 'Тема',
+      lang: 'Язык',
+      noResults: '—',
+    }
