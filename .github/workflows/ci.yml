@@ -39,7 +39,6 @@ jobs:
       - run: mypy src
       - run: python scripts/sync_domain_constants.py
       - run: python scripts/sync_schema_versions.py
-      - run: python scripts/sync_deprecation_routes.py
       - run: python scripts/deploy_db.py --seed
       - run: pytest tests/ -q --ignore=tests/test_nfr_scale.py --cov=src --cov-report=term-missing:skip-covered --cov-fail-under=80
       - name: NFR scale 50k (§9)
