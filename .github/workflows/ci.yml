@@ -111,3 +111,43 @@ jobs:
       - run: npm run test:e2e
         env:
           CI: "true"
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build API image
+        uses: docker/build-push-action@v6
+        with:
+          context: apps/api
+          file: apps/api/Dockerfile
+          push: false
+          tags: omnisight-api:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Build Web image
+        uses: docker/build-push-action@v6
+        with:
+          context: apps/web
+          file: apps/web/Dockerfile
+          push: false
+          tags: omnisight-web:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Validate Docker Compose configs
+        run: |
+          cd docker
+          cat > .env.ci <<'EOF'
+          POSTGRES_USER=omnisight
+          POSTGRES_PASSWORD=ci-test-password-32chars-long
+          POSTGRES_DB=omnisight
+          SECRET_KEY=ci-test-secret-key-32chars-minimum
+          API_KEY=ci-test-api-key-24chars-min
+          WEBHOOK_SECRET=ci-test-webhook-secret-24ch
+          ADMIN_INITIAL_PASSWORD=ci-admin-pass-12
+          CORS_ORIGINS=http://localhost:8080
+          EOF
+          docker compose -f docker-compose.yml config --quiet
+          docker compose -f docker-compose.dev.yml --env-file .env.ci config --quiet
+          docker compose -f docker-compose.prod.yml --env-file .env.ci config --quiet

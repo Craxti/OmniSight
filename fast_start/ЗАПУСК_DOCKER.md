@@ -1,9 +1,11 @@
 # Запуск OmniSight в Docker
 
+**Русская версия** · [English](DOCKER_SETUP.md)
+
 Три сервиса в dev-compose: **PostgreSQL**, **Backend (API)**, **Frontend (Web через Nginx)**.  
 Production-compose добавляет **Worker** (auto-sync, webhook outbox).
 
-См. также: [`../README.md`](../README.md) · [`ЗАПУСК_WINDOWS.md`](./ЗАПУСК_WINDOWS.md) · [`DEMO_GUIDE.md`](./DEMO_GUIDE.md)
+См. также: [`../README.ru.md`](../README.ru.md) · [`ЗАПУСК_WINDOWS.md`](./ЗАПУСК_WINDOWS.md) · [`DEMO_GUIDE.ru.md`](./DEMO_GUIDE.ru.md)
 
 ---
 

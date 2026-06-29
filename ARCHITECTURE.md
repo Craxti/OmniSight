@@ -1,5 +1,7 @@
 # OmniSight Architecture
 
+**English** · [Русская версия](ARCHITECTURE.ru.md)
+
 ## Layering
 
 ### Backend (`apps/api`)

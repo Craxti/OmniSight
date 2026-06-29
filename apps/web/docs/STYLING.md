@@ -1,5 +1,7 @@
 # Styling guide (apps/web)
 
+**English** · [Русская версия](STYLING.ru.md)
+
 OmniSight uses a **hybrid** styling model. Pick the right layer for each concern.
 
 ## When to use what

@@ -1,89 +1,91 @@
 ﻿# OmniSight RSM
 
-**OmniSight** — платформа для учёта ИТ-ландшафта. Модуль **РСМ** (ресурсно-сервисная модель) ведёт каталог конфигурационных единиц (CI), направленных зависимостей между ними, визуализацию топологии и API для внешних систем мониторинга и корреляции алертов.
+**English** · [Русская версия / Russian README](README.ru.md)
 
-Стек: **FastAPI** (`apps/api`) + **React** (`apps/web`) + **PostgreSQL**.
+**OmniSight** is an IT landscape management platform. The **RSM** (Resource-Service Model) module maintains a catalog of configuration items (CIs), directed dependencies between them, topology visualization, and an API for external monitoring and alert correlation systems.
 
-| Документ | Назначение |
-|----------|------------|
-| [`docs/README.md`](docs/README.md) | ТЗ, сопоставление с реализацией, паспорт продукта |
-| [`ARCHITECTURE.md`](ARCHITECTURE.md) | Слои, DI, async DB, паттерны фронтенда |
-| [`fast_start/ЗАПУСК_WINDOWS.md`](fast_start/ЗАПУСК_WINDOWS.md) | Локальный запуск (Windows) |
-| [`fast_start/ЗАПУСК_DOCKER.md`](fast_start/ЗАПУСК_DOCKER.md) | Запуск в Docker |
-| [`fast_start/DEMO_GUIDE.md`](fast_start/DEMO_GUIDE.md) | Сценарий демо для жюри |
+Stack: **FastAPI** (`apps/api`) + **React** (`apps/web`) + **PostgreSQL**.
 
----
-
-## Возможности
-
-- **Инвентарь CI** — 11 типов, CRUD, внешние идентификаторы (hostname, IP, serviceCode и др.), атрибуты JSON, жизненный цикл, корзина
-- **Связи** — 7 типов зависимостей, валидация (циклы, архив, битые ссылки)
-- **Граф** — обход по глубине, business path, impact, layout, экспорт PNG
-- **Autodiscover (карта)** — авто-сбор данных с серверов, черновой auto-mapping и автозаполнение полей с подтверждением
-- **Import / Export** — JSON, CSV, XLSX; preview и сопоставление неизвестных типов при импорте (`/import/preview`, `/import/mapped`); отчёт по результатам
-- **Корреляция** — batch resolve идентификаторов алертов, граф связей, `chain_related`
-- **Аудит** — журнал изменений с diff old/new
-- **RBAC** — роли viewer / editor / admin
-- **i18n** — RU / EN, тёмная и светлая тема
+| Document | Purpose |
+|----------|---------|
+| [`docs/README.md`](docs/README.md) | Requirements, implementation mapping, product passport |
+| [`ARCHITECTURE.md`](ARCHITECTURE.md) | Layers, DI, async DB, frontend patterns |
+| [`fast_start/WINDOWS_SETUP.md`](fast_start/WINDOWS_SETUP.md) | Local setup (Windows) |
+| [`fast_start/DOCKER_SETUP.md`](fast_start/DOCKER_SETUP.md) | Docker setup |
+| [`fast_start/DEMO_GUIDE.md`](fast_start/DEMO_GUIDE.md) | Demo scenario for judges |
 
 ---
 
-## Требования
+## Features
 
-| Компонент | Версия |
-|-----------|--------|
+- **CI inventory** — 11 types, CRUD, external identifiers (hostname, IP, serviceCode, etc.), JSON attributes, lifecycle, trash
+- **Relations** — 7 dependency types, validation (cycles, archive, broken links)
+- **Graph** — depth traversal, business path, impact, layout, PNG export
+- **Autodiscover (map)** — auto-collection from servers, draft auto-mapping and field autofill with confirmation
+- **Import / Export** — JSON, CSV, XLSX; preview and mapping of unknown types on import (`/import/preview`, `/import/mapped`); result report
+- **Correlation** — batch resolve of alert identifiers, relation graph, `chain_related`
+- **Audit** — change log with old/new diff
+- **RBAC** — viewer / editor / admin roles
+- **i18n** — RU / EN, dark and light theme
+
+---
+
+## Requirements
+
+| Component | Version |
+|-----------|---------|
 | Python | 3.12+ |
 | Node.js | 20+ |
 | PostgreSQL | 16+ |
-| Docker (опционально) | для контейнера PostgreSQL или полного стека |
+| Docker (optional) | for PostgreSQL container or full stack |
 
 ---
 
-## Быстрый старт (Windows)
+## Quick start (Windows)
 
-**UI + API** (два окна PowerShell):
+**UI + API** (two PowerShell windows):
 
 ```powershell
 ./scripts/dev.ps1
 ```
 
-**UI + API + Demo CE** (три окна — для раздела корреляции):
+**UI + API + Demo CE** (three windows — for the correlation section):
 
 ```powershell
 ./scripts/start-all.ps1
 ```
 
-Скрипты установят зависимости, создадут схему БД (если нет таблиц) и загрузят демо-данные.
+Scripts install dependencies, create the DB schema (if tables are missing), and load demo data.
 
-| Сервис | URL |
-|--------|-----|
+| Service | URL |
+|---------|-----|
 | Web UI | http://localhost:5173 |
 | API / Swagger | http://localhost:8000/docs |
-| Demo CE | http://localhost:8090 (только `start-all.ps1`) |
-| Логин | `admin@omnisight.local` / `admin123` |
+| Demo CE | http://localhost:8090 (only with `start-all.ps1`) |
+| Login | `admin@omnisight.local` / `admin123` |
 
-Подробнее: [`fast_start/ЗАПУСК_WINDOWS.md`](fast_start/ЗАПУСК_WINDOWS.md)
+Details: [`fast_start/WINDOWS_SETUP.md`](fast_start/WINDOWS_SETUP.md)
 
 ---
 
-## Запуск вручную
+## Manual setup
 
-### 1. База данных
+### 1. Database
 
-**Вариант A — локальный PostgreSQL**
+**Option A — local PostgreSQL**
 
 ```powershell
 cd apps/api
 pip install -e ".[dev]"
-$env:POSTGRES_PASSWORD = "пароль_суперпользователя_postgres"
+$env:POSTGRES_PASSWORD = "postgres_superuser_password"
 python scripts/init_postgres.py
 ```
 
-Скрипт создаёт роль `omnisight`, базу `omnisight` и файл `.env` с `DATABASE_URL`.
+The script creates the `omnisight` role, `omnisight` database, and a `.env` file with `DATABASE_URL`.
 
-**Вариант B — PostgreSQL в Docker** (см. раздел ниже).
+**Option B — PostgreSQL in Docker** (see section below).
 
-### 2. Миграции и демо-данные
+### 2. Migrations and demo data
 
 ```powershell
 cd apps/api
@@ -110,90 +112,90 @@ npm run dev
 
 ## Production (Docker Compose)
 
-Полный стек: **PostgreSQL + API + Worker + Nginx (UI)** с healthcheck, JSON-логами, OpenAPI/Swagger и проверкой секретов при старте.
+Full stack: **PostgreSQL + API + Worker + Nginx (UI)** with healthcheck, JSON logs, OpenAPI/Swagger, and secret validation on startup.
 
 ```powershell
 cd docker
 copy .env.example .env
-# Заполните SECRET_KEY, API_KEY, WEBHOOK_SECRET, ADMIN_INITIAL_PASSWORD (openssl rand -hex 32)
+# Set SECRET_KEY, API_KEY, WEBHOOK_SECRET, ADMIN_INITIAL_PASSWORD (openssl rand -hex 32)
 docker compose -f docker-compose.prod.yml --env-file .env up -d --build
 ```
 
-| Сервис | URL |
-|--------|-----|
+| Service | URL |
+|---------|-----|
 | Web UI | http://localhost:8080 |
 | Swagger / OpenAPI | http://localhost:8080/docs · http://localhost:8080/openapi.json |
 | Health (ready) | http://localhost:8080/health/ready |
-| API (внутри сети Docker) | `api:8000` |
+| API (inside Docker network) | `api:8000` |
 
-Worker (`python -m src.worker`) обрабатывает auto-sync scheduler и повторную доставку webhook outbox.
+Worker (`python -m src.worker`) handles auto-sync scheduler and webhook outbox redelivery.
 
-Повторный деплой без повторного seed: в `.env` установите `SEED_ON_START=0`.
+To redeploy without re-seeding: set `SEED_ON_START=0` in `.env`.
 
-Переменные production API (`APP_ENV=production`):
+Production API variables (`APP_ENV=production`):
 
-| Переменная | Назначение |
-|------------|------------|
-| `SECRET_KEY` | JWT, минимум 32 символа |
-| `API_KEY` / `WEBHOOK_SECRET` | интеграции, минимум 24 символа |
-| `ADMIN_INITIAL_PASSWORD` | пароль admin при первом seed (≥12 символов) |
-| `CACHE_ENABLED=false` | обязательно при нескольких репликах без Redis; с `REDIS_URL` можно включить кэш |
-| `DATABASE_ASYNC_ENABLED` | **true** по умолчанию — reads: native async ORM; writes: async write pool (asyncpg) |
-| `REDIS_URL` | опционально: распределённый кэш для multi-replica (`redis://host:6379/0`) |
-| `ENSURE_SCHEMA_ON_START=false` | в k8s: схема только через Job `k8s/schema-job.yaml` |
-| `CORS_ORIGINS` | публичный URL UI |
-| `TRUSTED_HOSTS` | хосты за reverse-proxy (опционально) |
-| `RATE_LIMIT_MAX_REQUESTS` | лимит API-запросов на IP (по умолчанию 300/60s в compose) |
-| `BACKGROUND_TASKS_ENABLED=false` | в API при нескольких репликах; фоновые задачи — в worker |
-| `WEBHOOK_SYNC_DELIVERY=false` | enqueue only; worker доставляет с retries |
+| Variable | Purpose |
+|----------|---------|
+| `SECRET_KEY` | JWT, minimum 32 characters |
+| `API_KEY` / `WEBHOOK_SECRET` | integrations, minimum 24 characters |
+| `ADMIN_INITIAL_PASSWORD` | admin password on first seed (≥12 characters) |
+| `CACHE_ENABLED=false` | required with multiple replicas without Redis; enable cache with `REDIS_URL` |
+| `DATABASE_ASYNC_ENABLED` | **true** by default — reads: native async ORM; writes: async write pool (asyncpg) |
+| `REDIS_URL` | optional: distributed cache for multi-replica (`redis://host:6379/0`) |
+| `ENSURE_SCHEMA_ON_START=false` | in k8s: schema only via Job `k8s/schema-job.yaml` |
+| `CORS_ORIGINS` | public UI URL |
+| `TRUSTED_HOSTS` | hosts behind reverse-proxy (optional) |
+| `RATE_LIMIT_MAX_REQUESTS` | API request limit per IP (default 300/60s in compose) |
+| `BACKGROUND_TASKS_ENABLED=false` | in API with multiple replicas; background tasks run in worker |
+| `WEBHOOK_SYNC_DELIVERY=false` | enqueue only; worker delivers with retries |
 
-Локальный production-like запуск API:
+Local production-like API run:
 
 ```powershell
 cd apps/api
 $env:APP_ENV = "production"
 $env:LOG_JSON = "true"
-# ... остальные секреты из .env.example
+# ... other secrets from .env.example
 uvicorn src.main:app --host 0.0.0.0 --port 8000 --workers 2 --proxy-headers
 ```
 
-Подробнее: [`fast_start/ЗАПУСК_DOCKER.md`](fast_start/ЗАПУСК_DOCKER.md)
+Details: [`fast_start/DOCKER_SETUP.md`](fast_start/DOCKER_SETUP.md)
 
 ---
 
-## Запуск через Docker (только БД)
+## Docker (database only)
 
-В репозитории есть `docker/docker-compose.yml` — поднимает только **PostgreSQL**. API и UI запускаются локально и подключаются к контейнеру.
+The repo includes `docker/docker-compose.yml` — starts **PostgreSQL** only. API and UI run locally and connect to the container.
 
-### 1. Запустить PostgreSQL
+### 1. Start PostgreSQL
 
 ```powershell
 docker compose -f docker/docker-compose.yml up -d
 ```
 
-Параметры контейнера:
+Container parameters:
 
-| Параметр | Значение |
-|----------|----------|
-| Порт | `5432` |
-| Пользователь | `omnisight` |
-| Пароль | `omnisight` |
-| База данных | `omnisight` |
+| Parameter | Value |
+|-----------|-------|
+| Port | `5432` |
+| User | `omnisight` |
+| Password | `omnisight` |
+| Database | `omnisight` |
 
-### 2. Настроить `.env` для API
+### 2. Configure API `.env`
 
 ```powershell
 cd apps/api
 copy .env.example .env
 ```
 
-В `.env` укажите:
+In `.env` set:
 
 ```env
 DATABASE_URL=postgresql+psycopg2://omnisight:omnisight@localhost:5432/omnisight
 ```
 
-### 3. Миграции, демо-данные, запуск приложения
+### 3. Migrations, demo data, run the app
 
 ```powershell
 cd apps/api
@@ -203,7 +205,7 @@ python scripts/seed_demo.py
 uvicorn src.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-В другом терминале:
+In another terminal:
 
 ```powershell
 cd apps/web
@@ -211,13 +213,13 @@ npm install
 npm run dev
 ```
 
-### Остановка контейнера
+### Stop the container
 
 ```powershell
 docker compose -f docker/docker-compose.yml down
 ```
 
-Данные сохраняются в Docker volume `pgdata`. Чтобы удалить и volume:
+Data persists in Docker volume `pgdata`. To remove the volume as well:
 
 ```powershell
 docker compose -f docker/docker-compose.yml down -v
@@ -225,7 +227,7 @@ docker compose -f docker/docker-compose.yml down -v
 
 ---
 
-## Тесты
+## Tests
 
 ```powershell
 cd apps/api
@@ -241,7 +243,7 @@ npm test
 npm run test:e2e
 ```
 
-Быстрый smoke (API + web unit + build):
+Quick smoke (API + web unit + build):
 
 ```powershell
 ./scripts/smoke.ps1
@@ -249,58 +251,61 @@ npm run test:e2e
 
 ---
 
-## Структура проекта
+## Project structure
 
 ```
 OmniSight/
 ├── apps/
-│   ├── api/          # FastAPI, Alembic, worker, тесты, scripts/
+│   ├── api/          # FastAPI, Alembic, worker, tests, scripts/
 │   ├── web/          # React + Vite, e2e/
-│   └── demo-ce/      # тестовый Correlation Engine (порт 8090)
+│   └── demo-ce/      # test Correlation Engine (port 8090)
 ├── docker/           # compose: PostgreSQL, dev, prod (+ worker), HA
 ├── k8s/              # Kubernetes: API, worker, web, ingress, HPA, redis
-├── docs/             # ТЗ, сопоставление, паспорт продукта
-├── fast_start/       # инструкции запуска и демо-сценарий
-├── fixtures/         # domain-constants, демо-данные, drift-тесты
+├── docs/             # requirements, mapping, product passport
+├── fast_start/       # setup guides and demo scenario (EN + RU)
+├── fixtures/         # domain constants, demo data, drift tests
 ├── scripts/
-│   ├── dev.ps1           # UI + API (локально)
+│   ├── dev.ps1           # UI + API (local)
 │   ├── start-all.ps1     # UI + API + Demo CE
-│   ├── docker-dev.ps1    # полный стек в Docker
-│   └── smoke.ps1         # быстрая проверка CI
-└── README.md
+│   ├── docker-dev.ps1    # full stack in Docker
+│   └── smoke.ps1         # quick CI check
+├── README.md             # English
+└── README.ru.md          # Russian
 ```
+
+Documentation is bilingual: English files are the default entry points; each has a Russian counterpart (`.ru.md` or a Russian-named file) with a language switcher at the top.
 
 ---
 
 ## API
 
-Каноническая версия API — **`/api/v1`** (UI, автоприёмка и интеграции), как в §8 ТЗ конкурса. См. [`docs/СОПОСТАВЛЕНИЕ_ТЗ.md`](docs/СОПОСТАВЛЕНИЕ_ТЗ.md).
+Canonical API version is **`/api/v1`** (UI, acceptance tests, integrations), as in competition spec §8. See [`docs/REQUIREMENTS_MAPPING.md`](docs/REQUIREMENTS_MAPPING.md).
 
-Основные группы эндпоинтов:
+Main endpoint groups:
 
-- `/api/v1/auth` — login, users, смена пароля
-- `/api/v1/ci`, `/api/v1/ci/types` — CRUD, типы, import/export, preview/mapped import
+- `/api/v1/auth` — login, users, password change
+- `/api/v1/ci`, `/api/v1/ci/types` — CRUD, types, import/export, preview/mapped import
 - `/api/v1/relations` — CRUD, validate, import/export
-- `/api/v1/resources/*` — поиск, граф, impact, components, business-path, resolve, graph-layout
+- `/api/v1/resources/*` — search, graph, impact, components, business-path, resolve, graph-layout
 - `/api/v1/correlation/*` — ingest, context, chain-check
-- `/api/v1/autodiscover/*` — коннекторы, сканирование, apply
-- `/api/v1/dashboard` — метрики обзора
-- `/api/v1/audit` — журнал аудита
-- `/api/v1/meta` — версия схемы, константы
-- `/health`, `/health/live`, `/health/ready` — проверка состояния (ready → 503 без БД)
+- `/api/v1/autodiscover/*` — connectors, scan, apply
+- `/api/v1/dashboard` — overview metrics
+- `/api/v1/audit` — audit log
+- `/api/v1/meta` — schema version, constants
+- `/health`, `/health/live`, `/health/ready` — health checks (ready → 503 without DB)
 
-Полная спецификация: http://localhost:8000/docs · файл `apps/api/openapi.json`
+Full spec: http://localhost:8000/docs · file `apps/api/openapi.json`
 
-Автоприёмка по FR 1–54:
+Acceptance tests for FR 1–54:
 
 ```powershell
 cd apps/api
 python scripts/seed_demo.py
-python scripts/verify_demo_acceptance.py   # ожидается 20/20 PASS
+python scripts/verify_demo_acceptance.py   # expected 20/20 PASS
 ```
 
 ---
 
-## Лицензия
+## License
 
 [MIT](LICENSE)

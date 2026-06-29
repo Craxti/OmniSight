@@ -1,10 +1,12 @@
 # Запуск OmniSight на Windows
 
+**Русская версия** · [English](WINDOWS_SETUP.md)
+
 Фронтенд, бэкенд и тестовый Correlation Engine (Demo CE) — один скрипт или три терминала вручную.
 
 > **Всё в Docker (БД + API + Web):** см. [`ЗАПУСК_DOCKER.md`](./ЗАПУСК_DOCKER.md) — `.\scripts\docker-dev.ps1`
 
-См. также: [`../README.md`](../README.md) · [`DEMO_GUIDE.md`](./DEMO_GUIDE.md) · [`../docs/README.md`](../docs/README.md)
+См. также: [`../README.ru.md`](../README.ru.md) · [`DEMO_GUIDE.ru.md`](./DEMO_GUIDE.ru.md) · [`../docs/README.ru.md`](../docs/README.ru.md)
 
 ## Требования
 

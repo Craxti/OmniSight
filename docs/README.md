@@ -1,72 +1,74 @@
-﻿# Документация OmniSight РСМ
+﻿# OmniSight RSM Documentation
 
-Документы в этой папке соответствуют ТЗ конкурса (текстовая копия: [`_requirements_extract.txt`](./_requirements_extract.txt)).
+**English** · [Русская версия](README.ru.md)
 
-| Документ | Содержание |
-|----------|------------|
-| [**_requirements_extract.txt**](./_requirements_extract.txt) | Полный текст ТЗ (FR 1–54, §8) |
-| [**СОПОСТАВЛЕНИЕ_ТЗ.md**](./СОПОСТАВЛЕНИЕ_ТЗ.md) | Таблица: пункты ТЗ ↔ реализация |
-| [**product-passport/ПАСПОРТ_ПРОДУКТА.md**](./product-passport/ПАСПОРТ_ПРОДУКТА.md) | Паспорт продукта, скриншоты, сценарии |
+Documents in this folder correspond to the competition requirements (text copy: [`_requirements_extract.txt`](./_requirements_extract.txt)).
 
-Запуск и демо: [`../fast_start/ЗАПУСК_WINDOWS.md`](../fast_start/ЗАПУСК_WINDOWS.md) · [`../fast_start/ЗАПУСК_DOCKER.md`](../fast_start/ЗАПУСК_DOCKER.md) · [`../fast_start/DEMO_GUIDE.md`](../fast_start/DEMO_GUIDE.md)
+| Document | Contents |
+|----------|----------|
+| [**_requirements_extract.txt**](./_requirements_extract.txt) | Full requirements text (FR 1–54, §8) |
+| [**REQUIREMENTS_MAPPING.md**](./REQUIREMENTS_MAPPING.md) | Table: requirements ↔ implementation |
+| [**product-passport/PRODUCT_PASSPORT.md**](./product-passport/PRODUCT_PASSPORT.md) | Product passport, screenshots, scenarios |
 
-Архитектура кода: [`../ARCHITECTURE.md`](../ARCHITECTURE.md)
+Setup and demo: [`../fast_start/WINDOWS_SETUP.md`](../fast_start/WINDOWS_SETUP.md) · [`../fast_start/DOCKER_SETUP.md`](../fast_start/DOCKER_SETUP.md) · [`../fast_start/DEMO_GUIDE.md`](../fast_start/DEMO_GUIDE.md)
+
+Code architecture: [`../ARCHITECTURE.md`](../ARCHITECTURE.md)
 
 ## API
 
-Каноническая версия — **`/api/v1`** (UI, автоприёмка, OpenAPI). В §8 ТЗ указаны пути `/api/v1/...` — функционально эквивалентны v1; см. [`СОПОСТАВЛЕНИЕ_ТЗ.md`](./СОПОСТАВЛЕНИЕ_ТЗ.md).
+Canonical version is **`/api/v1`** (UI, acceptance tests, OpenAPI). Competition spec §8 lists `/api/v1/...` paths — functionally equivalent to v1; see [`REQUIREMENTS_MAPPING.md`](./REQUIREMENTS_MAPPING.md).
 
-Спецификация (FR 43):
+Specification (FR 43):
 
-| Окружение | Swagger | OpenAPI JSON |
-|-----------|---------|--------------|
-| Dev (локально) | http://localhost:8000/docs | http://localhost:8000/openapi.json |
+| Environment | Swagger | OpenAPI JSON |
+|-------------|---------|--------------|
+| Dev (local) | http://localhost:8000/docs | http://localhost:8000/openapi.json |
 | Docker / prod compose | http://localhost:8080/docs | http://localhost:8080/openapi.json |
-| Файл в репозитории | — | `apps/api/openapi.json` |
+| File in repository | — | `apps/api/openapi.json` |
 
-## Быстрый старт
+## Quick start
 
-**Только UI + API:**
+**UI + API only:**
 
 ```powershell
 ./scripts/dev.ps1
 ```
 
-**UI + API + Demo CE** (корреляция, тестовые алерты):
+**UI + API + Demo CE** (correlation, test alerts):
 
 ```powershell
 ./scripts/start-all.ps1
 ```
 
-**Полный стек в Docker** (PostgreSQL + API + Web):
+**Full stack in Docker** (PostgreSQL + API + Web):
 
 ```powershell
 ./scripts/docker-dev.ps1
 ```
 
-| URL | Назначение |
-|-----|------------|
-| http://localhost:5173 | UI (локальный Vite) |
+| URL | Purpose |
+|-----|---------|
+| http://localhost:5173 | UI (local Vite) |
 | http://localhost:8080 | UI (Docker / prod compose) |
-| http://localhost:8000/docs | Swagger (API напрямую) |
-| http://localhost:8090 | Demo CE (только `start-all.ps1`) |
+| http://localhost:8000/docs | Swagger (API directly) |
+| http://localhost:8090 | Demo CE (only with `start-all.ps1`) |
 
-Логин: `admin@omnisight.local` / `admin123`
+Login: `admin@omnisight.local` / `admin123`
 
-## Автоприёмка
+## Acceptance tests
 
 ```powershell
 cd apps/api
 python scripts/seed_demo.py
-python scripts/verify_demo_acceptance.py   # 20 проверок, ожидается 20/20 PASS
+python scripts/verify_demo_acceptance.py   # 20 checks, expected 20/20 PASS
 pytest tests/ -q                           # fast local run (no coverage)
 pytest tests/ -q --cov=src --cov-report=term-missing:skip-covered --cov-fail-under=80  # CI gate
 ```
 
-Быстрый smoke (API pytest + web unit + build):
+Quick smoke (API pytest + web unit + build):
 
 ```powershell
 ./scripts/smoke.ps1
 ```
 
-Пересборка docx из текста ТЗ: `python scripts/build_requirements_docx.py`
+Rebuild docx from requirements text: `python scripts/build_requirements_docx.py`
