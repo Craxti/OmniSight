@@ -70,13 +70,13 @@ def ensure_catalog_defaults(db: Session) -> None:
 
     existing_relation_types = {row.name: row for row in db.query(RelationType).all()}
     for name in RELATION_TYPES:
-        row = existing_relation_types.get(name)
-        if row is None:
+        rel_row = existing_relation_types.get(name)
+        if rel_row is None:
             db.add(RelationType(name=name, description=None, is_official=True))
         else:
-            if not row.is_official:
-                row.is_official = True
-            if row.description and row.description.startswith("Official relation type:"):
-                row.description = None
+            if not rel_row.is_official:
+                rel_row.is_official = True
+            if rel_row.description and rel_row.description.startswith("Official relation type:"):
+                rel_row.description = None
 
     commit_session(db)

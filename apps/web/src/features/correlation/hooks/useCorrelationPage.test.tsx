@@ -61,7 +61,7 @@ describe('useCorrelationPage', () => {
     })
 
     await act(async () => {
-      result.current.ingestMut.mutate()
+      result.current.ingestMut.mutate(undefined)
     })
 
     await waitFor(() => expect(result.current.ingestResult).not.toBeNull())

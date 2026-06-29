@@ -14,7 +14,6 @@ export const queryKeys = {
     recycle: ['ci-recycle'] as const,
     allList: (limit: number) => ['ci-all', limit] as const,
     types: ['ci-types'] as const,
-    relationTypes: ['relation-types'] as const,
     businessServices: (typeId: number | undefined) => ['ci-business-services', typeId] as const,
     relations: (ciId: number | string) => ['ci-relations', ciId] as const,
     components: (ciId: number | string) => ['components', ciId] as const,
@@ -22,6 +21,7 @@ export const queryKeys = {
   },
   relations: {
     all: ['relations'] as const,
+    relationTypes: ['relation-types'] as const,
     list: (filters: unknown, page: number) => ['relations', 'list', filters, page] as const,
     validate: ['relations-validate'] as const,
     audit: (id: number | string) => ['audit-relation', id] as const,

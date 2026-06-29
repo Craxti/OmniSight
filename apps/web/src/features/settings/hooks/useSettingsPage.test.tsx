@@ -31,6 +31,14 @@ vi.mock('@/features/settings/hooks/useCiTypesSettings', () => ({
   }),
 }))
 
+vi.mock('@/features/settings/hooks/useRelationTypesSettings', () => ({
+  useRelationTypesSettings: () => ({
+    relationTypeFormOpen: false,
+    openNewRelationType: vi.fn(),
+    closeRelationTypeForm: vi.fn(),
+  }),
+}))
+
 vi.mock('@/features/settings/hooks/useConnectorsSettings', () => ({
   useConnectorsSettings: () => ({
     connectorForm: undefined,

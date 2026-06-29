@@ -19,7 +19,7 @@ export function useCorrelationPage() {
   const [alerts, setAlerts] = useState<AlertRow[]>([emptyAlert()])
   const [ingestResult, setIngestResult] = useState<CorrelationIngestResponse | null>(null)
 
-  const ingestMut = useApiMutation({
+  const ingestMut = useApiMutation<CorrelationIngestResponse, void>({
     mutationFn: () => correlationApi.ingest(cleanedAlerts(alerts), 'ui'),
     messages: { success: t.correlation.toastIngest, error: t.common.error },
     onSuccess: (r) => setIngestResult(r),
