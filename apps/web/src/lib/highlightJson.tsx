@@ -1,7 +1,7 @@
 import { useMemo, type ReactNode } from 'react'
 
 const TOKEN_RE =
-  /("(?:\\.|[^"\\])*")|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|(\btrue\b|\bfalse\b)|(\bnull\b)|([{}\[\],:])/g
+  /("(?:\\.|[^"\\])*")|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|(\btrue\b|\bfalse\b)|(\bnull\b)|([{}[\],:])/g
 
 export function highlightJsonText(json: string): ReactNode[] {
   const nodes: ReactNode[] = []
