@@ -111,12 +111,12 @@ export function getRelationVisual(relationType: string): RelationVisual {
   }
 }
 
-/** Цвета маркеров подсветки узлов — совпадают с легендой карты. */
+/** Цвета маркеров подсветки узлов — совпадают с --graph-marker-* в theme.css */
 export const GRAPH_NODE_MARKER_COLORS = {
-  root: '#f87171',
-  businessPath: '#34d399',
-  impact: '#fbbf24',
-  components: '#38bdf8',
+  root: 'var(--graph-marker-root)',
+  businessPath: 'var(--graph-marker-business-path)',
+  impact: 'var(--graph-marker-impact)',
+  components: 'var(--graph-marker-components)',
 } as const
 
 export const GRAPH_PATH_EDGE_COLOR = GRAPH_NODE_MARKER_COLORS.businessPath

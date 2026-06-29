@@ -51,4 +51,8 @@ export const graph = {
       deleteRelation: 'Delete relation',
       toastExported: 'Map exported',
       toastExportError: 'Failed to export map',
+      onboardingTitle: 'Getting started on the map',
+      onboardingStep1: 'Pick a root element in the sidebar — the graph is built from it.',
+      onboardingStep2: 'Review the business path and impact zone in the left panel.',
+      onboardingStep3: 'Click a node to open the CI; double-click to set a new root.',
     }

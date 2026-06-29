@@ -26,4 +26,10 @@ export const correlation = {
       staleContextHint:
         'Alerts resolved but graph and enrichment are empty — likely stale resolve cache after CI recreation. Restart the API or retry ingest after ~30s. If chain_related=false, ensure depends_on links exist (demo-app → demo-db): python apps/api/scripts/seed_demo.py',
       demoCeHint: 'Alert cards with title and monitor source (Zabbix, Prometheus…) are on Demo CE: http://localhost:8090',
+      onboardingTitle: 'Getting started',
+      onboardingStep1: 'Enter alert identifiers (hostname, IP, serviceCode) in the table.',
+      onboardingStep2: 'Click Ingest — the system matches alerts to CIs and builds context.',
+      onboardingStep3: 'Review the result, root cause zone, and graph; export JSON if needed.',
+      jsonViewTree: 'Tree',
+      jsonViewRaw: 'Raw',
     }

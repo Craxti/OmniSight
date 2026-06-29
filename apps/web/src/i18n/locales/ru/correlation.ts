@@ -26,4 +26,10 @@ export const correlation = {
       staleContextHint:
         'Сопоставление есть, но граф и обогащение пустые — вероятно устаревший кэш resolve после пересоздания CI. Перезапустите API или повторите ingest через ~30 с. Если chain_related=false — проверьте связи depends_on (demo-app → demo-db): python apps/api/scripts/seed_demo.py',
       demoCeHint: 'Карточки алертов с заголовком и источником (Zabbix, Prometheus…) — на Demo CE: http://localhost:8090',
+      onboardingTitle: 'С чего начать',
+      onboardingStep1: 'Введите идентификаторы алертов (hostname, IP, serviceCode) в таблицу.',
+      onboardingStep2: 'Нажмите «Обработать» — система сопоставит алерты с CI и построит контекст.',
+      onboardingStep3: 'Изучите результат, зону первопричины и граф; при необходимости экспортируйте JSON.',
+      jsonViewTree: 'Дерево',
+      jsonViewRaw: 'Текст',
     }

@@ -9,15 +9,27 @@
   --rsm-space-md: 1rem;
   --rsm-space-lg: 1.5rem;
   --rsm-font-mono: ui-monospace, "Cascadia Code", monospace;
-  --rsm-font-caption: 0.625rem;
+  --rsm-font-caption: 0.75rem;
   --rsm-line-caption: 1.4;
   --rsm-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --rsm-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --rsm-shadow-md: 0 2px 10px rgba(0, 0, 0, 0.15);
+  --rsm-color-on-brand: #ffffff;
   --rsm-color-success: #22c55e;
+  --rsm-color-success-emerald: #10b981;
+  --rsm-color-success-teal: #0d9488;
   --rsm-color-warning: #f59e0b;
+  --rsm-color-warning-orange: #ea580c;
   --rsm-color-danger: #ef4444;
   --rsm-color-info: #3b82f6;
+  --rsm-color-info-cyan: #06b6d4;
   --rsm-color-brand: #6366f1;
   --rsm-color-brand-hover: #4f46e5;
   --rsm-color-brand-accent: #7c3aed;
+  --rsm-color-brand-light: #a5b4fc;
   --rsm-color-brand-muted: rgba(99, 102, 241, 0.1);
+  --rsm-gradient-info: linear-gradient(to bottom right, var(--rsm-color-info-cyan), var(--rsm-color-info));
+  --rsm-gradient-success: linear-gradient(to bottom right, var(--rsm-color-success-emerald), var(--rsm-color-success-teal));
+  --rsm-gradient-warning: linear-gradient(to bottom right, var(--rsm-color-warning), var(--rsm-color-warning-orange));
+  --rsm-gradient-brand: linear-gradient(to bottom right, var(--rsm-color-brand), var(--rsm-color-brand-accent));
 }

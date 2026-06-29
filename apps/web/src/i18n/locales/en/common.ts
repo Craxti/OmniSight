@@ -68,4 +68,5 @@ export const common = {
       moreFilters: 'More filters',
       hideFilters: 'Hide filters',
       clearFilters: 'Clear',
+      dismissHint: 'Dismiss hint',
     }

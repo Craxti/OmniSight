@@ -3,6 +3,7 @@ import { useRef } from 'react'
 import { AutodiscoverModal } from '@/shared/components/autodiscover'
 import { useI18n } from '@/context/useI18n'
 import { PageHeader } from '@/components/ui'
+import { OnboardingHint } from '@/shared/components/OnboardingHint'
 import { DEFAULT_DATA_SOURCE, DEFAULT_RELATION_TYPE } from '@/shared/constants'
 import { GraphCanvas, type GraphCanvasHandle, type GraphEdgeEditData } from '@/shared/components/graph/GraphCanvas'
 import { GraphMapSidebar } from '@/features/graph/components/GraphMapSidebar'
@@ -16,6 +17,13 @@ export default function GraphPage() {
   return (
     <div className="flex h-[calc(100vh-5rem)] min-h-[520px] flex-col gap-3">
       <PageHeader title={t.graph.title} subtitle={t.graph.subtitle} className="!mb-0 shrink-0" />
+      <OnboardingHint storageKey="onboarding-graph" title={t.graph.onboardingTitle}>
+        <ol>
+          <li>{t.graph.onboardingStep1}</li>
+          <li>{t.graph.onboardingStep2}</li>
+          <li>{t.graph.onboardingStep3}</li>
+        </ol>
+      </OnboardingHint>
       <div className="card flex min-h-0 flex-1 overflow-hidden">
         <ReactFlowProvider>
           <GraphMapContent {...pageState} />

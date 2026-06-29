@@ -68,4 +68,5 @@ export const common = {
       moreFilters: 'Ещё фильтры',
       hideFilters: 'Скрыть',
       clearFilters: 'Сбросить',
+      dismissHint: 'Скрыть подсказку',
     }

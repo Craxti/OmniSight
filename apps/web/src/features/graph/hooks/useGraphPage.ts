@@ -3,7 +3,6 @@ import { useEffect, useState, type RefObject } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '@/context/useAuth'
 import { useI18n } from '@/context/useI18n'
-import { useTheme } from '@/context/useTheme'
 import { useToast } from '@/context/useToast'
 import {
   type RelationCreateDraft,
@@ -42,7 +41,6 @@ export function useGraphPage({
   flowRef,
 }: ReturnType<typeof useGraphPageState> & GraphPageRefs) {
   const { t } = useI18n()
-  const { theme } = useTheme()
   const { success, error: toastError } = useToast()
   const { canEdit } = useAuth()
   const navigate = useNavigate()
@@ -73,7 +71,7 @@ export function useGraphPage({
   const exportGraph = async () => {
     if (!flowRef.current) return
     try {
-      const exportBg = theme === 'light' ? '#f4f6f9' : '#111827'
+      const exportBg = getComputedStyle(document.documentElement).getPropertyValue('--graph-export-bg').trim()
       const dataUrl = await toPng(flowRef.current, { backgroundColor: exportBg, pixelRatio: 2 })
       const link = document.createElement('a')
       link.download = `omnisight-graph-${id}.png`

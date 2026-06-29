@@ -52,6 +52,33 @@ html[data-theme="dark"] {
   --graph-legend-btn-bg: rgba(15, 23, 42, 0.88);
   --graph-legend-btn-border: rgba(255, 255, 255, 0.14);
   --graph-export-bg: #111827;
+  --graph-marker-root: #f87171;
+  --graph-marker-business-path: #34d399;
+  --graph-marker-impact: #fbbf24;
+  --graph-marker-components: #38bdf8;
+  --graph-marker-root-border: rgba(248, 113, 113, 0.8);
+  --graph-marker-business-path-border: rgba(52, 211, 153, 0.75);
+  --graph-marker-impact-border: rgba(251, 191, 36, 0.8);
+  --graph-marker-components-border: rgba(56, 189, 248, 0.8);
+  --graph-marker-root-glow: rgba(248, 113, 113, 0.45);
+  --graph-marker-business-path-glow: rgba(52, 211, 153, 0.35);
+  --graph-marker-impact-glow: rgba(251, 191, 36, 0.35);
+  --graph-marker-components-glow: rgba(56, 189, 248, 0.35);
+  --graph-edge-label-bg: rgba(15, 23, 42, 0.96);
+  --graph-edge-label-text: #f8fafc;
+  --graph-edge-label-border: #94a3b8;
+  --graph-edge-label-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+  --graph-edge-label-path-bg: rgba(6, 95, 70, 0.96);
+  --graph-edge-label-path-border: #6ee7b7;
+  --graph-edge-label-path-text: #ecfdf5;
+  --health-ok-text: #34d399;
+  --health-warn-text: #fbbf24;
+  --json-key: #93c5fd;
+  --json-string: #6ee7b7;
+  --json-number: #fcd34d;
+  --json-boolean: #c4b5fd;
+  --json-null: #9ca3af;
+  --json-bracket: var(--text-muted);
 }
 
 html[data-theme="light"] {
@@ -100,6 +127,33 @@ html[data-theme="light"] {
   --graph-legend-btn-bg: rgba(255, 255, 255, 0.96);
   --graph-legend-btn-border: rgba(0, 0, 0, 0.12);
   --graph-export-bg: #f4f6f9;
+  --graph-marker-root: #dc2626;
+  --graph-marker-business-path: #059669;
+  --graph-marker-impact: #d97706;
+  --graph-marker-components: #0284c7;
+  --graph-marker-root-border: rgba(220, 38, 38, 0.75);
+  --graph-marker-business-path-border: rgba(5, 150, 105, 0.75);
+  --graph-marker-impact-border: rgba(217, 119, 6, 0.75);
+  --graph-marker-components-border: rgba(2, 132, 199, 0.75);
+  --graph-marker-root-glow: rgba(220, 38, 38, 0.3);
+  --graph-marker-business-path-glow: rgba(5, 150, 105, 0.28);
+  --graph-marker-impact-glow: rgba(217, 119, 6, 0.28);
+  --graph-marker-components-glow: rgba(2, 132, 199, 0.28);
+  --graph-edge-label-bg: rgba(255, 255, 255, 0.97);
+  --graph-edge-label-text: #0f172a;
+  --graph-edge-label-border: #64748b;
+  --graph-edge-label-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+  --graph-edge-label-path-bg: rgba(236, 253, 245, 0.97);
+  --graph-edge-label-path-border: #059669;
+  --graph-edge-label-path-text: #064e3b;
+  --health-ok-text: #047857;
+  --health-warn-text: #b45309;
+  --json-key: #1d4ed8;
+  --json-string: #047857;
+  --json-number: #b45309;
+  --json-boolean: #6d28d9;
+  --json-null: #6b7280;
+  --json-bracket: var(--text-muted);
 }
 
 html[data-theme="light"] .graph-flow-panel .react-flow {
@@ -111,17 +165,17 @@ html[data-theme="light"] .graph-flow-canvas .react-flow__background {
 }
 
 html[data-theme="light"] .graph-edge-label {
-  background: rgba(255, 255, 255, 0.97);
-  color: #0f172a;
-  border-color: #64748b;
-  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+  background: var(--graph-edge-label-bg);
+  color: var(--graph-edge-label-text);
+  border-color: var(--graph-edge-label-border);
+  box-shadow: var(--graph-edge-label-shadow);
   text-shadow: none;
 }
 
 html[data-theme="light"] .graph-edge-label--path {
-  background: rgba(236, 253, 245, 0.97);
-  border-color: #059669;
-  color: #064e3b;
+  background: var(--graph-edge-label-path-bg);
+  border-color: var(--graph-edge-label-path-border);
+  color: var(--graph-edge-label-path-text);
 }
 
 html[data-theme="light"] .data-table th {

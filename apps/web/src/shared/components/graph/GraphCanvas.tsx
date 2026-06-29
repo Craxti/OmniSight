@@ -14,7 +14,6 @@ import '@xyflow/react/dist/style.css'
 import { useCallback, useEffect, useImperativeHandle, useRef, forwardRef } from 'react'
 import { useI18n } from '@/context/useI18n'
 import { GraphCanvasSkeleton } from '@/components/ui'
-import { useTheme } from '@/context/useTheme'
 import { computeGraphLayout, graphFlowDefaults } from '@/lib/graphLayout'
 import type { GraphPanelData } from '@/shared/api/types'
 import { activeNodeIdsForFilter, buildGraphEdges } from '@/shared/graph/graphCanvasModel'
@@ -92,8 +91,7 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, Props>(function GraphCa
   ref,
 ) {
   const { t } = useI18n()
-  const { theme } = useTheme()
-  const gridColor = theme === 'light' ? '#cbd5e1' : '#1e293b'
+  const gridColor = 'var(--graph-grid-color)'
   const { fitView, getNodes } = useReactFlow()
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])

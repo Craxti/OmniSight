@@ -5,6 +5,8 @@ import { CorrelationAlertForm } from '@/features/correlation/components/Correlat
 import { CorrelationChainBadge } from '@/features/correlation/components/CorrelationChainBadge'
 import { RootCauseZoneCards } from '@/features/correlation/components/RootCauseZoneCards'
 import { EmbeddedGraphView } from '@/shared/components/graph/EmbeddedGraphView'
+import { JsonViewer } from '@/shared/components/JsonViewer'
+import { OnboardingHint } from '@/shared/components/OnboardingHint'
 import { useI18n } from '@/context/useI18n'
 import { useDomainConstants } from '@/shared/hooks/useDomainConstants'
 import { useCorrelationPage } from '@/features/correlation/hooks/useCorrelationPage'
@@ -34,6 +36,14 @@ export default function CorrelationPage() {
   return (
     <div className="space-y-6">
       <PageHeader title={t.correlation.title} subtitle={t.correlation.subtitle} />
+
+      <OnboardingHint storageKey="onboarding-correlation" title={t.correlation.onboardingTitle}>
+        <ol>
+          <li>{t.correlation.onboardingStep1}</li>
+          <li>{t.correlation.onboardingStep2}</li>
+          <li>{t.correlation.onboardingStep3}</li>
+        </ol>
+      </OnboardingHint>
 
       <div className="card p-5">
         <CorrelationAlertForm
@@ -115,7 +125,7 @@ export default function CorrelationPage() {
                     <span className="inline-flex items-center gap-2">
                       <span
                         className="graph-legend-swatch"
-                        style={{ '--swatch-color': '#f87171' } as CSSProperties}
+                        style={{ '--swatch-color': 'var(--graph-marker-root)' } as CSSProperties}
                         aria-hidden
                       />
                       {t.correlation.graphLegendRootCause}
@@ -123,7 +133,7 @@ export default function CorrelationPage() {
                     <span className="inline-flex items-center gap-2">
                       <span
                         className="graph-legend-swatch"
-                        style={{ '--swatch-color': '#34d399' } as CSSProperties}
+                        style={{ '--swatch-color': 'var(--graph-marker-business-path)' } as CSSProperties}
                         aria-hidden
                       />
                       {t.correlation.graphLegendAlert}
@@ -152,9 +162,7 @@ export default function CorrelationPage() {
 
           <div className="card p-5 lg:col-span-2">
             <h3 className="mb-3 font-semibold text-[var(--text-primary)]">{t.correlation.jsonTitle}</h3>
-            <pre className="code-block max-h-80 overflow-auto p-3 text-xs text-[var(--text-muted)]">
-              {JSON.stringify(ingestResult, null, 2)}
-            </pre>
+            <JsonViewer value={ingestResult} maxHeight="20rem" />
           </div>
         </div>
       )}
