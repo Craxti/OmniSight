@@ -20,6 +20,7 @@ from src.core.deps import (
     get_autodiscover_write_port,
     get_transactional_autodiscover_write_port,
 )
+from src.core.openapi_tags import TAG_ADMIN_AUTODISCOVER
 from src.models import User
 from src.schemas.autodiscover import (
     AutodiscoverApplyRequest,
@@ -29,8 +30,6 @@ from src.schemas.autodiscover import (
 )
 from src.services.async_read.autodiscover import AsyncAutodiscoverReadService
 from src.services.async_write.autodiscover import AsyncAutodiscoverWriteService
-
-from src.core.openapi_tags import TAG_ADMIN_AUTODISCOVER
 
 router = APIRouter(prefix="/autodiscover", tags=[TAG_ADMIN_AUTODISCOVER])
 

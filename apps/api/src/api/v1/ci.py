@@ -29,6 +29,7 @@ from src.core.deps import (
     get_topology_read_port,
     get_transactional_ci_import_export_write_port,
 )
+from src.core.openapi_tags import TAG_ADMIN_CI
 from src.models import User
 from src.schemas.ci import BulkStatusUpdate, CICreate, CIUpdate
 from src.schemas.export_filters import CiExportFilter
@@ -39,8 +40,6 @@ from src.services.async_read.import_export import AsyncCiImportExportReadService
 from src.services.async_read.topology import AsyncTopologyService
 from src.services.async_write.ci import AsyncCiWriteService
 from src.services.async_write.import_export import AsyncCiImportExportWriteService
-
-from src.core.openapi_tags import TAG_ADMIN_CI
 
 router = APIRouter(prefix="/ci", tags=[TAG_ADMIN_CI])
 

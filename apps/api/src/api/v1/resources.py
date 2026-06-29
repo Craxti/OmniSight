@@ -22,6 +22,7 @@ from src.core.deps import (
     get_search_read_port,
     get_topology_read_port,
 )
+from src.core.openapi_tags import TAG_INTEGRATION_RESOURCES
 from src.models import User
 from src.schemas.resources import GraphLayoutUpdate
 from src.schemas.v1.correlation import ResolveRequestV1
@@ -31,8 +32,6 @@ from src.services.async_read.graph_layout import AsyncGraphLayoutReadService
 from src.services.async_read.search import AsyncSearchService
 from src.services.async_read.topology import AsyncTopologyService
 from src.services.async_write.graph_layout import AsyncGraphLayoutWriteService
-
-from src.core.openapi_tags import TAG_INTEGRATION_RESOURCES
 
 router = APIRouter(prefix="/resources", tags=[TAG_INTEGRATION_RESOURCES])
 

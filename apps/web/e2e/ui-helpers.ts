@@ -213,7 +213,7 @@ export async function runCorrelationIngest(page: Page, expectChainRelated: boole
   expect(response.ok(), `correlation ingest failed (${response.status()}): ${body.slice(0, 500)}`).toBeTruthy()
   const chainEl = page.getByTestId('correlation-chain-related')
   await expect(chainEl).toBeVisible({ timeout: 20_000 })
-  await expect(chainEl).toHaveText(String(expectChainRelated))
+  await expect(chainEl).toHaveAttribute('data-chain-related', String(expectChainRelated))
 }
 
 export async function runAutodiscoverGraphUi(page: Page, opts: { serverCiId: number; expectedIp: string }) {

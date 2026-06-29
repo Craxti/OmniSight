@@ -4,10 +4,9 @@ from fastapi import APIRouter, Depends
 from src.api.handlers.meta import handle_domain_constants
 from src.core.auth import require_viewer
 from src.core.deps import get_relation_type_read_port
+from src.core.openapi_tags import TAG_INTEGRATION_META
 from src.models import User
 from src.services.async_read.relation_types import AsyncRelationTypeReadService
-
-from src.core.openapi_tags import TAG_INTEGRATION_META
 
 router = APIRouter(prefix="/meta", tags=[TAG_INTEGRATION_META])
 

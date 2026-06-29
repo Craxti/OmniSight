@@ -15,6 +15,7 @@ from src.api.handlers.auth import (
 )
 from src.core.auth import get_current_user, require_admin
 from src.core.deps import get_user_read_port, get_user_write_port
+from src.core.openapi_tags import TAG_ADMIN_AUTH
 from src.models import User
 from src.schemas.auth import (
     ActiveUpdate,
@@ -27,8 +28,6 @@ from src.schemas.auth import (
 )
 from src.services.async_read.users import AsyncUserReadService
 from src.services.async_write.users import AsyncUserWriteService
-
-from src.core.openapi_tags import TAG_ADMIN_AUTH
 
 router = APIRouter(prefix="/auth", tags=[TAG_ADMIN_AUTH])
 

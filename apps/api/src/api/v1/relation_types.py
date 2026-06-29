@@ -9,12 +9,11 @@ from src.api.handlers.relation_types import (
 )
 from src.core.auth import require_admin, require_viewer
 from src.core.deps import get_relation_type_read_port, get_relation_type_write_port
+from src.core.openapi_tags import TAG_ADMIN_RELATION_TYPES
 from src.models import User
 from src.schemas.relation_type import RelationTypeCreate, RelationTypeUpdate
 from src.services.async_read.relation_types import AsyncRelationTypeReadService
 from src.services.async_write.relation_types import AsyncRelationTypeWriteService
-
-from src.core.openapi_tags import TAG_ADMIN_RELATION_TYPES
 
 router = APIRouter(prefix="/relation/types", tags=[TAG_ADMIN_RELATION_TYPES])
 

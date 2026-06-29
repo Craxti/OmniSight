@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
-
 from src.core.openapi_tags import OPENAPI_TAG_GROUPS
 
 

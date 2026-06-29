@@ -9,12 +9,11 @@ from src.api.handlers.ci_types import (
 )
 from src.core.auth import require_admin, require_viewer
 from src.core.deps import get_ci_type_read_port, get_ci_type_write_port
+from src.core.openapi_tags import TAG_ADMIN_CI_TYPES
 from src.models import User
 from src.schemas.ci import CITypeCreate, CITypeUpdate
 from src.services.async_read.ci_types import AsyncCiTypeReadService
 from src.services.async_write.ci_types import AsyncCiTypeWriteService
-
-from src.core.openapi_tags import TAG_ADMIN_CI_TYPES
 
 router = APIRouter(prefix="/ci/types", tags=[TAG_ADMIN_CI_TYPES])
 

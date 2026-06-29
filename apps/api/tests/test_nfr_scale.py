@@ -1,15 +1,11 @@
-"""NFR scale tests — PostgreSQL 50k (optional: RUN_SCALE_TESTS=1)."""
+"""NFR scale tests — PostgreSQL 50k (§9)."""
 
-import os
 import time
 
 import pytest
 from fastapi.testclient import TestClient
 
-pytestmark = pytest.mark.skipif(
-    os.getenv("RUN_SCALE_TESTS") != "1",
-    reason="Set RUN_SCALE_TESTS=1 for PostgreSQL scale tests",
-)
+pytestmark = pytest.mark.usefixtures("scale_database_seeded")
 
 NFR_MAX_MS = 200
 

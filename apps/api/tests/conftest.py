@@ -60,8 +60,11 @@ def _disable_cache_for_tests():
 
 
 @pytest.fixture(autouse=True)
-def _fresh_test_database(test_engine):
+def _fresh_test_database(test_engine, request):
     """Truncate and re-seed before each test for isolation across the shared session engine."""
+    if request.module and request.module.__name__.endswith("test_nfr_scale"):
+        return
+
     from tests.helpers.async_db import dispose_cached_async_engines
 
     reset_database(test_engine)
@@ -80,6 +83,14 @@ def test_engine():
     seed_test_database(engine)
     yield engine
     engine.dispose()
+
+
+@pytest.fixture(scope="session")
+def scale_database_seeded(test_engine):
+    """Populate omnisight_test with 50k CIs for NFR scale tests."""
+    from tests.helpers.scale_seed import ensure_scale_seed
+
+    ensure_scale_seed(test_engine, verbose=True)
 
 
 @pytest.fixture(scope="session", autouse=True)

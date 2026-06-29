@@ -4,10 +4,9 @@ from fastapi import APIRouter, Depends
 from src.api.handlers.dashboard import handle_dashboard_overview
 from src.core.auth import require_viewer
 from src.core.deps import get_dashboard_read_port
+from src.core.openapi_tags import TAG_ADMIN_DASHBOARD
 from src.models import User
 from src.services.async_read.dashboard import AsyncDashboardService
-
-from src.core.openapi_tags import TAG_ADMIN_DASHBOARD
 
 router = APIRouter(prefix="/dashboard", tags=[TAG_ADMIN_DASHBOARD])
 

@@ -4,10 +4,9 @@ from fastapi import APIRouter, Depends, Query
 from src.api.handlers.audit import handle_audit_list, handle_entity_audit
 from src.core.auth import require_viewer
 from src.core.deps import get_audit_read_port
+from src.core.openapi_tags import TAG_ADMIN_AUDIT
 from src.models import User
 from src.services.async_read.audit import AsyncAuditReadService
-
-from src.core.openapi_tags import TAG_ADMIN_AUDIT
 
 router = APIRouter(prefix="/audit", tags=[TAG_ADMIN_AUDIT])
 

@@ -2,6 +2,8 @@ import { Download, Play, Zap } from 'lucide-react'
 import type { CSSProperties } from 'react'
 import { PageHeader, Button, CorrelationResultSkeleton } from '@/components/ui'
 import { CorrelationAlertForm } from '@/features/correlation/components/CorrelationAlertForm'
+import { CorrelationChainBadge } from '@/features/correlation/components/CorrelationChainBadge'
+import { RootCauseZoneCards } from '@/features/correlation/components/RootCauseZoneCards'
 import { EmbeddedGraphView } from '@/shared/components/graph/EmbeddedGraphView'
 import { useI18n } from '@/context/useI18n'
 import { useDomainConstants } from '@/shared/hooks/useDomainConstants'
@@ -26,6 +28,8 @@ export default function CorrelationPage() {
     ambiguousCount,
     staleContext,
   } = useCorrelationPage()
+
+  const chainRelated = ingestResult?.correlation?.chain_related ?? false
 
   return (
     <div className="space-y-6">
@@ -64,21 +68,13 @@ export default function CorrelationPage() {
             <h3 className="mb-3 flex items-center gap-2 font-semibold text-[var(--text-primary)]">
               <Zap className="h-4 w-4 text-warning" /> {t.correlation.result}
             </h3>
-            <div className="space-y-2 text-sm text-[var(--text-muted)]">
+            <CorrelationChainBadge chainRelated={chainRelated} />
+            <div className="mt-4 space-y-2 text-sm text-[var(--text-muted)]">
               <div>{t.correlation.resolved}: <span className="text-[var(--text-primary)]">{ingestResult.resolve.resolved.length}</span></div>
               <div>{t.correlation.unresolved}: <span className="text-[var(--text-primary)]">{ingestResult.resolve.unresolved.length}</span></div>
               {ambiguousCount > 0 && (
                 <div>{t.correlation.ambiguous}: <span className="text-warning">{ambiguousCount}</span></div>
               )}
-              <div>
-                {t.correlation.chainRelated}:{' '}
-                <span
-                  className={ingestResult.correlation?.chain_related ? 'text-success' : 'text-warning'}
-                  data-testid="correlation-chain-related"
-                >
-                  {String(ingestResult.correlation?.chain_related ?? false)}
-                </span>
-              </div>
             </div>
             {staleContext && (
               <p className="alert alert-warning mt-3" data-testid="correlation-stale-context-hint">
@@ -108,18 +104,14 @@ export default function CorrelationPage() {
           )}
 
           {correlationPayload?.potential_root_cause_zone && correlationPayload.potential_root_cause_zone.length > 0 && (
-            <div className="card overflow-hidden p-5 lg:col-span-2">
-              <h3 className="mb-3 font-semibold text-[var(--text-primary)]">{t.correlation.rootCauseZone}</h3>
-              <ul className="space-y-1 text-sm text-[var(--text-muted)]">
-                {correlationPayload.potential_root_cause_zone.map((ci) => (
-                  <li key={ci.id} className="text-[var(--text-primary)]">
-                    {ci.name} <span className="text-xs text-[var(--text-muted)]">({ciTypeLabel(t, String(ci.type))})</span>
-                  </li>
-                ))}
-              </ul>
+            <div className="lg:col-span-2">
+              <RootCauseZoneCards
+                items={correlationPayload.potential_root_cause_zone}
+                title={t.correlation.rootCauseZone}
+              />
               {correlationGraph && rootCauseRootId != null && (
-                <div className="mt-4 space-y-2">
-                  <div className="flex flex-wrap gap-4 text-xs text-[var(--text-muted)]">
+                <div className="card mt-4 overflow-hidden p-5">
+                  <div className="mb-4 flex flex-wrap gap-4 text-xs text-[var(--text-muted)]">
                     <span className="inline-flex items-center gap-2">
                       <span
                         className="graph-legend-swatch"

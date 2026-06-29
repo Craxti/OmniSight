@@ -592,6 +592,59 @@ table.data-table th {
   animation: toast-slide-in 0.2s ease-out;
 }
 
+.correlation-incident-badge {
+  @apply flex w-full items-center justify-center gap-2.5 rounded-xl px-4 py-3.5 text-center text-lg font-semibold;
+}
+
+.correlation-incident-badge--single {
+  background: var(--alert-success-bg);
+  color: var(--text-success);
+  border: 1px solid color-mix(in srgb, var(--text-success) 35%, transparent);
+}
+
+.correlation-incident-badge--separate {
+  background: var(--alert-warning-bg);
+  color: var(--text-warning);
+  border: 1px solid color-mix(in srgb, var(--text-warning) 35%, transparent);
+}
+
+.correlation-root-cause-zone {
+  @apply rounded-xl border p-5 lg:col-span-2;
+  border-color: color-mix(in srgb, var(--text-warning) 40%, transparent);
+  background: color-mix(in srgb, var(--alert-warning-bg) 55%, var(--bg-card));
+}
+
+.correlation-root-cause-zone__title {
+  @apply mb-1 flex items-center gap-2 text-base font-semibold;
+  color: var(--text-primary);
+}
+
+.correlation-root-cause-zone__hint {
+  @apply mb-4 text-sm;
+  color: var(--text-muted);
+}
+
+.correlation-root-cause-card {
+  @apply flex items-start gap-3 rounded-xl border p-4;
+  border-color: color-mix(in srgb, var(--text-warning) 30%, var(--border-subtle));
+  background: color-mix(in srgb, var(--bg-card) 88%, var(--alert-warning-bg));
+  box-shadow: var(--rsm-shadow-card);
+}
+
+.correlation-root-cause-card__icon {
+  @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-lg;
+}
+
+.correlation-root-cause-card__name {
+  @apply text-base font-semibold leading-snug;
+  color: var(--text-primary);
+}
+
+.correlation-root-cause-card__meta {
+  @apply mt-1 text-sm;
+  color: var(--text-muted);
+}
+
 @keyframes toast-slide-in {
   from {
     transform: translateX(1rem);

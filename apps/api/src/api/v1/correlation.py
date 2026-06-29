@@ -4,13 +4,12 @@ from fastapi import APIRouter, Depends
 from src.api.handlers.correlation import handle_correlation_context, handle_correlation_ingest
 from src.core.auth import get_current_user
 from src.core.deps import get_correlation_read_port, get_correlation_write_port
+from src.core.openapi_tags import TAG_INTEGRATION_CORRELATION
 from src.models import User
 from src.schemas.correlation import ChainCheckRequest, ChainCheckResponse, CorrelationContextRequest
 from src.schemas.v1.correlation import CorrelationIngestRequestV1
 from src.services.async_read.correlation import AsyncCorrelationReadService
 from src.services.async_write.correlation import AsyncCorrelationWriteService
-
-from src.core.openapi_tags import TAG_INTEGRATION_CORRELATION
 
 router = APIRouter(prefix="/correlation", tags=[TAG_INTEGRATION_CORRELATION])
 

@@ -39,8 +39,6 @@ NATIVE_WRITE_PORTS = (
     (get_autodiscover_write_port, AsyncAutodiscoverWriteService),
 )
 
-BRIDGED_WRITE_PORTS = ()
-
 TRANSACTIONAL_WRITE_PORTS = (
     (get_transactional_ci_import_export_write_port, AsyncCiImportExportWriteService),
     (get_transactional_autodiscover_write_port, AsyncAutodiscoverWriteService),
@@ -59,15 +57,6 @@ def _fake_async_session_cm():
 @pytest.mark.asyncio
 @pytest.mark.parametrize(("provider", "native_cls"), NATIVE_WRITE_PORTS)
 async def test_native_write_ports(provider, native_cls):
-    with patch("src.core.deps.write.database_async.async_write_session", _fake_async_session_cm()):
-        port = await provider().__anext__()
-
-    assert isinstance(port, native_cls)
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize(("provider", "native_cls"), BRIDGED_WRITE_PORTS)
-async def test_bridged_write_ports(provider, native_cls):
     with patch("src.core.deps.write.database_async.async_write_session", _fake_async_session_cm()):
         port = await provider().__anext__()
 

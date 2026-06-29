@@ -22,14 +22,13 @@ from src.core.deps import (
     get_relation_read_port,
     get_relation_write_port,
 )
+from src.core.openapi_tags import TAG_ADMIN_RELATIONS
 from src.models import User
 from src.schemas.relations import RelationCreate, RelationImportRequest, RelationUpdate
 from src.services.async_read.import_export import AsyncRelationImportExportReadService
 from src.services.async_read.relations import AsyncRelationReadService
 from src.services.async_write.import_export import AsyncRelationImportExportWriteService
 from src.services.async_write.relations import AsyncRelationWriteService
-
-from src.core.openapi_tags import TAG_ADMIN_RELATIONS
 
 router = APIRouter(prefix="/relations", tags=[TAG_ADMIN_RELATIONS])
 
