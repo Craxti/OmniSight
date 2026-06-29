@@ -14,7 +14,9 @@ from src.schemas.ci import CITypeCreate, CITypeUpdate
 from src.services.async_read.ci_types import AsyncCiTypeReadService
 from src.services.async_write.ci_types import AsyncCiTypeWriteService
 
-router = APIRouter(prefix="/ci/types", tags=["CI Types v1"])
+from src.core.openapi_tags import TAG_ADMIN_CI_TYPES
+
+router = APIRouter(prefix="/ci/types", tags=[TAG_ADMIN_CI_TYPES])
 
 CiTypeReadSvc = Annotated[AsyncCiTypeReadService, Depends(get_ci_type_read_port)]
 CiTypeWriteSvc = Annotated[AsyncCiTypeWriteService, Depends(get_ci_type_write_port)]

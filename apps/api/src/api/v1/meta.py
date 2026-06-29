@@ -7,7 +7,9 @@ from src.core.deps import get_relation_type_read_port
 from src.models import User
 from src.services.async_read.relation_types import AsyncRelationTypeReadService
 
-router = APIRouter(prefix="/meta", tags=["Meta v1"])
+from src.core.openapi_tags import TAG_INTEGRATION_META
+
+router = APIRouter(prefix="/meta", tags=[TAG_INTEGRATION_META])
 
 RelationTypeReadSvc = Annotated[AsyncRelationTypeReadService, Depends(get_relation_type_read_port)]
 

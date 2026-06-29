@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Activity, Boxes, CheckCircle2, GitBranch, ShieldAlert } from 'lucide-react'
-import { PageHeader, Skeleton } from '@/components/ui'
+import { PageHeader, StatCardsSkeleton, ChartCardsSkeleton } from '@/components/ui'
+import { fmt } from '@/i18n/messages'
 import { useI18n } from '@/context/useI18n'
 import { StatusDistributionChart } from '@/features/dashboard/components/StatusDistributionChart'
 import { TypeDistributionChart } from '@/features/dashboard/components/TypeDistributionChart'
@@ -20,8 +21,8 @@ export default function DashboardPage() {
       <PageHeader title={t.dashboard.title} subtitle={t.dashboard.subtitle} />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {isLoading ? (
-          [...Array(4)].map((_, i) => <Skeleton key={i} className="h-24 w-full" />)
+        {isLoading && !data ? (
+          <StatCardsSkeleton />
         ) : (
           <>
             <StatCard icon={Boxes} label={t.dashboard.statCi} value={data?.total_ci ?? 0} tone="brand" />
@@ -29,10 +30,13 @@ export default function DashboardPage() {
             <StatCard icon={ShieldAlert} label={t.dashboard.statActive} value={data?.by_status?.active ?? 0} tone="success" />
             <HealthCard
               modelOk={modelOk}
-              issueCount={issueCount}
               title={t.dashboard.modelHealth}
               statusOk={t.dashboard.healthOk}
               statusIssues={t.dashboard.healthIssues}
+              summaryLabel={fmt(t.dashboard.healthSummary, {
+                relations: data?.total_relations ?? 0,
+                errors: issueCount,
+              })}
               linkLabel={t.dashboard.validateLink}
             />
           </>
@@ -40,26 +44,24 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="card p-5">
-          <h2 className="mb-4 font-semibold text-[var(--text-primary)]">{t.dashboard.byType}</h2>
-          {isLoading ? (
-            <Skeleton className="h-60 w-full" />
-          ) : (
-            <TypeDistributionChart byType={data?.by_type ?? {}} emptyLabel={t.nav.noResults} />
-          )}
-        </div>
-        <div className="card p-5">
-          <h2 className="mb-4 font-semibold text-[var(--text-primary)]">{t.dashboard.byStatus}</h2>
-          {isLoading ? (
-            <Skeleton className="h-60 w-full" />
-          ) : (
-            <StatusDistributionChart
-              byStatus={data?.by_status ?? {}}
-              labels={t.common.ciStatus}
-              emptyLabel={t.nav.noResults}
-            />
-          )}
-        </div>
+        {isLoading && !data ? (
+          <ChartCardsSkeleton />
+        ) : (
+          <>
+            <div className="card p-5">
+              <h2 className="mb-4 font-semibold text-[var(--text-primary)]">{t.dashboard.byType}</h2>
+              <TypeDistributionChart byType={data?.by_type ?? {}} emptyLabel={t.nav.noResults} />
+            </div>
+            <div className="card p-5">
+              <h2 className="mb-4 font-semibold text-[var(--text-primary)]">{t.dashboard.byStatus}</h2>
+              <StatusDistributionChart
+                byStatus={data?.by_status ?? {}}
+                labels={t.common.ciStatus}
+                emptyLabel={t.nav.noResults}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
@@ -91,17 +93,17 @@ function StatCard({
 
 function HealthCard({
   modelOk,
-  issueCount,
   title,
   statusOk,
   statusIssues,
+  summaryLabel,
   linkLabel,
 }: {
   modelOk: boolean
-  issueCount: number
   title: string
   statusOk: string
   statusIssues: string
+  summaryLabel: string
   linkLabel: string
 }) {
   const tone: IconTone = modelOk ? 'success' : 'warning'
@@ -116,10 +118,12 @@ function HealthCard({
         {modelOk ? <CheckCircle2 className="h-6 w-6 text-white" /> : <Activity className="h-6 w-6 text-white" />}
       </div>
       <div className="min-w-0">
-        <div className="stat-card-value">{issueCount}</div>
-        <div className="text-sm text-[var(--text-muted)]">{title}</div>
-        <div className={`mt-0.5 truncate text-xs ${modelOk ? 'text-success' : 'text-warning'}`}>
+        <div className="text-sm font-medium text-[var(--text-primary)]">{title}</div>
+        <div className={`mt-1 inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${modelOk ? 'health-pill health-pill--ok' : 'health-pill health-pill--warn'}`}>
           {modelOk ? statusOk : statusIssues}
+        </div>
+        <div className="mt-2 text-xs text-[var(--text-muted)]" data-testid="dashboard-health-summary">
+          {summaryLabel}
         </div>
       </div>
     </Link>

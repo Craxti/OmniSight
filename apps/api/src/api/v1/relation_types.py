@@ -14,7 +14,9 @@ from src.schemas.relation_type import RelationTypeCreate, RelationTypeUpdate
 from src.services.async_read.relation_types import AsyncRelationTypeReadService
 from src.services.async_write.relation_types import AsyncRelationTypeWriteService
 
-router = APIRouter(prefix="/relation/types", tags=["Relation Types v1"])
+from src.core.openapi_tags import TAG_ADMIN_RELATION_TYPES
+
+router = APIRouter(prefix="/relation/types", tags=[TAG_ADMIN_RELATION_TYPES])
 
 RelationTypeReadSvc = Annotated[AsyncRelationTypeReadService, Depends(get_relation_type_read_port)]
 RelationTypeWriteSvc = Annotated[AsyncRelationTypeWriteService, Depends(get_relation_type_write_port)]

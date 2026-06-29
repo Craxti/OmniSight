@@ -12,6 +12,7 @@ export function ApiTab() {
   return (
     <>
       <SectionHead icon={Plug} title={t.settings.apiIntegration} tone="info" />
+      <p className="mb-4 text-sm text-[var(--text-muted)]">{t.settings.apiIntegrationHint}</p>
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="space-y-3">
           <EndpointCard method="POST" path="/api/v1/auth/token" desc={t.settings.apiTokenDesc} />

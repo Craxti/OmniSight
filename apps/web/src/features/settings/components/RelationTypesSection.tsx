@@ -1,5 +1,5 @@
 import { GitBranch, Pencil, Plus, Trash2 } from 'lucide-react'
-import { Button, EmptyState } from '@/components/ui'
+import { Button, EmptyState, CardGridSkeleton } from '@/components/ui'
 import { useI18n } from '@/context/useI18n'
 import { relationTypeLabel } from '@/lib/domainLabels'
 import { isRelationTypeProtected } from '@/lib/relationTypeCatalog'
@@ -73,7 +73,7 @@ function RelationTypeCard({
 
 export function RelationTypesSection({ isAdmin, onNewType, onEditType, onDeleteType }: Props) {
   const { t } = useI18n()
-  const { data: types } = useRelationTypes()
+  const { data: types, isLoading } = useRelationTypes()
 
   const builtin = (types ?? []).filter(isRelationTypeProtected)
   const custom = (types ?? []).filter((row) => !isRelationTypeProtected(row))
@@ -91,6 +91,9 @@ export function RelationTypesSection({ isAdmin, onNewType, onEditType, onDeleteT
         )}
       />
 
+      {isLoading ? (
+        <CardGridSkeleton count={4} className="h-28" />
+      ) : (
       <div className="space-y-6">
         <div>
           <h3 className="mb-3 text-sm font-medium text-[var(--text-secondary)]">{t.settings.relationTypesBuiltin}</h3>
@@ -128,6 +131,7 @@ export function RelationTypesSection({ isAdmin, onNewType, onEditType, onDeleteT
           </div>
         )}
       </div>
+      )}
     </div>
   )
 }

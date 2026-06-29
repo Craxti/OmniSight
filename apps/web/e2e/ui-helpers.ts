@@ -95,14 +95,25 @@ export async function deleteCiByName(page: Page, name: string) {
 export async function deleteCiByNameIfExists(page: Page, name: string) {
   try {
     await page.goto('/inventory')
-    const activeTab = page.getByRole('button', { name: /Активные|Active/i })
-    if (await activeTab.count()) await activeTab.first().click()
+    await expect(page.getByTestId('inventory-page')).toBeVisible({ timeout: 15_000 })
+    const activeTab = page.getByRole('tab', { name: /Активные|Active/i })
+    if (await activeTab.count()) await activeTab.click()
     const filter = page.getByTestId('inventory-filter-q')
     if (!(await filter.count())) return
     await filter.fill(name)
     const row = tableRow(inventoryTable(page), name)
-    if (!(await row.count())) return
-    await row.first().getByTestId('ci-delete').click()
+    try {
+      await expect(row).toHaveCount(1, { timeout: 10_000 })
+    } catch {
+      return
+    }
+    const deleteResponse = page.waitForResponse(
+      (res) => /\/api\/v1\/ci\/\d+$/.test(res.url()) && res.request().method() === 'DELETE',
+      { timeout: 15_000 },
+    )
+    await row.getByTestId('ci-delete').click()
+    await deleteResponse
+    await expect(row).toHaveCount(0, { timeout: 10_000 })
   } catch {
     // Best-effort cleanup in finally; do not mask the original test error.
   }
@@ -144,9 +155,25 @@ export async function deleteRelation(page: Page, sourceName: string, targetName:
 export async function deleteRelationIfExists(page: Page, sourceName: string, targetName: string) {
   try {
     await page.goto('/relations')
+    await expect(page.getByTestId('relations-page')).toBeVisible({ timeout: 15_000 })
+    const moreFilters = page.getByRole('button', { name: /Ещё фильтры|More filters/i })
+    if (await moreFilters.count()) await moreFilters.click()
+    const sourceFilter = page.getByTestId('relations-filter-source')
+    const targetFilter = page.getByTestId('relations-filter-target')
+    if (await sourceFilter.count()) await sourceFilter.fill(sourceName)
+    if (await targetFilter.count()) await targetFilter.fill(targetName)
     const row = tableRow(relationsTable(page), sourceName).filter({ hasText: targetName })
-    if (!(await row.count())) return
-    await row.first().getByTestId('relation-delete').click()
+    try {
+      await expect(row).toHaveCount(1, { timeout: 10_000 })
+    } catch {
+      return
+    }
+    const deleteResponse = page.waitForResponse(
+      (res) => /\/api\/v1\/relations\/\d+$/.test(res.url()) && res.request().method() === 'DELETE',
+      { timeout: 15_000 },
+    )
+    await row.getByTestId('relation-delete').click()
+    await deleteResponse
   } catch {
     // Best-effort cleanup in finally; do not mask the original test error.
   }

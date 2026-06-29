@@ -1,11 +1,13 @@
 import { expect, test } from '@playwright/test'
 import {
   DEMO_CORRELATION_ALERTS,
+  apiLogin,
   auditTable,
   createCi,
   createRelation,
-  deleteCiByNameIfExists,
-  deleteRelationIfExists,
+  deleteCiByNameApi,
+  deleteRelationByNamesApi,
+  deleteTypeByNameApi,
   fillCorrelationAlerts,
   login,
   openGraphForCi,
@@ -14,7 +16,7 @@ import {
 } from './helpers'
 
 test.describe('OmniSight full tab flow', () => {
-  test('each tab: create data, relations, graph, correlation ok/fail, cleanup', async ({ page }) => {
+  test('each tab: create data, relations, graph, correlation ok/fail, cleanup', async ({ page, request }) => {
     test.setTimeout(300_000)
 
     const suffix = Date.now()
@@ -27,6 +29,7 @@ test.describe('OmniSight full tab flow', () => {
     const typeName = `e2e-type-${suffix}`
 
     await login(page)
+    let token = await apiLogin(request)
     try {
       // Dashboard
       await page.goto('/')
@@ -76,18 +79,12 @@ test.describe('OmniSight full tab flow', () => {
       await page.getByRole('tab', { name: /Интеграция API|API integration/i }).click()
       await expect(page.getByText(/correlation\/ingest|ingest/i).first()).toBeVisible()
     } finally {
-      await deleteRelationIfExists(page, nameA, nameB)
-      await deleteCiByNameIfExists(page, nameA)
-      await deleteCiByNameIfExists(page, nameB)
-      await deleteCiByNameIfExists(page, nameFailA)
-      await deleteCiByNameIfExists(page, nameFailB)
-
-      await page.goto('/settings')
-      const typeCard = page.locator('.group').filter({ hasText: typeName })
-      if (await typeCard.count()) {
-        await typeCard.getByLabel('Delete').click()
-        await expect(page.getByText(typeName)).toHaveCount(0, { timeout: 10_000 })
+      if (!token) token = await apiLogin(request)
+      await deleteRelationByNamesApi(request, token, nameA, nameB)
+      for (const name of [nameA, nameB, nameFailA, nameFailB]) {
+        await deleteCiByNameApi(request, token, name)
       }
+      await deleteTypeByNameApi(request, token, typeName)
     }
 
     // Post-cleanup: CIs removed from active inventory

@@ -7,7 +7,9 @@ from src.core.deps import get_dashboard_read_port
 from src.models import User
 from src.services.async_read.dashboard import AsyncDashboardService
 
-router = APIRouter(prefix="/dashboard", tags=["Dashboard v1"])
+from src.core.openapi_tags import TAG_ADMIN_DASHBOARD
+
+router = APIRouter(prefix="/dashboard", tags=[TAG_ADMIN_DASHBOARD])
 
 DashboardSvc = Annotated[AsyncDashboardService, Depends(get_dashboard_read_port)]
 

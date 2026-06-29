@@ -6,5 +6,6 @@ export function useDashboardPage() {
   return useQuery({
     queryKey: queryKeys.dashboard,
     queryFn: () => miscApi.dashboard(),
+    placeholderData: (prev) => prev,
   })
 }

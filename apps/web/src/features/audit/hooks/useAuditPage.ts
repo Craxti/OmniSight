@@ -32,6 +32,7 @@ export function useAuditPage() {
   const { data, isLoading } = useQuery({
     queryKey: queryKeys.audit.list(params),
     queryFn: () => miscApi.audit(params),
+    placeholderData: (prev) => prev,
   })
 
   const items: AuditEntry[] = data?.items ?? []

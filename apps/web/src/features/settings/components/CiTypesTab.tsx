@@ -1,5 +1,5 @@
 ﻿import { Boxes, Pencil, Plus, Trash2 } from 'lucide-react'
-import { Button, EmptyState } from '@/components/ui'
+import { Button, EmptyState, CardGridSkeleton } from '@/components/ui'
 import { useI18n } from '@/context/useI18n'
 import { fmt } from '@/i18n/messages'
 import { countSchemaFields, listSchemaFieldKeys } from '@/lib/ciTypeSchema'
@@ -98,7 +98,7 @@ function CiTypeCard({
 
 export function CiTypesTab({ isAdmin, onNewType, onEditType, onDeleteType }: Props) {
   const { t } = useI18n()
-  const { data: types } = useCiTypes()
+  const { data: types, isLoading } = useCiTypes()
 
   const official = (types ?? []).filter((row) => row.is_official)
   const custom = (types ?? []).filter((row) => !row.is_official)
@@ -130,7 +130,9 @@ export function CiTypesTab({ isAdmin, onNewType, onEditType, onDeleteType }: Pro
         )}
       />
 
-      {(types || []).length === 0 ? (
+      {isLoading ? (
+        <CardGridSkeleton count={6} className="h-32" />
+      ) : (types || []).length === 0 ? (
         <EmptyState title={t.settings.noTypes} />
       ) : (
         <div className="space-y-6">

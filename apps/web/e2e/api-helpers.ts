@@ -21,6 +21,28 @@ export function authHeaders(token: string) {
 
 type CiSummary = { id: number; name: string; external_ids?: Record<string, string> }
 
+export async function deleteRelationByNamesApi(
+  request: APIRequestContext,
+  token: string,
+  sourceName: string,
+  targetName: string,
+) {
+  try {
+    const headers = authHeaders(token)
+    const list = await request.get(
+      `${API_BASE}${V1Paths.relations.list}?source_name=${encodeURIComponent(sourceName)}&target_name=${encodeURIComponent(targetName)}`,
+      { headers },
+    )
+    if (!list.ok()) return
+    const items = unwrapV1Items<{ id: number }>(await list.json())
+    for (const rel of items) {
+      await request.delete(`${API_BASE}${V1Paths.relations.detail(rel.id)}`, { headers })
+    }
+  } catch {
+    // Best-effort cleanup in finally; do not mask the original test error.
+  }
+}
+
 export async function deleteCiByNameApi(request: APIRequestContext, token: string, name: string) {
   try {
     const headers = authHeaders(token)

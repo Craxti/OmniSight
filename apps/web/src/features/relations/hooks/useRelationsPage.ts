@@ -50,6 +50,7 @@ export function useRelationsPage() {
   const { data, isLoading } = useQuery({
     queryKey: queryKeys.relations.list(activeFilters, page),
     queryFn: () => relationsApi.listPage({ page, page_size: PAGE_SIZE, ...activeFilters }),
+    placeholderData: (prev) => prev,
   })
   const { data: cis } = useCiList()
   const { validation, validate, validating } = useRelationValidation()

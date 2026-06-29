@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { useCiList } from '@/shared/hooks/useCiList'
 import { useSearch } from '@/shared/hooks/useSearch'
 import { FormField } from '@/shared/components/FormField'
+import { ListRowsSkeleton } from '@/components/ui'
 import type { CI } from '@/shared/api/types'
 
 type Props = {
@@ -136,7 +137,9 @@ export function CiRootPicker({ value, onChange }: Props) {
         <div className="absolute top-[calc(100%-0.25rem)] right-0 left-0 z-[100] mt-1 overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-popover)] shadow-2xl ring-1 ring-black/20">
           <div className="max-h-56 overflow-y-auto">
             {loading ? (
-              <div className="px-3 py-3 text-sm text-[var(--text-muted)]">{t.common.loading}</div>
+              <div className="px-1 py-1">
+                <ListRowsSkeleton rows={4} />
+              </div>
             ) : options.length === 0 ? (
               <div className="px-3 py-3 text-sm text-[var(--text-muted)]">{t.common.notFound}</div>
             ) : (

@@ -7,7 +7,9 @@ from src.core.deps import get_audit_read_port
 from src.models import User
 from src.services.async_read.audit import AsyncAuditReadService
 
-router = APIRouter(prefix="/audit", tags=["Audit v1"])
+from src.core.openapi_tags import TAG_ADMIN_AUDIT
+
+router = APIRouter(prefix="/audit", tags=[TAG_ADMIN_AUDIT])
 
 AuditSvc = Annotated[AsyncAuditReadService, Depends(get_audit_read_port)]
 

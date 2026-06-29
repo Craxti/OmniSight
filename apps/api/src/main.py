@@ -26,6 +26,7 @@ from src.core.health import readiness_response
 from src.core.logging_config import setup_logging
 from src.core.middleware import RateLimitMiddleware, RequestLoggingMiddleware, SecurityHeadersMiddleware
 from src.core.openapi_schema import apply_custom_openapi
+from src.core.openapi_tags import OPENAPI_TAGS
 from src.core.production import validate_production_settings
 
 logger = logging.getLogger("omnisight.api")
@@ -54,7 +55,14 @@ async def lifespan(_: FastAPI):
 _fastapi_kwargs: dict = {
     "title": settings.app_name,
     "version": "2.0.0",
-    "description": "Ресурсно-сервисная модель (РСМ) — API v1 для учёта элементов, связей и корреляции алертов",
+    "description": (
+        "Ресурсно-сервисная модель (РСМ) — API v1 для учёта элементов, связей и корреляции алертов.\n\n"
+        "**Integration API (ТЗ §8)** — `Resources`, `Correlation`, `Meta`: контракт для correlation engine "
+        "и внешних систем мониторинга.\n\n"
+        "**Admin API** — `CI`, `Relations`, справочники, Autodiscover, аудит: ведение модели через UI "
+        "и администрирование."
+    ),
+    "openapi_tags": OPENAPI_TAGS,
     "lifespan": lifespan,
 }
 if settings.is_production and not settings.docs_enabled:

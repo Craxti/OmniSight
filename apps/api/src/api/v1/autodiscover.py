@@ -30,7 +30,9 @@ from src.schemas.autodiscover import (
 from src.services.async_read.autodiscover import AsyncAutodiscoverReadService
 from src.services.async_write.autodiscover import AsyncAutodiscoverWriteService
 
-router = APIRouter(prefix="/autodiscover", tags=["Autodiscover v1"])
+from src.core.openapi_tags import TAG_ADMIN_AUTODISCOVER
+
+router = APIRouter(prefix="/autodiscover", tags=[TAG_ADMIN_AUTODISCOVER])
 
 AutodiscoverSvc = Annotated[AsyncAutodiscoverWriteService, Depends(get_autodiscover_write_port)]
 AutodiscoverReadSvc = Annotated[AsyncAutodiscoverReadService, Depends(get_autodiscover_read_port)]

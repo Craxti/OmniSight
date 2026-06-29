@@ -5,6 +5,7 @@ export {
   apiLogin,
   authHeaders,
   deleteCiByNameApi,
+  deleteRelationByNamesApi,
   deleteTypeByNameApi,
 } from './api-helpers'
 

@@ -39,6 +39,9 @@ omit = [
     "src/worker/__main__.py",
 ]
 
+[tool.coverage.report]
+fail_under = 70
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"

@@ -2,14 +2,14 @@
   "openapi": "3.1.0",
   "info": {
     "title": "OmniSight RSM",
-    "description": "Ресурсно-сервисная модель (РСМ) — API v1 для учёта элементов, связей и корреляции алертов",
+    "description": "Ресурсно-сервисная модель (РСМ) — API v1 для учёта элементов, связей и корреляции алертов.\n\n**Integration API (ТЗ §8)** — `Resources`, `Correlation`, `Meta`: контракт для correlation engine и внешних систем мониторинга.\n\n**Admin API** — `CI`, `Relations`, справочники, Autodiscover, аудит: ведение модели через UI и администрирование.",
     "version": "2.0.0"
   },
   "paths": {
     "/api/v1/auth/login": {
       "post": {
         "tags": [
-          "Auth v1"
+          "Admin API · Auth"
         ],
         "summary": "Вход (JWT)",
         "operationId": "login_v1_api_v1_auth_login_post",
@@ -48,7 +48,7 @@
     "/api/v1/auth/token": {
       "post": {
         "tags": [
-          "Auth v1"
+          "Admin API · Auth"
         ],
         "summary": "Получить JWT для Swagger и API",
         "description": "Возвращает JWT (`access_token`) в поле `session` для заголовка `Authorization: Bearer <token>`. В Swagger: кнопка **Authorize** → вставьте значение `access_token` (без слова Bearer). Демо-учётка: `admin@omnisight.local` / `admin123`.",
@@ -88,7 +88,7 @@
     "/api/v1/auth/register": {
       "post": {
         "tags": [
-          "Auth v1"
+          "Admin API · Auth"
         ],
         "summary": "Register V1",
         "operationId": "register_v1_api_v1_auth_register_post",
@@ -127,7 +127,7 @@
     "/api/v1/auth/me": {
       "get": {
         "tags": [
-          "Auth v1"
+          "Admin API · Auth"
         ],
         "summary": "Me V1",
         "operationId": "me_v1_api_v1_auth_me_get",
@@ -154,7 +154,7 @@
     "/api/v1/auth/change-password": {
       "post": {
         "tags": [
-          "Auth v1"
+          "Admin API · Auth"
         ],
         "summary": "Change Password V1",
         "operationId": "change_password_v1_api_v1_auth_change_password_post",
@@ -201,7 +201,7 @@
     "/api/v1/auth/users": {
       "get": {
         "tags": [
-          "Auth v1"
+          "Admin API · Auth"
         ],
         "summary": "List Users V1",
         "operationId": "list_users_v1_api_v1_auth_users_get",
@@ -226,7 +226,7 @@
       },
       "post": {
         "tags": [
-          "Auth v1"
+          "Admin API · Auth"
         ],
         "summary": "Create User V1",
         "operationId": "create_user_v1_api_v1_auth_users_post",
@@ -273,7 +273,7 @@
     "/api/v1/auth/users/{email}/role": {
       "patch": {
         "tags": [
-          "Auth v1"
+          "Admin API · Auth"
         ],
         "summary": "Update Role V1",
         "operationId": "update_role_v1_api_v1_auth_users__email__role_patch",
@@ -331,7 +331,7 @@
     "/api/v1/auth/users/{email}/active": {
       "patch": {
         "tags": [
-          "Auth v1"
+          "Admin API · Auth"
         ],
         "summary": "Update Active V1",
         "operationId": "update_active_v1_api_v1_auth_users__email__active_patch",
@@ -389,7 +389,7 @@
     "/api/v1/auth/users/{email}": {
       "delete": {
         "tags": [
-          "Auth v1"
+          "Admin API · Auth"
         ],
         "summary": "Delete User V1",
         "operationId": "delete_user_v1_api_v1_auth_users__email__delete",
@@ -437,7 +437,7 @@
     "/api/v1/auth/users/{email}/reset-password": {
       "post": {
         "tags": [
-          "Auth v1"
+          "Admin API · Auth"
         ],
         "summary": "Reset Password V1",
         "operationId": "reset_password_v1_api_v1_auth_users__email__reset_password_post",
@@ -495,7 +495,7 @@
     "/api/v1/resources/resolve": {
       "post": {
         "tags": [
-          "Resources v1"
+          "Integration API · Resources (§8)"
         ],
         "summary": "Resolve V1",
         "operationId": "resolve_v1_api_v1_resources_resolve_post",
@@ -542,7 +542,7 @@
     "/api/v1/resources/search": {
       "get": {
         "tags": [
-          "Resources v1"
+          "Integration API · Resources (§8)"
         ],
         "summary": "Search Resources V1",
         "operationId": "search_resources_v1_api_v1_resources_search_get",
@@ -725,7 +725,7 @@
     "/api/v1/resources/{resource_id}/relations": {
       "get": {
         "tags": [
-          "Resources v1"
+          "Integration API · Resources (§8)"
         ],
         "summary": "Resource Relations V1",
         "description": "§8: прямые связи объекта РСМ.",
@@ -774,7 +774,7 @@
     "/api/v1/resources/{resource_id}": {
       "get": {
         "tags": [
-          "Resources v1"
+          "Integration API · Resources (§8)"
         ],
         "summary": "Resource Detail V1",
         "description": "§8: карточка объекта РСМ.",
@@ -823,7 +823,7 @@
     "/api/v1/resources/{resource_id}/graph": {
       "get": {
         "tags": [
-          "Resources v1"
+          "Integration API · Resources (§8)"
         ],
         "summary": "Resource Graph V1",
         "operationId": "resource_graph_v1_api_v1_resources__resource_id__graph_get",
@@ -883,7 +883,7 @@
     "/api/v1/resources/{resource_id}/impact": {
       "get": {
         "tags": [
-          "Resources v1"
+          "Integration API · Resources (§8)"
         ],
         "summary": "Resource Impact V1",
         "operationId": "resource_impact_v1_api_v1_resources__resource_id__impact_get",
@@ -931,7 +931,7 @@
     "/api/v1/resources/{resource_id}/components": {
       "get": {
         "tags": [
-          "Resources v1"
+          "Integration API · Resources (§8)"
         ],
         "summary": "Resource Components V1",
         "operationId": "resource_components_v1_api_v1_resources__resource_id__components_get",
@@ -979,7 +979,7 @@
     "/api/v1/resources/{resource_id}/business-path": {
       "get": {
         "tags": [
-          "Resources v1"
+          "Integration API · Resources (§8)"
         ],
         "summary": "Business Path V1",
         "operationId": "business_path_v1_api_v1_resources__resource_id__business_path_get",
@@ -1027,7 +1027,7 @@
     "/api/v1/resources/{resource_id}/graph-layout": {
       "get": {
         "tags": [
-          "Resources v1"
+          "Integration API · Resources (§8)"
         ],
         "summary": "Get Graph Layout V1",
         "operationId": "get_graph_layout_v1_api_v1_resources__resource_id__graph_layout_get",
@@ -1083,7 +1083,7 @@
       },
       "put": {
         "tags": [
-          "Resources v1"
+          "Integration API · Resources (§8)"
         ],
         "summary": "Save Graph Layout V1",
         "operationId": "save_graph_layout_v1_api_v1_resources__resource_id__graph_layout_put",
@@ -1139,7 +1139,7 @@
       },
       "delete": {
         "tags": [
-          "Resources v1"
+          "Integration API · Resources (§8)"
         ],
         "summary": "Clear Graph Layout V1",
         "operationId": "clear_graph_layout_v1_api_v1_resources__resource_id__graph_layout_delete",
@@ -1192,7 +1192,7 @@
     "/api/v1/meta/constants": {
       "get": {
         "tags": [
-          "Meta v1"
+          "Integration API · Meta"
         ],
         "summary": "Get Domain Constants V1",
         "operationId": "get_domain_constants_v1_api_v1_meta_constants_get",
@@ -1219,7 +1219,7 @@
     "/api/v1/dashboard/overview": {
       "get": {
         "tags": [
-          "Dashboard v1"
+          "Admin API · Dashboard"
         ],
         "summary": "Dashboard Overview V1",
         "operationId": "dashboard_overview_v1_api_v1_dashboard_overview_get",
@@ -1246,7 +1246,7 @@
     "/api/v1/audit": {
       "get": {
         "tags": [
-          "Audit v1"
+          "Admin API · Audit"
         ],
         "summary": "List Audit V1",
         "operationId": "list_audit_v1_api_v1_audit_get",
@@ -1392,7 +1392,7 @@
     "/api/v1/audit/{entity_type}/{entity_id}": {
       "get": {
         "tags": [
-          "Audit v1"
+          "Admin API · Audit"
         ],
         "summary": "Entity Audit V1",
         "operationId": "entity_audit_v1_api_v1_audit__entity_type___entity_id__get",
@@ -1449,7 +1449,7 @@
     "/api/v1/correlation/chain-check": {
       "post": {
         "tags": [
-          "Correlation v1"
+          "Integration API · Correlation (§8)"
         ],
         "summary": "Correlation Chain Check V1",
         "operationId": "correlation_chain_check_v1_api_v1_correlation_chain_check_post",
@@ -1498,7 +1498,7 @@
     "/api/v1/correlation/context": {
       "post": {
         "tags": [
-          "Correlation v1"
+          "Integration API · Correlation (§8)"
         ],
         "summary": "Correlation Context V1",
         "operationId": "correlation_context_v1_api_v1_correlation_context_post",
@@ -1545,7 +1545,7 @@
     "/api/v1/correlation/ingest": {
       "post": {
         "tags": [
-          "Correlation v1"
+          "Integration API · Correlation (§8)"
         ],
         "summary": "Correlation Ingest V1",
         "operationId": "correlation_ingest_v1_api_v1_correlation_ingest_post",
@@ -1592,7 +1592,7 @@
     "/api/v1/ci/types": {
       "get": {
         "tags": [
-          "CI Types v1"
+          "Admin API · CI Types"
         ],
         "summary": "List Ci Types V1",
         "operationId": "list_ci_types_v1_api_v1_ci_types_get",
@@ -1617,7 +1617,7 @@
       },
       "post": {
         "tags": [
-          "CI Types v1"
+          "Admin API · CI Types"
         ],
         "summary": "Create Ci Type V1",
         "operationId": "create_ci_type_v1_api_v1_ci_types_post",
@@ -1664,7 +1664,7 @@
     "/api/v1/ci/types/{type_id}": {
       "patch": {
         "tags": [
-          "CI Types v1"
+          "Admin API · CI Types"
         ],
         "summary": "Patch Ci Type V1",
         "operationId": "patch_ci_type_v1_api_v1_ci_types__type_id__patch",
@@ -1720,7 +1720,7 @@
       },
       "delete": {
         "tags": [
-          "CI Types v1"
+          "Admin API · CI Types"
         ],
         "summary": "Remove Ci Type V1",
         "operationId": "remove_ci_type_v1_api_v1_ci_types__type_id__delete",
@@ -1768,7 +1768,7 @@
     "/api/v1/ci": {
       "get": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "List Ci V1",
         "operationId": "list_ci_v1_api_v1_ci_get",
@@ -2011,7 +2011,7 @@
       },
       "post": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Create Ci V1",
         "operationId": "create_ci_v1_api_v1_ci_post",
@@ -2058,7 +2058,7 @@
     "/api/v1/ci/recycle-bin": {
       "get": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Recycle Bin V1",
         "operationId": "recycle_bin_v1_api_v1_ci_recycle_bin_get",
@@ -2085,7 +2085,7 @@
     "/api/v1/ci/bulk/status": {
       "post": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Bulk Status V1",
         "operationId": "bulk_status_v1_api_v1_ci_bulk_status_post",
@@ -2132,7 +2132,7 @@
     "/api/v1/ci/import/preview": {
       "post": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Import Preview V1",
         "operationId": "import_preview_v1_api_v1_ci_import_preview_post",
@@ -2186,7 +2186,7 @@
     "/api/v1/ci/import": {
       "post": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Import Json V1",
         "operationId": "import_json_v1_api_v1_ci_import_post",
@@ -2238,7 +2238,7 @@
     "/api/v1/ci/import/mapped": {
       "post": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Import Mapped V1",
         "operationId": "import_mapped_v1_api_v1_ci_import_mapped_post",
@@ -2285,7 +2285,7 @@
     "/api/v1/ci/import/csv": {
       "post": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Import Csv V1",
         "operationId": "import_csv_v1_api_v1_ci_import_csv_post",
@@ -2332,7 +2332,7 @@
     "/api/v1/ci/export/full": {
       "get": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Export Full V1",
         "operationId": "export_full_v1_api_v1_ci_export_full_get",
@@ -2467,7 +2467,7 @@
     "/api/v1/ci/export/csv": {
       "get": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Export Csv V1",
         "operationId": "export_csv_v1_api_v1_ci_export_csv_get",
@@ -2602,7 +2602,7 @@
     "/api/v1/ci/export/xlsx": {
       "get": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Export Xlsx V1",
         "operationId": "export_xlsx_v1_api_v1_ci_export_xlsx_get",
@@ -2737,7 +2737,7 @@
     "/api/v1/ci/{ci_id}/relations": {
       "get": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Ci Relations V1",
         "operationId": "ci_relations_v1_api_v1_ci__ci_id__relations_get",
@@ -2785,7 +2785,7 @@
     "/api/v1/ci/{ci_id}": {
       "get": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Get Ci V1",
         "operationId": "get_ci_v1_api_v1_ci__ci_id__get",
@@ -2831,7 +2831,7 @@
       },
       "patch": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Update Ci V1",
         "operationId": "update_ci_v1_api_v1_ci__ci_id__patch",
@@ -2887,7 +2887,7 @@
       },
       "delete": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Delete Ci V1",
         "operationId": "delete_ci_v1_api_v1_ci__ci_id__delete",
@@ -2935,7 +2935,7 @@
     "/api/v1/ci/{ci_id}/restore": {
       "post": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Restore Ci V1",
         "operationId": "restore_ci_v1_api_v1_ci__ci_id__restore_post",
@@ -2983,7 +2983,7 @@
     "/api/v1/ci/{ci_id}/purge": {
       "delete": {
         "tags": [
-          "CI v1"
+          "Admin API · CI"
         ],
         "summary": "Purge Ci V1",
         "operationId": "purge_ci_v1_api_v1_ci__ci_id__purge_delete",
@@ -3028,10 +3028,186 @@
         }
       }
     },
+    "/api/v1/relation/types": {
+      "get": {
+        "tags": [
+          "Admin API · Relation Types"
+        ],
+        "summary": "List Relation Types V1",
+        "operationId": "list_relation_types_v1_api_v1_relation_types_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          },
+          {
+            "APIKeyHeader": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Admin API · Relation Types"
+        ],
+        "summary": "Create Relation Type V1",
+        "operationId": "create_relation_type_v1_api_v1_relation_types_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RelationTypeCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          },
+          {
+            "APIKeyHeader": []
+          }
+        ]
+      }
+    },
+    "/api/v1/relation/types/{type_id}": {
+      "patch": {
+        "tags": [
+          "Admin API · Relation Types"
+        ],
+        "summary": "Patch Relation Type V1",
+        "operationId": "patch_relation_type_v1_api_v1_relation_types__type_id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          },
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "type_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Type Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RelationTypeUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin API · Relation Types"
+        ],
+        "summary": "Remove Relation Type V1",
+        "operationId": "remove_relation_type_v1_api_v1_relation_types__type_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          },
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "type_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Type Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/relations": {
       "get": {
         "tags": [
-          "Relations v1"
+          "Admin API · Relations"
         ],
         "summary": "List Relations V1",
         "operationId": "list_relations_v1_api_v1_relations_get",
@@ -3187,7 +3363,7 @@
       },
       "post": {
         "tags": [
-          "Relations v1"
+          "Admin API · Relations"
         ],
         "summary": "Create Relation V1",
         "operationId": "create_relation_v1_api_v1_relations_post",
@@ -3234,7 +3410,7 @@
     "/api/v1/relations/validate": {
       "get": {
         "tags": [
-          "Relations v1"
+          "Admin API · Relations"
         ],
         "summary": "Validate Relations V1",
         "operationId": "validate_relations_v1_api_v1_relations_validate_get",
@@ -3261,7 +3437,7 @@
     "/api/v1/relations/export": {
       "get": {
         "tags": [
-          "Relations v1"
+          "Admin API · Relations"
         ],
         "summary": "Export Relations Json V1",
         "operationId": "export_relations_json_v1_api_v1_relations_export_get",
@@ -3288,7 +3464,7 @@
     "/api/v1/relations/export/csv": {
       "get": {
         "tags": [
-          "Relations v1"
+          "Admin API · Relations"
         ],
         "summary": "Export Relations Csv V1",
         "operationId": "export_relations_csv_v1_api_v1_relations_export_csv_get",
@@ -3315,7 +3491,7 @@
     "/api/v1/relations/export/xlsx": {
       "get": {
         "tags": [
-          "Relations v1"
+          "Admin API · Relations"
         ],
         "summary": "Export Relations Xlsx V1",
         "operationId": "export_relations_xlsx_v1_api_v1_relations_export_xlsx_get",
@@ -3342,7 +3518,7 @@
     "/api/v1/relations/import/json": {
       "post": {
         "tags": [
-          "Relations v1"
+          "Admin API · Relations"
         ],
         "summary": "Import Relations Json V1",
         "operationId": "import_relations_json_v1_api_v1_relations_import_json_post",
@@ -3389,7 +3565,7 @@
     "/api/v1/relations/import/csv": {
       "post": {
         "tags": [
-          "Relations v1"
+          "Admin API · Relations"
         ],
         "summary": "Import Relations Csv V1",
         "operationId": "import_relations_csv_v1_api_v1_relations_import_csv_post",
@@ -3436,7 +3612,7 @@
     "/api/v1/relations/{relation_id}": {
       "get": {
         "tags": [
-          "Relations v1"
+          "Admin API · Relations"
         ],
         "summary": "Get Relation V1",
         "operationId": "get_relation_v1_api_v1_relations__relation_id__get",
@@ -3482,7 +3658,7 @@
       },
       "patch": {
         "tags": [
-          "Relations v1"
+          "Admin API · Relations"
         ],
         "summary": "Update Relation V1",
         "operationId": "update_relation_v1_api_v1_relations__relation_id__patch",
@@ -3538,7 +3714,7 @@
       },
       "delete": {
         "tags": [
-          "Relations v1"
+          "Admin API · Relations"
         ],
         "summary": "Delete Relation V1",
         "operationId": "delete_relation_v1_api_v1_relations__relation_id__delete",
@@ -3586,7 +3762,7 @@
     "/api/v1/autodiscover/connectors": {
       "get": {
         "tags": [
-          "Autodiscover v1"
+          "Admin API · Autodiscover"
         ],
         "summary": "List Connectors V1",
         "operationId": "list_connectors_v1_api_v1_autodiscover_connectors_get",
@@ -3633,7 +3809,7 @@
       },
       "post": {
         "tags": [
-          "Autodiscover v1"
+          "Admin API · Autodiscover"
         ],
         "summary": "Create Connector V1",
         "operationId": "create_connector_v1_api_v1_autodiscover_connectors_post",
@@ -3680,7 +3856,7 @@
     "/api/v1/autodiscover/connectors/{connector_id}": {
       "patch": {
         "tags": [
-          "Autodiscover v1"
+          "Admin API · Autodiscover"
         ],
         "summary": "Update Connector V1",
         "operationId": "update_connector_v1_api_v1_autodiscover_connectors__connector_id__patch",
@@ -3736,7 +3912,7 @@
       },
       "delete": {
         "tags": [
-          "Autodiscover v1"
+          "Admin API · Autodiscover"
         ],
         "summary": "Delete Connector V1",
         "operationId": "delete_connector_v1_api_v1_autodiscover_connectors__connector_id__delete",
@@ -3784,7 +3960,7 @@
     "/api/v1/autodiscover/connectors/{connector_id}/test": {
       "post": {
         "tags": [
-          "Autodiscover v1"
+          "Admin API · Autodiscover"
         ],
         "summary": "Test Connector V1",
         "operationId": "test_connector_v1_api_v1_autodiscover_connectors__connector_id__test_post",
@@ -3832,7 +4008,7 @@
     "/api/v1/autodiscover/connectors/{connector_id}/sync": {
       "post": {
         "tags": [
-          "Autodiscover v1"
+          "Admin API · Autodiscover"
         ],
         "summary": "Sync Connector V1",
         "operationId": "sync_connector_v1_api_v1_autodiscover_connectors__connector_id__sync_post",
@@ -3880,7 +4056,7 @@
     "/api/v1/autodiscover/profiles": {
       "get": {
         "tags": [
-          "Autodiscover v1"
+          "Admin API · Autodiscover"
         ],
         "summary": "List Profiles V1",
         "operationId": "list_profiles_v1_api_v1_autodiscover_profiles_get",
@@ -3907,7 +4083,7 @@
     "/api/v1/autodiscover/scan": {
       "post": {
         "tags": [
-          "Autodiscover v1"
+          "Admin API · Autodiscover"
         ],
         "summary": "Autodiscover Scan V1",
         "operationId": "autodiscover_scan_v1_api_v1_autodiscover_scan_post",
@@ -3954,7 +4130,7 @@
     "/api/v1/autodiscover/runs": {
       "get": {
         "tags": [
-          "Autodiscover v1"
+          "Admin API · Autodiscover"
         ],
         "summary": "List Runs V1",
         "operationId": "list_runs_v1_api_v1_autodiscover_runs_get",
@@ -4005,7 +4181,7 @@
     "/api/v1/autodiscover/runs/{run_id}": {
       "get": {
         "tags": [
-          "Autodiscover v1"
+          "Admin API · Autodiscover"
         ],
         "summary": "Get Run V1",
         "operationId": "get_run_v1_api_v1_autodiscover_runs__run_id__get",
@@ -4053,7 +4229,7 @@
     "/api/v1/autodiscover/runs/{run_id}/apply": {
       "post": {
         "tags": [
-          "Autodiscover v1"
+          "Admin API · Autodiscover"
         ],
         "summary": "Apply Run V1",
         "operationId": "apply_run_v1_api_v1_autodiscover_runs__run_id__apply_post",
@@ -5386,6 +5562,62 @@
         ],
         "title": "RelationImportRequest"
       },
+      "RelationTypeCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "RelationTypeCreate"
+      },
+      "RelationTypeUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "title": "RelationTypeUpdate"
+      },
       "RelationUpdate": {
         "properties": {
           "relation_type": {
@@ -5903,5 +6135,74 @@
         "description": "Ключ интеграции для correlation ingest и внешних систем."
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "Integration API · Resources (§8)",
+      "description": "Контракт ТЗ §8 для correlation engine и внешних систем мониторинга: поиск объектов, карточка, связи, граф, impact, batch resolve."
+    },
+    {
+      "name": "Integration API · Correlation (§8)",
+      "description": "Корреляционный контекст ТЗ §8: общий граф по группе объектов, ingest, chain-check."
+    },
+    {
+      "name": "Integration API · Meta",
+      "description": "Справочные константы модели и версия схемы для клиентов."
+    },
+    {
+      "name": "Admin API · CI",
+      "description": "Управление элементами РСМ (CRUD, импорт/экспорт, корзина). Для интеграций используйте Integration API · Resources."
+    },
+    {
+      "name": "Admin API · Relations",
+      "description": "Управление направленными связями между элементами РСМ."
+    },
+    {
+      "name": "Admin API · CI Types",
+      "description": "Справочник типов CI (только администратор)."
+    },
+    {
+      "name": "Admin API · Relation Types",
+      "description": "Справочник типов связей (только администратор)."
+    },
+    {
+      "name": "Admin API · Autodiscover",
+      "description": "Autodiscover: сканирование серверов и применение черновика полей/связей."
+    },
+    {
+      "name": "Admin API · Audit",
+      "description": "Журнал аудита изменений модели, импортов и экспортов."
+    },
+    {
+      "name": "Admin API · Dashboard",
+      "description": "Сводка по модели для UI (KPI, целостность)."
+    },
+    {
+      "name": "Admin API · Auth",
+      "description": "Аутентификация, пользователи и смена пароля."
+    }
+  ],
+  "x-tagGroups": [
+    {
+      "name": "Integration API (ТЗ §8)",
+      "tags": [
+        "Integration API · Resources (§8)",
+        "Integration API · Correlation (§8)",
+        "Integration API · Meta"
+      ]
+    },
+    {
+      "name": "Admin API (UI и сопровождение модели)",
+      "tags": [
+        "Admin API · Auth",
+        "Admin API · CI",
+        "Admin API · Relations",
+        "Admin API · CI Types",
+        "Admin API · Relation Types",
+        "Admin API · Autodiscover",
+        "Admin API · Audit",
+        "Admin API · Dashboard"
+      ]
+    }
+  ]
 }

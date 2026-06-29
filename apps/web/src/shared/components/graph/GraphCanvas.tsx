@@ -13,6 +13,7 @@ import {
 import '@xyflow/react/dist/style.css'
 import { useCallback, useEffect, useImperativeHandle, useRef, forwardRef } from 'react'
 import { useI18n } from '@/context/useI18n'
+import { GraphCanvasSkeleton } from '@/components/ui'
 import { useTheme } from '@/context/useTheme'
 import { computeGraphLayout, graphFlowDefaults } from '@/lib/graphLayout'
 import type { GraphPanelData } from '@/shared/api/types'
@@ -262,7 +263,7 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, Props>(function GraphCa
   ])
 
   if (isLoading) {
-    return <div className="flex h-full items-center justify-center text-[var(--text-muted)]">{t.common.loading}</div>
+    return <GraphCanvasSkeleton />
   }
 
   if (!graph?.nodes?.length) {

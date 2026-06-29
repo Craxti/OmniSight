@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import type { useI18n } from '@/context/useI18n'
 import type { CI, CIList } from '@/shared/api/types'
 import { FormField } from '@/shared/components/FormField'
+import { ListRowsSkeleton } from '@/components/ui'
 import { BilingualFieldHelp } from '@/shared/components/BilingualFieldHelp'
 import { autodiscoverProfileHelp, autodiscoverScopeHelp } from '@/i18n/locales/autodiscoverHelp'
 import { autodiscoverScanSchema, type AutodiscoverScanValues } from '@/lib/forms/schemas/settingsSchemas'
@@ -131,7 +132,7 @@ export function AutodiscoverScanForm({
 
       <FormField label={t.autodiscover.sources} error={errors.selectedServers?.message}>
         {serversLoading ? (
-          <p className="text-sm text-[var(--text-muted)]">{t.common.loading}</p>
+          <ListRowsSkeleton rows={4} />
         ) : (servers?.items ?? []).length === 0 ? (
           <p className="text-sm text-[var(--text-muted)]">{t.autodiscover.noServers}</p>
         ) : (

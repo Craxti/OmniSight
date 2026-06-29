@@ -5,6 +5,8 @@ from __future__ import annotations
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 
+from src.core.openapi_tags import OPENAPI_TAG_GROUPS
+
 
 def apply_custom_openapi(app: FastAPI) -> None:
     def custom_openapi():
@@ -15,7 +17,9 @@ def apply_custom_openapi(app: FastAPI) -> None:
             version=app.version,
             description=app.description,
             routes=app.routes,
+            tags=app.openapi_tags,
         )
+        schema["x-tagGroups"] = OPENAPI_TAG_GROUPS
         schemes = schema.setdefault("components", {}).setdefault("securitySchemes", {})
         bearer = schemes.setdefault("HTTPBearer", {"type": "http", "scheme": "bearer"})
         bearer["description"] = (

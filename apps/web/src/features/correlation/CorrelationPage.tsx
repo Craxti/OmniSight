@@ -1,6 +1,6 @@
 import { Download, Play, Zap } from 'lucide-react'
 import type { CSSProperties } from 'react'
-import { PageHeader, Button } from '@/components/ui'
+import { PageHeader, Button, CorrelationResultSkeleton } from '@/components/ui'
 import { CorrelationAlertForm } from '@/features/correlation/components/CorrelationAlertForm'
 import { EmbeddedGraphView } from '@/shared/components/graph/EmbeddedGraphView'
 import { useI18n } from '@/context/useI18n'
@@ -56,7 +56,9 @@ export default function CorrelationPage() {
         </div>
       </div>
 
-      {ingestResult && (
+      {ingestMut.isPending && <CorrelationResultSkeleton />}
+
+      {ingestResult && !ingestMut.isPending && (
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="card p-5">
             <h3 className="mb-3 flex items-center gap-2 font-semibold text-[var(--text-primary)]">

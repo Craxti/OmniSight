@@ -32,6 +32,7 @@ export function useInventoryQueries(
     queryKey: queryKeys.ci.recycle,
     queryFn: ciApi.recycleBin,
     enabled: view === 'recycle',
+    placeholderData: (prev) => prev,
   })
 
   const { data: types } = useCiTypes()

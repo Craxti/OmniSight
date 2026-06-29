@@ -28,7 +28,9 @@ from src.schemas.auth import (
 from src.services.async_read.users import AsyncUserReadService
 from src.services.async_write.users import AsyncUserWriteService
 
-router = APIRouter(prefix="/auth", tags=["Auth v1"])
+from src.core.openapi_tags import TAG_ADMIN_AUTH
+
+router = APIRouter(prefix="/auth", tags=[TAG_ADMIN_AUTH])
 
 UserSvc = Annotated[AsyncUserWriteService, Depends(get_user_write_port)]
 UserReadSvc = Annotated[AsyncUserReadService, Depends(get_user_read_port)]

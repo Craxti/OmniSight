@@ -1,6 +1,6 @@
 import { ArrowLeft, Save } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { PageHeader, Skeleton, Button, buttonClassName } from '@/components/ui'
+import { PageHeader, DetailPageSkeleton, ListRowsSkeleton, Button, buttonClassName } from '@/components/ui'
 import { AuditHistoryList } from '@/shared/components/AuditHistoryList'
 import { RelationEndpointRow } from '@/shared/components/RelationEndpointRow'
 import { TabBar } from '@/shared/components/TabBar'
@@ -32,7 +32,7 @@ export default function CIDetailPage() {
     startEdit,
   } = useCiDetailPage()
 
-  if (isLoading) return <div className="space-y-4">{[1, 2, 3].map((i) => <Skeleton key={i} className="h-12 w-full" />)}</div>
+  if (isLoading) return <DetailPageSkeleton />
   if (!ci) return <div className="text-[var(--text-muted)]">{t.ciDetail.notFound}</div>
 
   const tabs: { id: typeof tab; label: string; show?: boolean }[] = [
@@ -150,7 +150,7 @@ export default function CIDetailPage() {
       {tab === 'history' && (
         <div className="card space-y-3 p-5">
           {historyLoading ? (
-            <Skeleton className="h-24 w-full" />
+            <ListRowsSkeleton rows={3} />
           ) : (
             <AuditHistoryList entries={history ?? []} />
           )}

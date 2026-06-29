@@ -10,6 +10,7 @@ export const dashboard = {
       healthOk: 'Проблем не обнаружено',
       healthIssues: 'Требуется проверка',
       healthIssuesCount: 'Замечаний',
+      healthSummary: '{relations} связей, {errors} ошибок',
       validateLink: 'Открыть зависимости',
       recentAudit: 'Последние изменения',
       viewAll: 'Весь журнал',

@@ -10,7 +10,9 @@ from src.schemas.v1.correlation import CorrelationIngestRequestV1
 from src.services.async_read.correlation import AsyncCorrelationReadService
 from src.services.async_write.correlation import AsyncCorrelationWriteService
 
-router = APIRouter(prefix="/correlation", tags=["Correlation v1"])
+from src.core.openapi_tags import TAG_INTEGRATION_CORRELATION
+
+router = APIRouter(prefix="/correlation", tags=[TAG_INTEGRATION_CORRELATION])
 
 CorrelationReadSvc = Annotated[AsyncCorrelationReadService, Depends(get_correlation_read_port)]
 CorrelationWriteSvc = Annotated[AsyncCorrelationWriteService, Depends(get_correlation_write_port)]

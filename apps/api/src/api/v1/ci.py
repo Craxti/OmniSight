@@ -40,7 +40,9 @@ from src.services.async_read.topology import AsyncTopologyService
 from src.services.async_write.ci import AsyncCiWriteService
 from src.services.async_write.import_export import AsyncCiImportExportWriteService
 
-router = APIRouter(prefix="/ci", tags=["CI v1"])
+from src.core.openapi_tags import TAG_ADMIN_CI
+
+router = APIRouter(prefix="/ci", tags=[TAG_ADMIN_CI])
 
 CiReadSvc = Annotated[AsyncCiReadService, Depends(get_ci_read_port)]
 WriteCiSvc = Annotated[AsyncCiWriteService, Depends(get_ci_write_port)]

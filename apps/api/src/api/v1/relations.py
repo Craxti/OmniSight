@@ -29,7 +29,9 @@ from src.services.async_read.relations import AsyncRelationReadService
 from src.services.async_write.import_export import AsyncRelationImportExportWriteService
 from src.services.async_write.relations import AsyncRelationWriteService
 
-router = APIRouter(prefix="/relations", tags=["Relations v1"])
+from src.core.openapi_tags import TAG_ADMIN_RELATIONS
+
+router = APIRouter(prefix="/relations", tags=[TAG_ADMIN_RELATIONS])
 
 RelationReadSvc = Annotated[AsyncRelationReadService, Depends(get_relation_read_port)]
 RelationWriteSvc = Annotated[AsyncRelationWriteService, Depends(get_relation_write_port)]

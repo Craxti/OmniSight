@@ -249,7 +249,7 @@ export function VirtualDataTable<T>({
 
 
 
-  if (isLoading) {
+  if (isLoading && items.length === 0) {
 
     return (
 

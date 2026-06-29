@@ -10,6 +10,7 @@ export const dashboard = {
       healthOk: 'No issues found',
       healthIssues: 'Review required',
       healthIssuesCount: 'Issues',
+      healthSummary: '{relations} relations, {errors} errors',
       validateLink: 'Open relations',
       recentAudit: 'Recent changes',
       viewAll: 'Full audit log',

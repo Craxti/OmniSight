@@ -4,6 +4,8 @@ export const settings = {
       ciTypes: 'Типы элементов РСМ',
       newType: 'Новый тип',
       apiIntegration: 'Интеграция API',
+      apiIntegrationHint:
+        'Для correlation engine и мониторинга используйте группы Integration API в Swagger (§8: Resources, Correlation). Admin API — для UI и сопровождения модели.',
       authTitle: 'Аутентификация для внешних систем',
       users: 'Пользователи (RBAC)',
       password: 'Пароль',

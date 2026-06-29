@@ -32,7 +32,9 @@ from src.services.async_read.search import AsyncSearchService
 from src.services.async_read.topology import AsyncTopologyService
 from src.services.async_write.graph_layout import AsyncGraphLayoutWriteService
 
-router = APIRouter(prefix="/resources", tags=["Resources v1"])
+from src.core.openapi_tags import TAG_INTEGRATION_RESOURCES
+
+router = APIRouter(prefix="/resources", tags=[TAG_INTEGRATION_RESOURCES])
 
 CiReadSvc = Annotated[AsyncCiReadService, Depends(get_ci_read_port)]
 CorrelationReadSvc = Annotated[AsyncCorrelationReadService, Depends(get_correlation_read_port)]
