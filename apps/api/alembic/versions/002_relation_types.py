@@ -12,6 +12,10 @@ depends_on = None
 
 
 def upgrade() -> None:
+    bind = op.get_bind()
+    inspector = sa.inspect(bind)
+    if inspector.has_table("relation_types"):
+        return
     op.create_table(
         "relation_types",
         sa.Column("id", sa.Integer(), primary_key=True),

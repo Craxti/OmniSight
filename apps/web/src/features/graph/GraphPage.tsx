@@ -1,9 +1,10 @@
 import { ReactFlowProvider } from '@xyflow/react'
+import { useRef } from 'react'
 import { AutodiscoverModal } from '@/shared/components/autodiscover'
 import { useI18n } from '@/context/useI18n'
 import { PageHeader } from '@/components/ui'
 import { DEFAULT_DATA_SOURCE, DEFAULT_RELATION_TYPE } from '@/shared/constants'
-import { GraphCanvas, type GraphEdgeEditData } from '@/shared/components/graph/GraphCanvas'
+import { GraphCanvas, type GraphCanvasHandle, type GraphEdgeEditData } from '@/shared/components/graph/GraphCanvas'
 import { GraphMapSidebar } from '@/features/graph/components/GraphMapSidebar'
 import { GraphCreateRelationModal, GraphEditRelationModal } from '@/features/graph/components/GraphRelationModals'
 import { useGraphPage, useGraphPageState } from '@/features/graph/hooks/useGraphPage'
@@ -27,7 +28,9 @@ export default function GraphPage() {
 function GraphMapContent(props: ReturnType<typeof useGraphPageState>) {
   const { id, rootId, setRootId, depth, setDepth, relationFilter, setRelationFilter } = props
   const { t } = useI18n()
-  const graph = useGraphPage(props)
+  const flowRef = useRef<HTMLDivElement>(null)
+  const canvasRef = useRef<GraphCanvasHandle>(null)
+  const graphPage = useGraphPage({ ...props, flowRef, canvasRef })
 
   return (
     <div className="flex h-full min-h-0 flex-1">
@@ -38,48 +41,48 @@ function GraphMapContent(props: ReturnType<typeof useGraphPageState>) {
         onDepthChange={setDepth}
         relationFilter={relationFilter}
         onRelationFilterChange={setRelationFilter}
-        nodeCount={graph.stats.nodes}
-        edgeCount={graph.stats.edges}
-        canExport={id > 0 && graph.stats.nodes > 0}
-        onFit={() => graph.canvasRef.current?.fit()}
-        onRelayout={() => graph.canvasRef.current?.relayout()}
-        onExport={graph.exportGraph}
-        businessPath={graph.businessPath?.path ?? []}
-        impactedServices={graph.impact?.impacted_business_services ?? []}
-        components={graph.components?.components ?? []}
-        isBusinessServiceRoot={graph.isBusinessServiceRoot}
-        validation={graph.validation ?? null}
-        validating={graph.validating}
-        onValidate={() => void graph.validateModel()}
-        canEdit={graph.canEdit}
-        onAutodiscover={() => graph.setAutodiscoverOpen(true)}
+        nodeCount={graphPage.stats.nodes}
+        edgeCount={graphPage.stats.edges}
+        canExport={id > 0 && graphPage.stats.nodes > 0}
+        onFit={() => canvasRef.current?.fit()}
+        onRelayout={() => canvasRef.current?.relayout()}
+        onExport={graphPage.exportGraph}
+        businessPath={graphPage.businessPath?.path ?? []}
+        impactedServices={graphPage.impact?.impacted_business_services ?? []}
+        components={graphPage.components?.components ?? []}
+        isBusinessServiceRoot={graphPage.isBusinessServiceRoot}
+        validation={graphPage.validation ?? null}
+        validating={graphPage.validating}
+        onValidate={() => void graphPage.validateModel()}
+        canEdit={graphPage.canEdit}
+        onAutodiscover={() => graphPage.setAutodiscoverOpen(true)}
       />
-      <div ref={graph.flowRef} className="graph-flow-panel relative min-w-0 flex-1">
+      <div ref={flowRef} className="graph-flow-panel relative min-w-0 flex-1">
         {!id ? (
           <div className="flex h-full items-center justify-center p-6 text-center text-[var(--text-muted)]">
             {t.graph.empty}
           </div>
         ) : (
           <GraphCanvas
-            ref={graph.canvasRef}
+            ref={canvasRef}
             rootId={id}
             depth={depth}
             relationFilter={relationFilter}
-            graph={graph.graph}
-            pathIds={graph.pathIds}
-            pathEdgeKeys={graph.pathEdgeKeys}
-            impactIds={graph.impactIds}
-            componentIds={graph.componentIds}
-            isLoading={graph.isLoading}
-            editable={graph.canEdit}
+            graph={graphPage.graph}
+            pathIds={graphPage.pathIds}
+            pathEdgeKeys={graphPage.pathEdgeKeys}
+            impactIds={graphPage.impactIds}
+            componentIds={graphPage.componentIds}
+            isLoading={graphPage.isLoading}
+            editable={graphPage.canEdit}
             onSelectRoot={(ciId) => setRootId(String(ciId))}
-            onOpenCi={(ciId) => graph.navigate(`/inventory/${ciId}`)}
-            onStatsChange={graph.setStats}
+            onOpenCi={(ciId) => graphPage.navigate(`/inventory/${ciId}`)}
+            onStatsChange={graphPage.setStats}
             onCreateRelationRequest={(sourceCiId, targetCiId) => {
-              graph.setCreateDraft({ sourceCiId, targetCiId, relationType: DEFAULT_RELATION_TYPE, dataSource: DEFAULT_DATA_SOURCE })
+              graphPage.setCreateDraft({ sourceCiId, targetCiId, relationType: DEFAULT_RELATION_TYPE, dataSource: DEFAULT_DATA_SOURCE })
             }}
             onEditRelationRequest={(edge: GraphEdgeEditData) => {
-              graph.setEditDraft({
+              graphPage.setEditDraft({
                 id: edge.id,
                 sourceCiId: edge.sourceCiId,
                 targetCiId: edge.targetCiId,
@@ -88,35 +91,35 @@ function GraphMapContent(props: ReturnType<typeof useGraphPageState>) {
                 dataSource: edge.dataSource || DEFAULT_DATA_SOURCE,
               })
             }}
-            onDeleteRelationRequest={(relationId) => graph.deleteRelationMut.mutate(relationId)}
+            onDeleteRelationRequest={(relationId) => graphPage.deleteRelationMut.mutate(relationId)}
           />
         )}
       </div>
 
       <GraphCreateRelationModal
-        draft={graph.createDraft}
-        onClose={() => graph.setCreateDraft(null)}
-        onChange={graph.setCreateDraft}
-        onSubmit={() => graph.createDraft && graph.createRelationMut.mutate(graph.createDraft)}
-        pending={graph.createRelationMut.isPending}
-        ciDisplay={graph.ciDisplay}
+        draft={graphPage.createDraft}
+        onClose={() => graphPage.setCreateDraft(null)}
+        onChange={graphPage.setCreateDraft}
+        onSubmit={() => graphPage.createDraft && graphPage.createRelationMut.mutate(graphPage.createDraft)}
+        pending={graphPage.createRelationMut.isPending}
+        ciDisplay={graphPage.ciDisplay}
       />
       <GraphEditRelationModal
-        draft={graph.editDraft}
-        onClose={() => graph.setEditDraft(null)}
-        onChange={graph.setEditDraft}
-        onSubmit={() => graph.editDraft && graph.updateRelationMut.mutate(graph.editDraft)}
-        onDelete={() => graph.editDraft && graph.deleteRelationMut.mutate(graph.editDraft.id)}
-        updatePending={graph.updateRelationMut.isPending}
-        deletePending={graph.deleteRelationMut.isPending}
-        ciDisplay={graph.ciDisplay}
+        draft={graphPage.editDraft}
+        onClose={() => graphPage.setEditDraft(null)}
+        onChange={graphPage.setEditDraft}
+        onSubmit={() => graphPage.editDraft && graphPage.updateRelationMut.mutate(graphPage.editDraft)}
+        onDelete={() => graphPage.editDraft && graphPage.deleteRelationMut.mutate(graphPage.editDraft.id)}
+        updatePending={graphPage.updateRelationMut.isPending}
+        deletePending={graphPage.deleteRelationMut.isPending}
+        ciDisplay={graphPage.ciDisplay}
       />
       <AutodiscoverModal
-        open={graph.autodiscoverOpen}
-        onClose={() => graph.setAutodiscoverOpen(false)}
+        open={graphPage.autodiscoverOpen}
+        onClose={() => graphPage.setAutodiscoverOpen(false)}
         scopeDefaults={{ scope_mode: 'graph', scope_depth: depth, root_ci_id: id > 0 ? id : undefined }}
         onApplied={() => {
-          graph.invalidateGraph()
+          graphPage.invalidateGraph()
         }}
       />
     </div>

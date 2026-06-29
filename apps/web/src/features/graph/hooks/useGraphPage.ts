@@ -1,5 +1,5 @@
 import { toPng } from 'html-to-image'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState, type RefObject } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '@/context/useAuth'
 import { useI18n } from '@/context/useI18n'
@@ -26,6 +26,11 @@ export function useGraphPageState() {
   return { params, setParams, rootId, setRootId, depth, setDepth, relationFilter, setRelationFilter, id }
 }
 
+export type GraphPageRefs = {
+  flowRef: RefObject<HTMLDivElement | null>
+  canvasRef: RefObject<GraphCanvasHandle | null>
+}
+
 export function useGraphPage({
   id,
   depth,
@@ -34,14 +39,13 @@ export function useGraphPage({
   setRelationFilter,
   params,
   setParams,
-}: ReturnType<typeof useGraphPageState>) {
+  flowRef,
+}: ReturnType<typeof useGraphPageState> & GraphPageRefs) {
   const { t } = useI18n()
   const { theme } = useTheme()
   const { success, error: toastError } = useToast()
   const { canEdit } = useAuth()
   const navigate = useNavigate()
-  const flowRef = useRef<HTMLDivElement>(null)
-  const canvasRef = useRef<GraphCanvasHandle>(null)
   const [stats, setStats] = useState({ nodes: 0, edges: 0 })
   const [createDraft, setCreateDraft] = useState<RelationCreateDraft | null>(null)
   const [editDraft, setEditDraft] = useState<RelationEditDraft | null>(null)
@@ -85,8 +89,6 @@ export function useGraphPage({
     t,
     canEdit,
     navigate,
-    flowRef,
-    canvasRef,
     stats,
     setStats,
     createDraft,

@@ -2,7 +2,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 import { renderHook } from '@testing-library/react'
 import type { ReactNode } from 'react'
-import { createHookWrapper, renderAppHook } from '@/test/renderHookWithProviders'
+import { createHookWrapper } from '@/test/renderHookWithProviders'
 import { useGraphPage, useGraphPageState } from '@/features/graph/hooks/useGraphPage'
 
 vi.mock('@/context/useAuth', () => ({
@@ -81,7 +81,9 @@ describe('useGraphPage', () => {
   it('exposes graph data with create/edit drafts closed', () => {
     const { result } = renderHook(() => {
       const state = useGraphPageState()
-      return useGraphPage(state)
+      const flowRef = { current: null }
+      const canvasRef = { current: null }
+      return useGraphPage({ ...state, flowRef, canvasRef })
     }, { wrapper: graphTestWrapper })
 
     expect(result.current.createDraft).toBeNull()

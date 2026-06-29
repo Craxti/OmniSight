@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import { AutodiscoverModal } from '@/shared/components/autodiscover/AutodiscoverModal'
 import { messages } from '@/i18n/messages'

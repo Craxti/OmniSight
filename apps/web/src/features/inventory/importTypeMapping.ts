@@ -35,7 +35,7 @@ export function buildMappingEntries(rows: MappingRowState[]): ImportTypeMappingE
     .filter((row) => row.status !== 'matched')
     .map((row) => {
       if (row.createNew) {
-        let schema: Record<string, unknown> = { properties: {} }
+        let schema: Record<string, unknown>
         try {
           schema = JSON.parse(row.draftSchemaJson) as Record<string, unknown>
         } catch {

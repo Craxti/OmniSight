@@ -89,10 +89,7 @@ class AsyncAutodiscoverMappingRepository(AsyncRepository):
         super().__init__(db)
 
     async def list_for_run(self, run_id: int) -> list[AutodiscoverMapping]:
-        stmt = (
-            select(AutodiscoverMapping)
-            .where(AutodiscoverMapping.run_id == run_id)
-        )
+        stmt = select(AutodiscoverMapping).where(AutodiscoverMapping.run_id == run_id)
         return await self.scalars_all(stmt)
 
     async def list_pending_for_apply(

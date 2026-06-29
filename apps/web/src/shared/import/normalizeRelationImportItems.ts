@@ -18,7 +18,7 @@ export function normalizeRelationImportItems(items: unknown[]): NormalizedRelati
     }
     const row = item as Record<string, unknown>
     const rawType = String(row.relation_type ?? row.type ?? row.relation ?? '')
-    let relation_type = ''
+    let relation_type: string
     let _invalid_relation_type = false
     try {
       relation_type = normalizeRelationType(rawType)
