@@ -35,4 +35,7 @@ export {
   runCorrelationIngest,
   runAutodiscoverInventoryUi,
   runAutodiscoverGraphUi,
+  inventoryTable,
+  relationsTable,
+  auditTable,
 } from './ui-helpers'

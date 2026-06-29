@@ -1,5 +1,21 @@
-import { expect, type Page } from '@playwright/test'
+import { expect, type Locator, type Page } from '@playwright/test'
 import type { AlertRow } from '../src/shared/constants'
+
+function tableRow(table: Locator, text: string): Locator {
+  return table.locator('.virtual-table-row:not(.virtual-table-width-sizer)').filter({ hasText: text })
+}
+
+export function inventoryTable(page: Page) {
+  return page.getByTestId('inventory-table')
+}
+
+export function relationsTable(page: Page) {
+  return page.getByTestId('relations-table')
+}
+
+export function auditTable(page: Page) {
+  return page.getByTestId('audit-table')
+}
 
 async function submitAutodiscoverScan(page: Page) {
   await expect(page.getByTestId('autodiscover-scan')).toBeEnabled({ timeout: 15_000 })
@@ -70,7 +86,7 @@ export async function createCi(
 export async function deleteCiByName(page: Page, name: string) {
   await page.goto('/inventory')
   await page.getByTestId('inventory-filter-q').fill(name)
-  const row = page.locator('tbody tr').filter({ hasText: name })
+  const row = tableRow(inventoryTable(page), name)
   await expect(row).toHaveCount(1, { timeout: 10_000 })
   await row.getByTestId('ci-delete').click()
   await expect(row).toHaveCount(0, { timeout: 10_000 })
@@ -84,7 +100,7 @@ export async function deleteCiByNameIfExists(page: Page, name: string) {
     const filter = page.getByTestId('inventory-filter-q')
     if (!(await filter.count())) return
     await filter.fill(name)
-    const row = page.locator('tbody tr').filter({ hasText: name })
+    const row = tableRow(inventoryTable(page), name)
     if (!(await row.count())) return
     await row.first().getByTestId('ci-delete').click()
   } catch {
@@ -98,12 +114,14 @@ export async function createRelation(page: Page, sourceName: string, targetName:
   await page.locator('#rel-source').selectOption({ label: sourceName })
   await page.locator('#rel-target').selectOption({ label: targetName })
   await page.getByTestId('relation-submit').click()
-  await expect(page.locator('table.data-table')).toContainText(sourceName, { timeout: 10_000 })
+  const table = relationsTable(page)
+  await expect(table).toContainText(sourceName, { timeout: 10_000 })
+  await expect(table).toContainText(targetName, { timeout: 10_000 })
 }
 
 export async function deleteRelation(page: Page, sourceName: string, targetName: string) {
   await page.goto('/relations')
-  const row = page.locator('tbody tr').filter({ hasText: sourceName }).filter({ hasText: targetName })
+  const row = tableRow(relationsTable(page), sourceName).filter({ hasText: targetName })
   await expect(row).toHaveCount(1, { timeout: 10_000 })
   await row.getByTestId('relation-delete').click()
   await expect(row).toHaveCount(0, { timeout: 10_000 })
@@ -112,7 +130,7 @@ export async function deleteRelation(page: Page, sourceName: string, targetName:
 export async function deleteRelationIfExists(page: Page, sourceName: string, targetName: string) {
   try {
     await page.goto('/relations')
-    const row = page.locator('tbody tr').filter({ hasText: sourceName }).filter({ hasText: targetName })
+    const row = tableRow(relationsTable(page), sourceName).filter({ hasText: targetName })
     if (!(await row.count())) return
     await row.first().getByTestId('relation-delete').click()
   } catch {

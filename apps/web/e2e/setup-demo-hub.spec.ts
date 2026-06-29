@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { login } from './helpers'
+import { inventoryTable, login, relationsTable } from './helpers'
 
 const CIS = [
   { name: 'demo-hub', type: 'Application', hostname: 'demo-hub' },
@@ -52,7 +52,9 @@ test('setup demo-hub with all relation types via UI', async ({ page }) => {
       await modal.locator('#rel-target').selectOption({ label: rel.target })
       await modal.locator('select').nth(2).selectOption(rel.type)
       await modal.getByTestId('relation-submit').click()
-      await expect(page.locator('table.data-table')).toContainText(rel.type, { timeout: 15_000 })
+      const table = relationsTable(page)
+      await expect(table).toContainText(rootName, { timeout: 15_000 })
+      await expect(table).toContainText(rel.target, { timeout: 15_000 })
     }
 
     await page.goto('/graph')
@@ -65,18 +67,23 @@ test('setup demo-hub with all relation types via UI', async ({ page }) => {
   } finally {
     await page.goto('/relations')
     for (const rel of relationTargets) {
-      const row = page.locator('tbody tr').filter({ hasText: rootName }).filter({ hasText: rel.target }).filter({ hasText: rel.type })
+      const row = relationsTable(page)
+        .locator('.virtual-table-row:not(.virtual-table-width-sizer)')
+        .filter({ hasText: rootName })
+        .filter({ hasText: rel.target })
       if (await row.count()) {
-        await row.first().locator('button.text-red-400').click()
+        await row.first().getByTestId('relation-delete').click()
       }
     }
 
     await page.goto('/inventory')
     for (const ci of cis) {
       await page.getByTestId('inventory-filter-q').fill(ci.name)
-      const row = page.locator('tbody tr').filter({ hasText: ci.name })
+      const row = inventoryTable(page)
+        .locator('.virtual-table-row:not(.virtual-table-width-sizer)')
+        .filter({ hasText: ci.name })
       if (await row.count()) {
-        await row.first().locator('button.text-red-400').click()
+        await row.first().getByTestId('ci-delete').click()
       }
     }
   }

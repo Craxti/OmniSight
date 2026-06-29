@@ -9,7 +9,7 @@ from sqlalchemy.engine import Engine, make_url
 from sqlalchemy.inspection import inspect as sa_inspect
 from sqlalchemy.orm import Session, sessionmaker
 from src.core.config import settings
-from src.core.database import Base
+from src.models.base import Base
 from src.core.seed import seed_database
 
 _TEST_DB_NAME = "omnisight_test"

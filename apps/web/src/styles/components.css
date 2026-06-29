@@ -344,6 +344,19 @@ html[data-theme="light"] .settings-tabs button[data-active="true"] {
   color: var(--text-primary);
 }
 
+html[data-theme="dark"] select.input {
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] select.input option {
+  background-color: var(--bg-popover);
+  color: var(--text-primary);
+}
+
+html[data-theme="light"] select.input {
+  color-scheme: light;
+}
+
 .input:focus {
   border-color: var(--rsm-color-brand);
   box-shadow: 0 0 0 1px var(--rsm-color-brand);

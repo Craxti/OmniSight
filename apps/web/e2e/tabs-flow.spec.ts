@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 import {
   DEMO_CORRELATION_ALERTS,
+  auditTable,
   createCi,
   createRelation,
   deleteCiByNameIfExists,
@@ -64,7 +65,7 @@ test.describe('OmniSight full tab flow', () => {
       await expect(page.getByRole('heading', { name: /Аудит|Audit/i })).toBeVisible()
       await page.locator('select[aria-label="Entity type"]').selectOption('ci')
       await page.locator('select[aria-label="Action"]').selectOption('create')
-      await expect(page.locator('table.data-table tbody tr').filter({ hasText: nameA })).toBeVisible({ timeout: 10_000 })
+      await expect(auditTable(page)).toContainText(nameA, { timeout: 10_000 })
 
       // Settings — create temporary CI type, then remove it
       await page.goto('/settings')

@@ -4,6 +4,7 @@ import {
   apiLogin,
   buildRandomImportFixture,
   cleanupImportFixture,
+  inventoryTable,
   login,
 } from './helpers'
 import { paths as V1Paths } from '../src/shared/api/paths'
@@ -34,11 +35,11 @@ test.describe('CI import type mapping', () => {
       await expect(page.getByTestId('import-type-mapping-modal')).toBeHidden({ timeout: 20_000 })
 
       await expect(page.getByRole('dialog')).toContainText(/Создано|Created/i, { timeout: 15_000 })
-      await expect(page.getByRole('dialog').locator('.text-emerald-300')).toHaveText('3')
+      await expect(page.getByRole('dialog').locator('.text-success').first()).toHaveText('3')
 
       for (const name of fixture.ciNames) {
         await page.getByTestId('inventory-filter-q').fill(name)
-        await expect(page.locator('tbody tr').filter({ hasText: name })).toHaveCount(1, { timeout: 15_000 })
+        await expect(inventoryTable(page).locator('.virtual-table-row:not(.virtual-table-width-sizer)').filter({ hasText: name })).toHaveCount(1, { timeout: 15_000 })
       }
 
       token = await apiLogin(request)
