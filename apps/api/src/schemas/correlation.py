@@ -116,3 +116,26 @@ class CorrelationIngestResponse(BaseModel):
     enrichment: list[CorrelationEnrichmentItem] = Field(default_factory=list)
     potential_root_cause_zone: list[CIResponse] = Field(default_factory=list)
     webhook: dict[str, Any] | None = None
+    ingest_log_id: int | None = None
+
+
+class CorrelationIngestLogSummary(BaseModel):
+    id: int
+    source: str | None = None
+    alert_count: int
+    resolved_count: int
+    unresolved_count: int
+    chain_related: bool
+    created_at: str | None = None
+
+
+class CorrelationIngestLogDetail(CorrelationIngestLogSummary):
+    alerts: list[dict[str, Any]] = Field(default_factory=list)
+    result: dict[str, Any] = Field(default_factory=dict)
+
+
+class CorrelationIngestLogListResponse(BaseModel):
+    items: list[CorrelationIngestLogSummary]
+    total: int
+    skip: int
+    limit: int

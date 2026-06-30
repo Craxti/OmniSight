@@ -34,24 +34,27 @@ export default function GraphPage() {
 }
 
 function GraphMapContent(props: ReturnType<typeof useGraphPageState>) {
-  const { id, rootId, setRootId, depth, setDepth, relationFilter, setRelationFilter } = props
+  const { id, rootId, setRootId, depth, setDepth, relationFilter, setRelationFilter, isOverview } = props
   const { t } = useI18n()
   const flowRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<GraphCanvasHandle>(null)
   const graphPage = useGraphPage({ ...props, flowRef, canvasRef })
+  const hasGraph = (graphPage.graph?.nodes?.length ?? 0) > 0
 
   return (
     <div className="flex h-full min-h-0 flex-1">
       <GraphMapSidebar
         rootId={rootId}
+        isOverview={isOverview}
         onRootChange={setRootId}
+        onShowOverview={() => setRootId('')}
         depth={depth}
         onDepthChange={setDepth}
         relationFilter={relationFilter}
         onRelationFilterChange={setRelationFilter}
         nodeCount={graphPage.stats.nodes}
         edgeCount={graphPage.stats.edges}
-        canExport={id > 0 && graphPage.stats.nodes > 0}
+        canExport={hasGraph}
         onFit={() => canvasRef.current?.fit()}
         onRelayout={() => canvasRef.current?.relayout()}
         onExport={graphPage.exportGraph}
@@ -66,14 +69,14 @@ function GraphMapContent(props: ReturnType<typeof useGraphPageState>) {
         onAutodiscover={() => graphPage.setAutodiscoverOpen(true)}
       />
       <div ref={flowRef} className="graph-flow-panel relative min-w-0 flex-1">
-        {!id ? (
+        {!hasGraph && !graphPage.isLoading ? (
           <div className="flex h-full items-center justify-center p-6 text-center text-[var(--text-muted)]">
             {t.graph.empty}
           </div>
         ) : (
           <GraphCanvas
             ref={canvasRef}
-            rootId={id}
+            rootId={isOverview ? 0 : id}
             depth={depth}
             relationFilter={relationFilter}
             graph={graphPage.graph}
@@ -83,6 +86,8 @@ function GraphMapContent(props: ReturnType<typeof useGraphPageState>) {
             componentIds={graphPage.componentIds}
             isLoading={graphPage.isLoading}
             editable={graphPage.canEdit}
+            useSavedLayout={!isOverview}
+            overviewLayout={isOverview}
             onSelectRoot={(ciId) => setRootId(String(ciId))}
             onOpenCi={(ciId) => graphPage.navigate(`/inventory/${ciId}`)}
             onStatsChange={graphPage.setStats}

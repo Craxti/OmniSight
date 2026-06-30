@@ -4,10 +4,11 @@ from typing import Any
 
 from src.core.async_repository_bundle import AsyncRepositoryBundle
 from src.core.cache import cache_get_async, cache_set_async
-from src.schemas.correlation import ChainCheckResponse, CorrelationContextPayload, CorrelationResolvePayload
+from src.schemas.correlation import ChainCheckResponse, CorrelationContextPayload, CorrelationIngestLogDetail, CorrelationIngestLogListResponse, CorrelationResolvePayload
 from src.services.base.async_domain import AsyncDomainService
 from src.services.domain.correlation import (
     build_chain_check_response,
+    build_ingest_log_list,
     build_resolve_payload,
     match_alert_to_result,
     paginate_alerts,
@@ -65,3 +66,23 @@ class AsyncCorrelationReadService(AsyncDomainService):
         payload = build_resolve_payload(resolved, unresolved, pagination=pagination)
         await cache_set_async(cache_key, payload, ttl=30)
         return payload
+
+    async def list_ingest_logs(
+        self,
+        *,
+        source: str | None = None,
+        skip: int = 0,
+        limit: int = 50,
+    ) -> CorrelationIngestLogListResponse:
+        items, total = await self._bundle.correlation_ingest_logs.list_recent(
+            source=source,
+            skip=skip,
+            limit=limit,
+        )
+        return build_ingest_log_list(items, total, skip, limit)
+
+    async def get_ingest_log(self, log_id: int) -> CorrelationIngestLogDetail:
+        from src.core.serializers import correlation_ingest_log_to_detail
+
+        row = await self._bundle.correlation_ingest_logs.get_or_404(log_id)
+        return correlation_ingest_log_to_detail(row)

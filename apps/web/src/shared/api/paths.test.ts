@@ -26,6 +26,8 @@ describe('paths', () => {
 
   it('exposes correlation ingest on v1', () => {
     expect(paths.correlation.ingest).toBe('/api/v1/correlation/ingest')
+    expect(paths.correlation.ingestLogs).toBe('/api/v1/correlation/ingest-logs')
+    expect(paths.correlation.ingestLog(12)).toBe('/api/v1/correlation/ingest-logs/12')
   })
 
   it('exposes export endpoints', () => {

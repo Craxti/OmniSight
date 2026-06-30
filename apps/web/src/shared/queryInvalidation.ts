@@ -15,9 +15,12 @@ export function invalidateRelationsQueries(qc: QueryClient) {
 
 export function invalidateGraphQueries(qc: QueryClient, rootId: number, depth: number) {
   void qc.invalidateQueries({ queryKey: queryKeys.relations.all })
-  void qc.invalidateQueries({ queryKey: queryKeys.graph(rootId, depth) })
-  void qc.invalidateQueries({ queryKey: queryKeys.businessPath(rootId) })
-  void qc.invalidateQueries({ queryKey: queryKeys.impact(rootId) })
+  void qc.invalidateQueries({ queryKey: queryKeys.graph.overview })
+  if (rootId > 0) {
+    void qc.invalidateQueries({ queryKey: queryKeys.graph.root(rootId, depth) })
+    void qc.invalidateQueries({ queryKey: queryKeys.businessPath(rootId) })
+    void qc.invalidateQueries({ queryKey: queryKeys.impact(rootId) })
+  }
   void qc.invalidateQueries({ queryKey: queryKeys.relations.validate })
   invalidateCiQueries(qc)
 }

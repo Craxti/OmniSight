@@ -58,6 +58,10 @@ type VirtualDataTableProps<T> = {
 
   virtualized?: boolean
 
+  onRowClick?: (row: T, index: number) => void
+
+  isRowSelected?: (row: T) => boolean
+
 }
 
 
@@ -133,6 +137,10 @@ export function VirtualDataTable<T>({
 
   virtualized = true,
 
+  onRowClick,
+
+  isRowSelected,
+
 }: VirtualDataTableProps<T>) {
 
   const bodyScrollRef = useRef<HTMLDivElement>(null)
@@ -207,8 +215,11 @@ export function VirtualDataTable<T>({
 
     rowProps?: { className?: string; style?: CSSProperties; dataIndex?: number; measureRef?: (node: Element | null) => void },
 
-  ) => (
+  ) => {
+    const selected = isRowSelected?.(row) ?? false
+    const clickable = Boolean(onRowClick)
 
+    return (
     <div
 
       key={getRowKey(row)}
@@ -217,11 +228,26 @@ export function VirtualDataTable<T>({
 
       ref={rowProps?.measureRef}
 
-      className={`virtual-table-row grid w-full min-w-full ${rowProps?.className ?? ''}`.trim()}
+      className={`virtual-table-row grid w-full min-w-full ${clickable ? 'virtual-table-row--clickable' : ''} ${selected ? 'virtual-table-row--selected' : ''} ${rowProps?.className ?? ''}`.trim()}
 
       style={{ gridTemplateColumns, ...rowProps?.style }}
 
       role="row"
+
+      tabIndex={clickable ? 0 : undefined}
+
+      onClick={clickable ? () => onRowClick?.(row, index) : undefined}
+
+      onKeyDown={
+        clickable
+          ? (event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault()
+                onRowClick?.(row, index)
+              }
+            }
+          : undefined
+      }
 
     >
 
@@ -245,7 +271,8 @@ export function VirtualDataTable<T>({
 
     </div>
 
-  )
+    )
+  }
 
 
 
@@ -367,7 +394,23 @@ export function VirtualDataTable<T>({
 
           {items.map((row, index) => (
 
-            <div key={getRowKey(row)} className="virtual-table-mobile-card" role="row">
+            <div
+              key={getRowKey(row)}
+              className={`virtual-table-mobile-card ${onRowClick ? 'virtual-table-row--clickable' : ''} ${isRowSelected?.(row) ? 'virtual-table-row--selected' : ''}`.trim()}
+              role="row"
+              tabIndex={onRowClick ? 0 : undefined}
+              onClick={onRowClick ? () => onRowClick(row, index) : undefined}
+              onKeyDown={
+                onRowClick
+                  ? (event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault()
+                        onRowClick(row, index)
+                      }
+                    }
+                  : undefined
+              }
+            >
 
               {mobileColumns.map((col) => (
 

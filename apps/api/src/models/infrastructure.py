@@ -37,6 +37,24 @@ class IntegrationOutbox(Base):
     delivered_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
 
+class CorrelationIngestLog(Base):
+    __tablename__ = "correlation_ingest_logs"
+    __table_args__ = (
+        Index("ix_correlation_ingest_source", "source"),
+        Index("ix_correlation_ingest_created", "created_at"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    source: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
+    alerts: Mapped[list] = mapped_column(JSON, default=list)
+    result: Mapped[dict] = mapped_column(JSON, default=dict)
+    alert_count: Mapped[int] = mapped_column(Integer, default=0)
+    resolved_count: Mapped[int] = mapped_column(Integer, default=0)
+    unresolved_count: Mapped[int] = mapped_column(Integer, default=0)
+    chain_related: Mapped[bool] = mapped_column(default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
 class AuditLog(Base):
     __tablename__ = "audit_logs"
     __table_args__ = (

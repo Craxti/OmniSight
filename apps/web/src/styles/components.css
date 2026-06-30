@@ -715,6 +715,20 @@ table.data-table th {
   background: var(--bg-hover);
 }
 
+.virtual-table-row--clickable {
+  cursor: pointer;
+}
+
+.virtual-table-row--clickable:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
+.virtual-table-row--selected .virtual-table-td,
+.virtual-table-row--selected:hover .virtual-table-td {
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface-muted));
+}
+
 .virtual-table-td {
   @apply flex min-w-0 items-center px-3 py-3 sm:px-4;
   color: var(--text-primary);

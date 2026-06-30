@@ -10,7 +10,7 @@ export function useGraphQueries(rootId: number, depth: number) {
   const id = rootId
 
   const { data: graph, isLoading } = useQuery({
-    queryKey: queryKeys.graph(id, depth),
+    queryKey: queryKeys.graph.root(id, depth),
     queryFn: () => resourcesApi.graph(id, depth),
     enabled: !!id,
   })

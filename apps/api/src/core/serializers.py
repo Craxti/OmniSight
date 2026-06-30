@@ -64,6 +64,30 @@ def audit_to_response(entry: AuditLog) -> AuditLogResponse:
     )
 
 
+def correlation_ingest_log_to_summary(entry) -> "CorrelationIngestLogSummary":
+    from src.schemas.correlation import CorrelationIngestLogSummary
+
+    return CorrelationIngestLogSummary(
+        id=entry.id,
+        source=entry.source,
+        alert_count=entry.alert_count,
+        resolved_count=entry.resolved_count,
+        unresolved_count=entry.unresolved_count,
+        chain_related=bool(entry.chain_related),
+        created_at=entry.created_at.isoformat() if entry.created_at else None,
+    )
+
+
+def correlation_ingest_log_to_detail(entry) -> "CorrelationIngestLogDetail":
+    from src.schemas.correlation import CorrelationIngestLogDetail
+
+    return CorrelationIngestLogDetail(
+        **correlation_ingest_log_to_summary(entry).model_dump(),
+        alerts=entry.alerts or [],
+        result=entry.result or {},
+    )
+
+
 def ci_snapshot(ci: CI) -> dict[str, Any]:
     """JSON-serializable snapshot for audit and export."""
     return ci_to_response(ci).model_dump()

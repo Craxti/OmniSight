@@ -73,6 +73,21 @@ export type CorrelationIngestResponse = ApiCorrelationIngestResponse
 export type CorrelationContextPayload = ApiCorrelationContextPayload
 export type CorrelationEnrichmentItem = ApiCorrelationEnrichmentItem
 
+export type CorrelationIngestLogSummary = {
+  id: number
+  source: string | null
+  alert_count: number
+  resolved_count: number
+  unresolved_count: number
+  chain_related: boolean
+  created_at: string | null
+}
+
+export type CorrelationIngestLogDetail = CorrelationIngestLogSummary & {
+  alerts: Record<string, string>[]
+  result: CorrelationIngestResponse
+}
+
 export type BusinessPathResponse = ApiBusinessPathResponse
 export type ImpactResponse = ApiImpactResponse
 export type ComponentsResponse = ApiComponentsResponse

@@ -10,6 +10,8 @@ export function auditActionLabel(t: AuditMessages, action: string): string {
     purge: t.actionPurge,
     restore: t.actionRestore,
     export_full: t.actionExportFull,
+    export_rsm_csv: t.actionExportRsmCsv,
+    export_rsm_xlsx: t.actionExportRsmXlsx,
     import_create: t.actionImportCreate,
     import_update: t.actionImportUpdate,
     import_ci_json: t.actionImportCiJson,

@@ -97,6 +97,8 @@ export default function AuditPage() {
           <option value="purge">{t.audit.actionPurge}</option>
           <option value="restore">{t.audit.actionRestore}</option>
           <option value="export_full">{t.audit.actionExportFull}</option>
+          <option value="export_rsm_csv">{t.audit.actionExportRsmCsv}</option>
+          <option value="export_rsm_xlsx">{t.audit.actionExportRsmXlsx}</option>
           <option value="import_create">{t.audit.actionImportCreate}</option>
           <option value="import_update">{t.audit.actionImportUpdate}</option>
           <option value="import_ci_json">{t.audit.actionImportCiJson}</option>

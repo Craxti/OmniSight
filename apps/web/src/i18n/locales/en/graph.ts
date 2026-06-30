@@ -1,6 +1,8 @@
 export const graph = {
       title: 'Dependency map',
       subtitle: 'Visualize relations from a selected element',
+      overviewSubtitle: 'All elements and relations in the model',
+      showOverview: 'Show full map',
       root: 'Root element',
       selectCi: 'Search by name, hostname, IP…',
       searchMinChars: 'Type one more character to search',
@@ -10,7 +12,7 @@ export const graph = {
       resetLayout: 'Reset layout',
       fitView: 'Fit view',
       positionsHint: 'Dragged node positions are saved for all users.',
-      empty: 'Select an element to build the map',
+      empty: 'No elements in the model yet',
       origin: 'Root',
       businessPath: 'Business path',
       businessPathPanel: 'Business path (FR 20)',
@@ -52,7 +54,7 @@ export const graph = {
       toastExported: 'Map exported',
       toastExportError: 'Failed to export map',
       onboardingTitle: 'Getting started on the map',
-      onboardingStep1: 'Pick a root element in the sidebar — the graph is built from it.',
+      onboardingStep1: 'The full model map is shown by default. Pick a root element to focus on its neighborhood.',
       onboardingStep2: 'Review the business path and impact zone in the left panel.',
       onboardingStep3: 'Click a node to open the CI; double-click to set a new root.',
     }

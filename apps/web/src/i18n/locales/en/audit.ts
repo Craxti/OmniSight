@@ -14,6 +14,8 @@ export const audit = {
       actionPurge: 'Permanent delete',
       actionRestore: 'Restore',
       actionExportFull: 'Full export',
+      actionExportRsmCsv: 'Export RSM (CSV)',
+      actionExportRsmXlsx: 'Export RSM (XLSX)',
       actionImportCreate: 'Import — create',
       actionImportUpdate: 'Import — update',
       actionImportCiJson: 'Import CI (JSON)',

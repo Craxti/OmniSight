@@ -1,5 +1,5 @@
 import { toPng } from 'html-to-image'
-import { useEffect, useState, type RefObject } from 'react'
+import { useEffect, useMemo, useState, type RefObject } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '@/context/useAuth'
 import { useI18n } from '@/context/useI18n'
@@ -10,6 +10,7 @@ import {
 } from '@/shared/hooks/useRelationDraftMutations'
 import { useRelationValidation } from '@/shared/hooks/useRelationValidation'
 import type { GraphCanvasHandle } from '@/shared/components/graph/GraphCanvas'
+import { useGraphOverview } from '@/features/graph/hooks/useGraphOverview'
 import { useGraphQueries } from '@/features/graph/hooks/useGraphQueries'
 import { useGraphRelationActions } from '@/features/graph/hooks/useGraphRelationActions'
 
@@ -21,8 +22,20 @@ export function useGraphPageState() {
   const [depth, setDepth] = useState(3)
   const [relationFilter, setRelationFilter] = useState('')
   const id = Number(rootId)
+  const isOverview = !rootId
 
-  return { params, setParams, rootId, setRootId, depth, setDepth, relationFilter, setRelationFilter, id }
+  return {
+    params,
+    setParams,
+    rootId,
+    setRootId,
+    depth,
+    setDepth,
+    relationFilter,
+    setRelationFilter,
+    id,
+    isOverview,
+  }
 }
 
 export type GraphPageRefs = {
@@ -34,6 +47,7 @@ export function useGraphPage({
   id,
   depth,
   rootId,
+  isOverview,
   relationFilter,
   setRelationFilter,
   params,
@@ -49,7 +63,11 @@ export function useGraphPage({
   const [editDraft, setEditDraft] = useState<RelationEditDraft | null>(null)
   const [autodiscoverOpen, setAutodiscoverOpen] = useState(false)
 
-  const queries = useGraphQueries(id, depth)
+  const focusedQueries = useGraphQueries(id, depth)
+  const overviewQueries = useGraphOverview(isOverview)
+  const emptyIds = useMemo(() => new Set<number>(), [])
+  const emptyKeys = useMemo(() => new Set<string>(), [])
+
   const { validation, validate: validateModel, validating } = useRelationValidation()
 
   const { invalidateGraph, createRelationMut, updateRelationMut, deleteRelationMut } =
@@ -63,9 +81,14 @@ export function useGraphPage({
     })
 
   useEffect(() => {
-    if (!rootId) return
-    if (params.get('root') === rootId) return
-    setParams({ root: rootId }, { replace: true })
+    if (rootId) {
+      if (params.get('root') === rootId) return
+      setParams({ root: rootId }, { replace: true })
+      return
+    }
+    if (params.has('root')) {
+      setParams({}, { replace: true })
+    }
   }, [rootId, params, setParams])
 
   const exportGraph = async () => {
@@ -74,7 +97,7 @@ export function useGraphPage({
       const exportBg = getComputedStyle(document.documentElement).getPropertyValue('--graph-export-bg').trim()
       const dataUrl = await toPng(flowRef.current, { backgroundColor: exportBg, pixelRatio: 2 })
       const link = document.createElement('a')
-      link.download = `omnisight-graph-${id}.png`
+      link.download = isOverview ? 'omnisight-graph-overview.png' : `omnisight-graph-${id}.png`
       link.href = dataUrl
       link.click()
       success(t.graph.toastExported)
@@ -95,7 +118,18 @@ export function useGraphPage({
     setEditDraft,
     autodiscoverOpen,
     setAutodiscoverOpen,
-    ...queries,
+    graph: isOverview ? overviewQueries.graph : focusedQueries.graph,
+    isLoading: isOverview ? overviewQueries.isLoading : focusedQueries.isLoading,
+    ciDisplay: isOverview ? overviewQueries.ciDisplay : focusedQueries.ciDisplay,
+    businessPath: isOverview ? undefined : focusedQueries.businessPath,
+    impact: isOverview ? undefined : focusedQueries.impact,
+    components: isOverview ? undefined : focusedQueries.components,
+    pathIds: isOverview ? emptyIds : focusedQueries.pathIds,
+    pathEdgeKeys: isOverview ? emptyKeys : focusedQueries.pathEdgeKeys,
+    impactIds: isOverview ? emptyIds : focusedQueries.impactIds,
+    componentIds: isOverview ? emptyIds : focusedQueries.componentIds,
+    isBusinessServiceRoot: isOverview ? false : focusedQueries.isBusinessServiceRoot,
+    isOverview,
     validation,
     validating,
     validateModel,

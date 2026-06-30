@@ -1,4 +1,4 @@
-import { Image, Maximize2, Radar, RotateCcw, ShieldCheck } from 'lucide-react'
+import { Image, Maximize2, Network, Radar, RotateCcw, ShieldCheck } from 'lucide-react'
 import { Button } from '@/components/ui'
 import { useI18n } from '@/context/useI18n'
 import { relationTypeLabel } from '@/lib/domainLabels'
@@ -13,7 +13,9 @@ type ImpactItem = { id: number; name: string; criticality?: string | null }
 
 type Props = {
   rootId: string
+  isOverview: boolean
   onRootChange: (id: string) => void
+  onShowOverview: () => void
   depth: number
   onDepthChange: (depth: number) => void
   relationFilter: string
@@ -73,7 +75,9 @@ function AnalysisList({
 
 export function GraphMapSidebar({
   rootId,
+  isOverview,
   onRootChange,
+  onShowOverview,
   depth,
   onDepthChange,
   relationFilter,
@@ -102,25 +106,39 @@ export function GraphMapSidebar({
     <aside className="graph-sidebar flex h-full min-h-0 w-80 shrink-0 flex-col border-r border-[var(--border-subtle)] bg-[var(--bg-card)]">
       <div className="border-b border-[var(--border-subtle)] p-4">
         <h2 className="text-base font-semibold text-[var(--text-primary)]">{t.graph.title}</h2>
-        <p className="mt-1 text-xs text-[var(--text-muted)]">{t.graph.subtitle}</p>
+        <p className="mt-1 text-xs text-[var(--text-muted)]">
+          {isOverview ? t.graph.overviewSubtitle : t.graph.subtitle}
+        </p>
       </div>
 
       <div className="relative z-40 shrink-0 overflow-visible border-b border-[var(--border-subtle)] p-4 pb-5">
         <CiRootPicker value={rootId} onChange={onRootChange} />
+        {hasRoot ? (
+          <Button
+            variant="secondary"
+            className="mt-2 w-full justify-start text-xs"
+            onClick={onShowOverview}
+            data-testid="graph-show-overview"
+          >
+            <Network className="h-3.5 w-3.5" /> {t.graph.showOverview}
+          </Button>
+        ) : null}
       </div>
 
       <div className="relative z-0 flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-4">
-        <FormField label={t.graph.depth} htmlFor="graph-depth">
-          <input
-            id="graph-depth"
-            className="input"
-            type="number"
-            min={1}
-            max={10}
-            value={depth}
-            onChange={(e) => onDepthChange(Number(e.target.value))}
-          />
-        </FormField>
+        {!isOverview ? (
+          <FormField label={t.graph.depth} htmlFor="graph-depth">
+            <input
+              id="graph-depth"
+              className="input"
+              type="number"
+              min={1}
+              max={10}
+              value={depth}
+              onChange={(e) => onDepthChange(Number(e.target.value))}
+            />
+          </FormField>
+        ) : null}
 
         <FormField label={t.graph.relationType} htmlFor="graph-relation">
           <select
@@ -186,7 +204,7 @@ export function GraphMapSidebar({
           >
             <ShieldCheck className="h-3.5 w-3.5" /> {t.graph.validate}
           </Button>
-          {canEdit && onAutodiscover ? (
+          {canEdit && onAutodiscover && hasRoot ? (
             <Button
               variant="secondary"
               className="w-full justify-start text-xs"

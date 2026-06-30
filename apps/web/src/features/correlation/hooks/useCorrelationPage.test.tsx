@@ -33,25 +33,13 @@ describe('useCorrelationPage', () => {
     const { result } = renderAppHook(() => useCorrelationPage())
     expect(result.current.alerts).toHaveLength(1)
     expect(result.current.ingestResult).toBeNull()
-    expect(result.current.correlationGraph).toBeNull()
-    expect(result.current.ambiguousCount).toBe(0)
   })
 
-  it('derives graph highlights after successful ingest', async () => {
+  it('stores ingest response after successful mutation', async () => {
     ingestMock.mockResolvedValueOnce({
-      resolve: { resolved: [{ resolved: true, ambiguous: false, alert: {}, resource: { id: 1 } }] },
-      correlation: {
-        resource_ids: [1, 2],
-        potential_root_cause_zone: [{ id: 2, name: 'db' }],
-        graph: {
-          nodes: [
-            { id: 1, name: 'app' },
-            { id: 2, name: 'db' },
-          ],
-          edges: [{ source_ci_id: 2, target_ci_id: 1, relation_type: 'depends_on' }],
-        },
-        enrichment: [{ id: 1 }],
-      },
+      schema_version: 'rsm-correlation-v1',
+      resolve: { resolved: [{ resolved: true, ambiguous: false, alert: {}, resource: { id: 1 } }], unresolved: [] },
+      correlation: { chain_related: true, resource_ids: [1] },
     })
 
     const { result } = renderAppHook(() => useCorrelationPage())
@@ -66,10 +54,7 @@ describe('useCorrelationPage', () => {
 
     await waitFor(() => expect(result.current.ingestResult).not.toBeNull())
 
-    expect(result.current.correlationGraph?.nodes).toHaveLength(2)
-    expect(result.current.rootCauseRootId).toBe(2)
-    expect(result.current.correlationPathEdgeKeys).toEqual(['2-1'])
-    expect(result.current.staleContext).toBe(false)
+    expect(result.current.ingestResult?.correlation?.chain_related).toBe(true)
     expect(ingestMock).toHaveBeenCalledWith(cleanedAlerts([{ hostname: 'app-01' }]), 'ui')
   })
 })

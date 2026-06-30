@@ -64,6 +64,8 @@ export const paths = {
   correlation: {
     ingest: `${API_V1}/correlation/ingest`,
     context: `${API_V1}/correlation/context`,
+    ingestLogs: `${API_V1}/correlation/ingest-logs`,
+    ingestLog: (id: number) => `${API_V1}/correlation/ingest-logs/${id}`,
   },
   autodiscover: {
     profiles: `${API_V1}/autodiscover/profiles`,

@@ -98,3 +98,15 @@ def resolve_batch_cached(
     payload = build_resolve_payload(resolved, unresolved, pagination=pagination)
     cache_set(cache_key, payload, ttl)
     return payload
+
+
+def build_ingest_log_list(items: list[Any], total: int, skip: int, limit: int):
+    from src.core.serializers import correlation_ingest_log_to_summary
+    from src.schemas.correlation import CorrelationIngestLogListResponse
+
+    return CorrelationIngestLogListResponse(
+        items=[correlation_ingest_log_to_summary(item) for item in items],
+        total=total,
+        skip=skip,
+        limit=limit,
+    )

@@ -44,6 +44,21 @@ def test_v1_ingest_chain_algorithm(client: TestClient, auth_headers: dict):
     assert body["api_version"] == "v1"
     assert body["correlation"]["chain_related"] is True
     assert body["correlation"]["chain_algorithm"] == "depends_on_directed"
+    assert body.get("ingest_log_id") is not None
+
+    logs = client.get(f"{API_V1}/correlation/ingest-logs", headers=auth_headers)
+    assert logs.status_code == 200, logs.text
+    logs_body = logs.json()
+    assert logs_body["pagination"]["total_items"] >= 1
+    assert any(item["source"] == "test" for item in logs_body["items"])
+
+    log_id = body["ingest_log_id"]
+    detail = client.get(f"{API_V1}/correlation/ingest-logs/{log_id}", headers=auth_headers)
+    assert detail.status_code == 200, detail.text
+    detail_body = detail.json()
+    assert detail_body["ingest_log"]["id"] == log_id
+    assert len(detail_body["ingest_log"]["alerts"]) == 4
+    assert detail_body["ingest_log"]["result"]["correlation"]["chain_related"] is True
 
 
 def test_v1_ci_list_pagination(client: TestClient, auth_headers: dict):

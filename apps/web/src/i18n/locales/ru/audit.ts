@@ -14,6 +14,8 @@ export const audit = {
       actionPurge: 'Безвозвратное удаление',
       actionRestore: 'Восстановление',
       actionExportFull: 'Полный экспорт',
+      actionExportRsmCsv: 'Экспорт РСМ (CSV)',
+      actionExportRsmXlsx: 'Экспорт РСМ (XLSX)',
       actionImportCreate: 'Создание при импорте',
       actionImportUpdate: 'Обновление при импорте',
       actionImportCiJson: 'Импорт CI (JSON)',

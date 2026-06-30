@@ -1,10 +1,26 @@
-﻿import { api } from '@/shared/api/client'
+﻿import { api, buildQuery } from '@/shared/api/client'
 import { paths } from '@/shared/api/paths'
-import type { CorrelationContextResponse, CorrelationIngestResponse, CorrelationResolveResponse } from '@/shared/api/types'
+import type {
+  CorrelationContextResponse,
+  CorrelationIngestLogDetail,
+  CorrelationIngestLogSummary,
+  CorrelationIngestResponse,
+  CorrelationResolveResponse,
+} from '@/shared/api/types'
+import { type V1Pagination, unwrapV1Field, unwrapV1ListTotal } from '@/shared/api/v1Envelope'
 
 type V1Envelope = {
   api_version?: string
   schema_version?: string
+}
+
+type CorrelationIngestLogListV1Response = V1Envelope & {
+  items: CorrelationIngestLogSummary[]
+  pagination: V1Pagination
+}
+
+type CorrelationIngestLogDetailV1Response = V1Envelope & {
+  ingest_log: CorrelationIngestLogDetail
 }
 
 export const correlationApi = {
@@ -14,6 +30,16 @@ export const correlationApi = {
       body: JSON.stringify({ alerts, source, depth: 3, page: 1, page_size: 100 }),
     })
     return body
+  },
+  ingestLogs: async (params?: { page?: number; page_size?: number; source?: string }) => {
+    const body = await api<CorrelationIngestLogListV1Response>(
+      `${paths.correlation.ingestLogs}${buildQuery(params ?? {})}`,
+    )
+    return unwrapV1ListTotal<CorrelationIngestLogSummary>(body)
+  },
+  ingestLog: async (id: number) => {
+    const body = await api<CorrelationIngestLogDetailV1Response>(paths.correlation.ingestLog(id))
+    return unwrapV1Field(body, 'ingest_log')
   },
   resolve: async (alerts: Record<string, string>[]) => {
     const body = await api<CorrelationResolveResponse & V1Envelope>(paths.resources.resolve, {

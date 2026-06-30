@@ -14,7 +14,7 @@ import '@xyflow/react/dist/style.css'
 import { useCallback, useEffect, useImperativeHandle, useRef, forwardRef } from 'react'
 import { useI18n } from '@/context/useI18n'
 import { GraphCanvasSkeleton } from '@/components/ui'
-import { computeGraphLayout, graphFlowDefaults } from '@/lib/graphLayout'
+import { computeGraphLayout, computeOverviewLayout, graphFlowDefaults } from '@/lib/graphLayout'
 import type { GraphPanelData } from '@/shared/api/types'
 import { activeNodeIdsForFilter, buildGraphEdges } from '@/shared/graph/graphCanvasModel'
 import { useGraphLayout } from '@/shared/hooks/useGraphLayout'
@@ -49,6 +49,7 @@ type Props = {
   alertResourceIds?: Set<number>
   emphasizeHighlighted?: boolean
   useSavedLayout?: boolean
+  overviewLayout?: boolean
   showLegend?: boolean
   fitViewPadding?: number
   nodeBadges?: { rootBadge?: string; alertBadge?: string }
@@ -76,6 +77,7 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, Props>(function GraphCa
     alertResourceIds,
     emphasizeHighlighted = false,
     useSavedLayout = true,
+    overviewLayout = false,
     showLegend = true,
     fitViewPadding = 0.24,
     nodeBadges,
@@ -148,10 +150,18 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, Props>(function GraphCa
     fitView({ padding: fitViewPadding, duration: 400 })
   }, [fitView, fitViewPadding])
 
+  const computeLayout = useCallback(
+    (g: GraphPanelData) =>
+      overviewLayout
+        ? computeOverviewLayout(g.nodes, g.edges)
+        : computeGraphLayout(g.nodes, g.edges, rootId),
+    [overviewLayout, rootId],
+  )
+
   const relayout = useCallback(async () => {
     if (!graph?.nodes?.length) return
     if (editable) await clearPositions()
-    const { positions } = computeGraphLayout(graph.nodes, graph.edges, rootId)
+    const { positions } = computeLayout(graph)
     setNodes((ns) =>
       ns.map((n) => ({
         ...n,
@@ -159,7 +169,7 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, Props>(function GraphCa
       })),
     )
     window.setTimeout(() => fitView({ padding: fitViewPadding, duration: 500 }), 80)
-  }, [graph, rootId, setNodes, fitView, fitViewPadding, clearPositions, editable])
+  }, [graph, computeLayout, setNodes, fitView, fitViewPadding, clearPositions, editable])
 
   const handlePersistPositions = useCallback(() => {
     if (!editable) return
@@ -177,11 +187,11 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, Props>(function GraphCa
       return
     }
 
-    const dataKey = `${rootId}-${depth}-${relationFilter}`
+    const dataKey = `${rootId}-${depth}-${relationFilter}-${overviewLayout ? 'overview' : 'root'}`
     const sameGraph = dataKeyRef.current === dataKey
     dataKeyRef.current = dataKey
 
-    const { positions } = computeGraphLayout(graph.nodes, graph.edges, rootId)
+    const { positions } = computeLayout(graph)
 
     const visibleEdges = graph.edges.filter((e) => !relationFilter || e.relation_type === relationFilter)
     const activeNodeIds = activeNodeIdsForFilter(graph, rootId, relationFilter)
@@ -241,6 +251,8 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, Props>(function GraphCa
     rootId,
     depth,
     relationFilter,
+    overviewLayout,
+    computeLayout,
     focusMode,
     pathIds,
     pathEdgeKeys,

@@ -14,6 +14,7 @@ from src.repositories.async_orm.autodiscover_repository import (
 )
 from src.repositories.async_orm.ci_repository import AsyncCiRepository
 from src.repositories.async_orm.ci_type_repository import AsyncCITypeRepository
+from src.repositories.async_orm.correlation_ingest_log_repository import AsyncCorrelationIngestLogRepository
 from src.repositories.async_orm.graph_layout_repository import AsyncGraphLayoutRepository
 from src.repositories.async_orm.relation_repository import AsyncRelationRepository
 from src.repositories.async_orm.relation_type_repository import AsyncRelationTypeRepository
@@ -34,6 +35,7 @@ class AsyncRepositoryBundle:
     autodiscover_runs: AsyncAutodiscoverRunRepository
     autodiscover_mappings: AsyncAutodiscoverMappingRepository
     graph_layout: AsyncGraphLayoutRepository
+    correlation_ingest_logs: AsyncCorrelationIngestLogRepository
 
     @classmethod
     def from_session(cls, session: AsyncSession) -> AsyncRepositoryBundle:
@@ -50,4 +52,5 @@ class AsyncRepositoryBundle:
             autodiscover_runs=AsyncAutodiscoverRunRepository(session),
             autodiscover_mappings=AsyncAutodiscoverMappingRepository(session),
             graph_layout=AsyncGraphLayoutRepository(session),
+            correlation_ingest_logs=AsyncCorrelationIngestLogRepository(session),
         )

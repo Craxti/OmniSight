@@ -272,5 +272,22 @@ def correlation_ingest_v1_envelope(result: Any) -> dict[str, Any]:
     return wrap_v1(result.model_dump(), schema_version=CORRELATION_SCHEMA_V1)
 
 
+def correlation_ingest_log_list_v1_envelope(result: Any, *, page: int, page_size: int) -> dict[str, Any]:
+    return wrap_v1(
+        {
+            "items": [item.model_dump() for item in result.items],
+            "pagination": pagination_meta(result.total, page, page_size),
+        },
+        schema_version=CORRELATION_SCHEMA_V1,
+    )
+
+
+def correlation_ingest_log_detail_v1_envelope(detail: Any) -> dict[str, Any]:
+    return wrap_v1(
+        {"ingest_log": detail.model_dump()},
+        schema_version=CORRELATION_SCHEMA_V1,
+    )
+
+
 def resolve_v1_envelope(payload: Any) -> dict[str, Any]:
     return wrap_v1(payload.model_dump())

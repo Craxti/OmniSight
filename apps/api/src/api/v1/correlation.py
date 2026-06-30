@@ -1,7 +1,12 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
-from src.api.handlers.correlation import handle_correlation_context, handle_correlation_ingest
+from fastapi import APIRouter, Depends, Query
+from src.api.handlers.correlation import (
+    handle_correlation_context,
+    handle_correlation_ingest,
+    handle_correlation_ingest_log_detail,
+    handle_correlation_ingest_log_list,
+)
 from src.core.auth import get_current_user
 from src.core.deps import get_correlation_read_port, get_correlation_write_port
 from src.core.openapi_tags import TAG_INTEGRATION_CORRELATION
@@ -33,6 +38,31 @@ async def correlation_context_v1(
     _: Annotated[User, Depends(get_current_user)],
 ):
     return await handle_correlation_context(service, body.resource_ids, body.depth)
+
+
+@router.get("/ingest-logs")
+async def correlation_ingest_log_list_v1(
+    service: CorrelationReadSvc,
+    _: Annotated[User, Depends(get_current_user)],
+    source: str | None = None,
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=25, ge=1, le=100),
+):
+    return await handle_correlation_ingest_log_list(
+        service,
+        page=page,
+        page_size=page_size,
+        source=source,
+    )
+
+
+@router.get("/ingest-logs/{log_id}")
+async def correlation_ingest_log_detail_v1(
+    log_id: int,
+    service: CorrelationReadSvc,
+    _: Annotated[User, Depends(get_current_user)],
+):
+    return await handle_correlation_ingest_log_detail(service, log_id)
 
 
 @router.post("/ingest")

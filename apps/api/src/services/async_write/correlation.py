@@ -40,9 +40,20 @@ class AsyncCorrelationWriteService(AsyncDomainService):
             enrichment=context.enrichment,
             potential_root_cause_zone=context.potential_root_cause_zone,
         )
+        log_entry = await self._bundle.correlation_ingest_logs.create(
+            source=source,
+            alerts=alerts,
+            result=result.model_dump(),
+            alert_count=len(alerts),
+            resolved_count=len(resolve_result.resolved),
+            unresolved_count=len(resolve_result.unresolved),
+            chain_related=bool(context.chain_related),
+        )
+        result = result.model_copy(update={"ingest_log_id": log_entry.id})
         if dispatch_webhook or webhook_url:
             webhook = await self._dispatch_webhook(result.model_dump(), webhook_url=webhook_url)
             return result.model_copy(update={"webhook": webhook})
+        await self._session.commit()
         return result
 
     async def _dispatch_webhook(self, payload: dict[str, Any], *, webhook_url: str | None = None) -> dict[str, Any]:

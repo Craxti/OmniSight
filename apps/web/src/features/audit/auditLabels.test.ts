@@ -17,6 +17,12 @@ describe('auditLabels', () => {
     expect(auditActionLabel(t, 'import_relations_json')).toBe('Импорт связей (JSON)')
   })
 
+  it('maps RSM export actions', () => {
+    const t = messages.ru.audit
+    expect(auditActionLabel(t, 'export_rsm_csv')).toBe('Экспорт РСМ (CSV)')
+    expect(auditActionLabel(t, 'export_rsm_xlsx')).toBe('Экспорт РСМ (XLSX)')
+  })
+
   it('maps entity types', () => {
     const t = messages.en.audit
     expect(auditEntityTypeLabel(t, 'ci')).toBe('CI')

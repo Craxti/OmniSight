@@ -33,8 +33,16 @@ export const queryKeys = {
     list: (params: unknown) => ['audit', params] as const,
   },
   search: (q: string) => ['search', q] as const,
-  graph: (id: number | string, depth: number) => ['graph', id, depth] as const,
+  graph: {
+    overview: ['graph', 'overview'] as const,
+    root: (id: number | string, depth: number) => ['graph', id, depth] as const,
+  },
   graphLayout: (id: number | string, relationFilter: string) => ['graph-layout', id, relationFilter] as const,
   businessPath: (id: number | string) => ['business-path', id] as const,
   impact: (id: number | string) => ['impact', id] as const,
+  correlation: {
+    all: ['correlation-ingest-logs'] as const,
+    ingestLogs: (params: unknown) => ['correlation-ingest-logs', params] as const,
+    ingestLog: (id: number | null) => ['correlation-ingest-log', id] as const,
+  },
 } as const

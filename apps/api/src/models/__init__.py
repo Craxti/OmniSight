@@ -2,7 +2,7 @@ from src.models.autodiscover import AutodiscoverMapping, AutodiscoverRun, SyncCo
 from src.models.base import Base
 from src.models.ci import CI, CIType
 from src.models.graph_layout import GraphLayout
-from src.models.infrastructure import AuditLog, CacheEntry, IntegrationOutbox, RateLimitHit
+from src.models.infrastructure import AuditLog, CacheEntry, CorrelationIngestLog, IntegrationOutbox, RateLimitHit
 from src.models.relation import Relation
 from src.models.relation_type import RelationType
 from src.models.user import User, UserRole
@@ -15,6 +15,7 @@ __all__ = [
     "CI",
     "CIType",
     "CacheEntry",
+    "CorrelationIngestLog",
     "GraphLayout",
     "IntegrationOutbox",
     "RateLimitHit",
