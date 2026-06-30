@@ -214,6 +214,7 @@ export type CorrelationIngestResponse = {
   enrichment?: Array<CorrelationEnrichmentItem>
   potential_root_cause_zone?: Array<CIResponse>
   webhook?: Record<string, unknown> | null
+  ingest_log_id?: number | null
 }
 
 export type ResourceGraphResponse = {
