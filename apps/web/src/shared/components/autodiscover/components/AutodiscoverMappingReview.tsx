@@ -32,17 +32,29 @@ export function AutodiscoverMappingReview({
   onBack,
   onApply,
 }: Props) {
+  const totalDurationMs = scanResult.sources.reduce((sum, source) => sum + (source.duration_ms ?? 0), 0)
+  const sourceTypes = [
+    ...new Set(
+      scanResult.sources
+        .map((source) => source.connector_type)
+        .filter((value): value is string => Boolean(value)),
+    ),
+  ].join(', ')
+
   return (
     <div className="space-y-4">
       <p className="text-xs text-[var(--text-muted)]">{t.autodiscover.draftRun}{scanResult.run_id} · {scanResult.status}</p>
 
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-8">
         {[
           { label: t.autodiscover.reportSources, value: `${scanResult.sources_ok}/${scanResult.sources_processed}` },
           { label: t.autodiscover.reportFields, value: scanResult.fields_found },
           { label: t.autodiscover.tabRelations, value: scanResult.relation_count },
           { label: t.autodiscover.tabNewCi, value: scanResult.ci_create_count },
           { label: t.autodiscover.reportAuto, value: scanResult.auto_count },
+          { label: t.autodiscover.reportReview, value: scanResult.needs_confirmation_count },
+          { label: t.autodiscover.reportConflicts, value: scanResult.conflict_count },
+          { label: t.autodiscover.reportDuration, value: `${totalDurationMs} ms` },
         ].map(({ label, value }) => (
           <div key={label} className="rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-input)] p-2 text-center">
             <div className="text-lg font-semibold text-[var(--text-primary)]">{value}</div>
@@ -50,6 +62,39 @@ export function AutodiscoverMappingReview({
           </div>
         ))}
       </div>
+
+      {sourceTypes ? (
+        <p className="text-xs text-[var(--text-muted)]">
+          {t.autodiscover.reportSourceTypes}: {sourceTypes}
+        </p>
+      ) : null}
+
+      {scanResult.apply_result ? (
+        <div className="rounded-lg border border-emerald-900/40 bg-emerald-950/30 p-3 text-sm text-emerald-200">
+          {t.autodiscover.reportApplied}: {scanResult.apply_result.applied}
+          {' · '}
+          {t.autodiscover.reportSkipped}: {scanResult.apply_result.skipped}
+        </div>
+      ) : null}
+
+      {scanResult.sources.length > 0 ? (
+        <div className="rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-input)] p-3 text-xs">
+          <div className="mb-2 font-medium text-[var(--text-primary)]">{t.autodiscover.reportSourceTypes}</div>
+          <div className="space-y-1 text-[var(--text-muted)]">
+            {scanResult.sources.map((source, index) => (
+              <div key={`${source.server_ci_id ?? source.connector_id ?? index}`} className="flex flex-wrap gap-2">
+                <span className="font-medium text-[var(--text-primary)]">
+                  {source.server_name ?? source.connector_name ?? '—'}
+                </span>
+                {source.connector_type && <span>{source.connector_type}</span>}
+                <span>{source.records_found} rec.</span>
+                <span>{source.duration_ms} ms</span>
+                {!source.ok && source.error && <span className="text-warning">{source.error}</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       {scanResult.schema_diff ? (
         <div className="rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-input)] p-2 text-xs text-[var(--text-muted)]">

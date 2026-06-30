@@ -100,13 +100,21 @@ def resolve_batch_cached(
     return payload
 
 
-def build_ingest_log_list(items: list[Any], total: int, skip: int, limit: int):
+def build_ingest_log_list(
+    items: list[Any],
+    total: int,
+    skip: int,
+    limit: int,
+    stats: dict[str, int | float] | None = None,
+):
     from src.core.serializers import correlation_ingest_log_to_summary
-    from src.schemas.correlation import CorrelationIngestLogListResponse
+    from src.schemas.correlation import CorrelationIngestLogListResponse, CorrelationIngestLogStats
 
+    stats_payload = stats or {}
     return CorrelationIngestLogListResponse(
         items=[correlation_ingest_log_to_summary(item) for item in items],
         total=total,
         skip=skip,
         limit=limit,
+        stats=CorrelationIngestLogStats.model_validate(stats_payload),
     )

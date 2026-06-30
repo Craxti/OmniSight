@@ -97,6 +97,16 @@ export type ImportReport = {
 export type DashboardModelHealth = {
   valid: boolean
   issue_count: number
+  warning_count?: number
+  warnings?: Array<DashboardModelWarning>
+  external_id_coverage_pct?: number
+  correlation_ready?: boolean
+}
+
+export type DashboardModelWarning = {
+  type: string
+  message: string
+  count: number
 }
 
 export type DashboardOverviewResponse = {

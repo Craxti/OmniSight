@@ -56,6 +56,7 @@ export function useCorrelationIngestJournal() {
     items,
     total,
     totalPages,
+    stats: listQuery.data?.stats ?? null,
     isLoading: listQuery.isLoading,
     isDetailLoading: detailQuery.isLoading,
     detail: detailQuery.data ?? null,

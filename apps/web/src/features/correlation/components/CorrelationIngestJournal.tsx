@@ -24,6 +24,7 @@ export function CorrelationIngestJournal() {
     items,
     total,
     totalPages,
+    stats,
     isLoading,
     isDetailLoading,
     detail,
@@ -106,6 +107,14 @@ export function CorrelationIngestJournal() {
       </div>
       <p className="text-sm text-[var(--text-muted)]">{t.correlation.journalHint}</p>
 
+      {stats && stats.total_batches > 0 && (
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3" data-testid="correlation-journal-stats">
+          <JournalStat label={t.correlation.journalStatsBatches} value={stats.total_batches} />
+          <JournalStat label={t.correlation.journalStatsResolve} value={`${stats.resolve_rate_pct}%`} />
+          <JournalStat label={t.correlation.journalStatsChain} value={`${stats.chain_related_pct}%`} />
+        </div>
+      )}
+
       <FilterPanel testId="correlation-journal-filters">
         <input
           className="input w-full"
@@ -157,6 +166,15 @@ export function CorrelationIngestJournal() {
           <CorrelationIngestJournalDetail detail={detail} />
         )}
       </Modal>
+    </div>
+  )
+}
+
+function JournalStat({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-input)] p-3 text-center">
+      <div className="text-lg font-semibold text-[var(--text-primary)]">{value}</div>
+      <div className="text-caption text-[var(--text-muted)]">{label}</div>
     </div>
   )
 }

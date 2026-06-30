@@ -134,8 +134,19 @@ class CorrelationIngestLogDetail(CorrelationIngestLogSummary):
     result: dict[str, Any] = Field(default_factory=dict)
 
 
+class CorrelationIngestLogStats(BaseModel):
+    total_batches: int = 0
+    total_alerts: int = 0
+    total_resolved: int = 0
+    total_unresolved: int = 0
+    resolve_rate_pct: float = 0.0
+    chain_related_count: int = 0
+    chain_related_pct: float = 0.0
+
+
 class CorrelationIngestLogListResponse(BaseModel):
     items: list[CorrelationIngestLogSummary]
     total: int
     skip: int
     limit: int
+    stats: CorrelationIngestLogStats = Field(default_factory=CorrelationIngestLogStats)

@@ -277,6 +277,7 @@ def correlation_ingest_log_list_v1_envelope(result: Any, *, page: int, page_size
         {
             "items": [item.model_dump() for item in result.items],
             "pagination": pagination_meta(result.total, page, page_size),
+            "stats": result.stats.model_dump(),
         },
         schema_version=CORRELATION_SCHEMA_V1,
     )

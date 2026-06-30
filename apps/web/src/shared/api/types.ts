@@ -73,6 +73,16 @@ export type CorrelationIngestResponse = ApiCorrelationIngestResponse
 export type CorrelationContextPayload = ApiCorrelationContextPayload
 export type CorrelationEnrichmentItem = ApiCorrelationEnrichmentItem
 
+export type CorrelationIngestLogStats = {
+  total_batches: number
+  total_alerts: number
+  total_resolved: number
+  total_unresolved: number
+  resolve_rate_pct: number
+  chain_related_count: number
+  chain_related_pct: number
+}
+
 export type CorrelationIngestLogSummary = {
   id: number
   source: string | null

@@ -55,4 +55,10 @@ export const correlation = {
       journalOpenRow: 'Открыть детали',
       manualIngestTitle: 'Ручной ingest',
       manualIngestHint: 'Отладка правил сопоставления — отправка батча из UI (source: ui).',
+      journalStatsBatches: 'Вызовы',
+      journalStatsResolve: 'Сопоставление',
+      journalStatsChain: 'Единая цепочка',
+      ingestWarnEmptyRows: 'Строки {rows}: не заполнен ни один идентификатор — алерт не будет сопоставлен.',
+      ingestWarnUnresolved: 'Возможны unresolved: {fields} — проверьте, что значения есть в реестре CI (вкладка Элементы или Autodiscover).',
+      ingestWarnChecking: 'Проверка сопоставления…',
     }

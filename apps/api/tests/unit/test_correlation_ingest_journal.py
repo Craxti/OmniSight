@@ -33,6 +33,9 @@ async def test_ingest_persists_journal_entry(db_session, async_bundle):
     assert result.ingest_log_id is not None
 
     listed = await AsyncCorrelationReadService(async_bundle).list_ingest_logs()
+    assert listed.stats.total_batches >= 1
+    assert listed.stats.total_alerts >= 1
+    assert listed.stats.resolve_rate_pct >= 0
     assert listed.total >= 1
     summary = next(item for item in listed.items if item.id == result.ingest_log_id)
     assert summary.source == "demo-ce"

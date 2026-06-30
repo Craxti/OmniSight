@@ -65,9 +65,19 @@ class GlobalSearchResponse(BaseModel):
     query: str
 
 
+class DashboardModelWarning(BaseModel):
+    type: str
+    message: str
+    count: int
+
+
 class DashboardModelHealth(BaseModel):
     valid: bool
     issue_count: int
+    warning_count: int = 0
+    warnings: list[DashboardModelWarning] = Field(default_factory=list)
+    external_id_coverage_pct: float = 100.0
+    correlation_ready: bool = True
 
 
 class DashboardOverviewResponse(BaseModel):

@@ -13,6 +13,7 @@ def build_dashboard_overview(
     by_status: dict[str, int],
     by_type: dict[str, int],
     validation: RelationValidationResponse,
+    model_health: DashboardModelHealth,
     recent_audit: list[AuditLogResponse],
 ) -> DashboardOverviewResponse:
     return DashboardOverviewResponse(
@@ -20,6 +21,6 @@ def build_dashboard_overview(
         total_relations=total_relations,
         by_status=by_status,
         by_type=by_type,
-        model_health=DashboardModelHealth(valid=validation.valid, issue_count=validation.issue_count),
+        model_health=model_health,
         recent_audit=recent_audit,
     )

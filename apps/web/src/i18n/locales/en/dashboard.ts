@@ -14,4 +14,8 @@ export const dashboard = {
       validateLink: 'Open relations',
       recentAudit: 'Recent changes',
       viewAll: 'Full audit log',
+      coverageLabel: 'External ID coverage',
+      correlationReady: 'Correlation-ready',
+      correlationNotReady: 'Low ID coverage',
+      warningsTitle: 'Model warnings',
     }

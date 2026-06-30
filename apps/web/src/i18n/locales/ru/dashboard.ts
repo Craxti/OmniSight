@@ -14,4 +14,8 @@ export const dashboard = {
       validateLink: 'Открыть зависимости',
       recentAudit: 'Последние изменения',
       viewAll: 'Весь журнал',
+      coverageLabel: 'Покрытие external ID',
+      correlationReady: 'Готова к корреляции',
+      correlationNotReady: 'Низкое покрытие ID',
+      warningsTitle: 'Замечания по модели',
     }

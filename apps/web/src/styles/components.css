@@ -774,6 +774,20 @@ table.data-table th {
   border-color: var(--border-subtle);
 }
 
+/* Settings connectors: keep table inside card without horizontal scroll */
+.connectors-table-fit .virtual-table-header-scroll,
+.connectors-table-fit .virtual-table-scroll {
+  overflow-x: hidden;
+}
+
+.connectors-table-fit .virtual-table-body,
+.connectors-table-fit .virtual-table-header,
+.connectors-table-fit .virtual-table-width-sizer {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
 table.data-table td {
   @apply border-t px-4 py-3;
   border-color: var(--border-subtle);

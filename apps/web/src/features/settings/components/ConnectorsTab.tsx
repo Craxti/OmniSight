@@ -31,45 +31,45 @@ export function ConnectorsTab({ canEdit, onNew, onEdit, onDelete, onTest, onSync
       {
         id: 'name',
         header: t.settings.connectors.colName,
-        width: 'minmax(140px, 1.2fr)',
-        cell: (c) => <span className="font-medium">{c.name}</span>,
+        width: '2fr',
+        cell: (c) => <span className="truncate font-medium">{c.name}</span>,
       },
       {
         id: 'type',
         header: t.settings.connectors.colType,
-        width: 'minmax(90px, 0.8fr)',
+        width: '0.9fr',
         cell: (c) => <span className="badge badge-indigo">{c.connector_type}</span>,
       },
       {
         id: 'server',
         header: t.settings.connectors.colServer,
-        width: 'minmax(80px, 0.7fr)',
+        width: '0.7fr',
         hideMobile: true,
         cell: (c) => (c.server_ci_id ? `#${c.server_ci_id}` : '—'),
       },
       {
         id: 'config',
         header: t.settings.connectors.colConfig,
-        width: 'minmax(160px, 1.5fr)',
+        width: '1.6fr',
         hideMobile: true,
+        className: 'min-w-0',
         cell: (c) => (
-          <span className="max-w-xs truncate font-mono text-xs text-[var(--text-muted)]">
-            {configSummary(c)}
-            {c.has_credentials ? ` · ${t.settings.connectors.credsSet}` : ''}
+          <span className="block truncate font-mono text-xs text-[var(--text-muted)]" title={configSummary(c, t)}>
+            {configSummary(c, t)}
           </span>
         ),
       },
       {
         id: 'enabled',
         header: t.settings.connectors.colEnabled,
-        width: 'minmax(80px, 0.7fr)',
+        width: '0.75fr',
         hideMobile: true,
         cell: (c) => (c.enabled ? t.settings.active : t.settings.inactive),
       },
       {
         id: 'auto_sync',
         header: t.settings.connectors.colAutoSync,
-        width: 'minmax(90px, 0.8fr)',
+        width: '0.85fr',
         hideMobile: true,
         cell: (c) => (c.auto_sync ? t.settings.connectors.autoSyncOn : '—'),
       },
@@ -79,14 +79,13 @@ export function ConnectorsTab({ canEdit, onNew, onEdit, onDelete, onTest, onSync
       cols.push({
         id: 'actions',
         header: t.settings.colActions,
-        width: 'minmax(180px, 1.2fr)',
+        width: '6.75rem',
         cellClassName: 'virtual-table-td-actions',
         cell: (c) => (
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex shrink-0 gap-1">
             <Button
               variant="table-primary"
               iconOnly
-              className="min-h-11 min-w-11 md:min-h-0 md:min-w-0"
               onClick={() => onSync(c)}
               aria-label={t.settings.connectors.syncNow}
             >
@@ -95,7 +94,6 @@ export function ConnectorsTab({ canEdit, onNew, onEdit, onDelete, onTest, onSync
             <Button
               variant="table"
               iconOnly
-              className="min-h-11 min-w-11 md:min-h-0 md:min-w-0"
               onClick={() => onTest(c)}
               aria-label={t.settings.connectors.test}
             >
@@ -104,7 +102,6 @@ export function ConnectorsTab({ canEdit, onNew, onEdit, onDelete, onTest, onSync
             <Button
               variant="table-primary"
               iconOnly
-              className="min-h-11 min-w-11 md:min-h-0 md:min-w-0"
               onClick={() => onEdit(c)}
               aria-label={t.common.edit}
             >
@@ -113,7 +110,6 @@ export function ConnectorsTab({ canEdit, onNew, onEdit, onDelete, onTest, onSync
             <Button
               variant="table-danger"
               iconOnly
-              className="min-h-11 min-w-11 md:min-h-0 md:min-w-0"
               onClick={() => onDelete(c)}
               aria-label={t.common.delete}
             >
@@ -143,32 +139,40 @@ export function ConnectorsTab({ canEdit, onNew, onEdit, onDelete, onTest, onSync
       {!isLoading && rows.length === 0 ? (
         <EmptyState title={t.settings.connectors.empty} />
       ) : (
-        <VirtualDataTable
-          items={rows}
-          columns={columns}
-          getRowKey={(c) => c.id}
-          isLoading={isLoading}
-          ariaLabel={t.settings.connectors.title}
-          testId="connectors-table"
-          maxHeight="min(60vh, 640px)"
-          virtualized={rows.length > 50}
-        />
+        <div className="connectors-table-fit min-w-0 max-w-full overflow-hidden">
+          <VirtualDataTable
+            items={rows}
+            columns={columns}
+            getRowKey={(c) => c.id}
+            isLoading={isLoading}
+            ariaLabel={t.settings.connectors.title}
+            testId="connectors-table"
+            maxHeight="min(60vh, 640px)"
+            virtualized={false}
+            className="w-full"
+          />
+        </div>
       )}
     </>
   )
 }
 
-function configSummary(c: SyncConnector): string {
+function configSummary(c: SyncConnector, t: ReturnType<typeof useI18n>['t']): string {
   const cfg = c.config ?? {}
+  let summary: string
   if (c.connector_type === 'host') {
     const host = cfg.ssh_host ? String(cfg.ssh_host) : ''
     const snap = cfg.snapshot_path ? String(cfg.snapshot_path) : ''
-    if (host && snap) return `ssh:${host} | snapshot`
-    if (host) return `ssh:${host}`
-    return snap || String(cfg.path ?? '')
+    summary = host ? `ssh:${host}` : snap || String(cfg.path ?? '')
+  } else if (c.connector_type === 'file') {
+    summary = String(cfg.path ?? '')
+  } else if (c.connector_type === 'api') {
+    summary = String(cfg.url ?? '')
+  } else if (c.connector_type === 'db') {
+    summary = String(cfg.query ?? '').slice(0, 60)
+  } else {
+    summary = JSON.stringify(cfg).slice(0, 60)
   }
-  if (c.connector_type === 'file') return String(cfg.path ?? '')
-  if (c.connector_type === 'api') return String(cfg.url ?? '')
-  if (c.connector_type === 'db') return String(cfg.query ?? '').slice(0, 80)
-  return JSON.stringify(cfg).slice(0, 80)
+  if (c.has_credentials) summary += ` · ${t.settings.connectors.credsSet}`
+  return summary
 }

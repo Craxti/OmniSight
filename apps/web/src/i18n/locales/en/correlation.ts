@@ -55,4 +55,10 @@ export const correlation = {
       journalOpenRow: 'Open details',
       manualIngestTitle: 'Manual ingest',
       manualIngestHint: 'Debug matching rules by sending a batch from the UI (source: ui).',
+      journalStatsBatches: 'Batches',
+      journalStatsResolve: 'Resolve rate',
+      journalStatsChain: 'Single chain',
+      ingestWarnEmptyRows: 'Rows {rows}: no identifier filled — alert will not resolve.',
+      ingestWarnUnresolved: 'Possible unresolved: {fields} — verify values exist in the CI registry (Inventory or Autodiscover).',
+      ingestWarnChecking: 'Checking matches…',
     }

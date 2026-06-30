@@ -6,6 +6,7 @@ import { useI18n } from '@/context/useI18n'
 import { StatusDistributionChart } from '@/features/dashboard/components/StatusDistributionChart'
 import { TypeDistributionChart } from '@/features/dashboard/components/TypeDistributionChart'
 import { useDashboardPage } from '@/features/dashboard/hooks/useDashboardPage'
+import type { DashboardModelWarning } from '@/shared/api/types.generated'
 import type { IconTone } from '@/lib/iconTone'
 
 export default function DashboardPage() {
@@ -14,7 +15,8 @@ export default function DashboardPage() {
 
   const health = data?.model_health
   const issueCount = health?.issue_count ?? 0
-  const modelOk = health ? health.valid && issueCount === 0 : true
+  const warningCount = health?.warning_count ?? 0
+  const modelOk = health ? health.valid && issueCount === 0 && warningCount === 0 : true
 
   return (
     <div className="space-y-6">
@@ -38,6 +40,11 @@ export default function DashboardPage() {
                 errors: issueCount,
               })}
               linkLabel={t.dashboard.validateLink}
+              correlationReady={health?.correlation_ready ?? true}
+              correlationReadyLabel={t.dashboard.correlationReady}
+              correlationNotReadyLabel={t.dashboard.correlationNotReady}
+              warningsTitle={t.dashboard.warningsTitle}
+              warnings={health?.warnings ?? []}
             />
           </>
         )}
@@ -98,6 +105,11 @@ function HealthCard({
   statusIssues,
   summaryLabel,
   linkLabel,
+  correlationReady,
+  correlationReadyLabel,
+  correlationNotReadyLabel,
+  warningsTitle,
+  warnings,
 }: {
   modelOk: boolean
   title: string
@@ -105,19 +117,24 @@ function HealthCard({
   statusIssues: string
   summaryLabel: string
   linkLabel: string
+  correlationReady: boolean
+  correlationReadyLabel: string
+  correlationNotReadyLabel: string
+  warningsTitle: string
+  warnings: DashboardModelWarning[]
 }) {
   const tone: IconTone = modelOk ? 'success' : 'warning'
 
   return (
     <Link
       to="/relations"
-      className="card flex items-center gap-4 p-5 transition-colors hover:bg-[var(--bg-hover)]"
+      className="card flex items-start gap-4 p-5 transition-colors hover:bg-[var(--bg-hover)]"
       title={linkLabel}
     >
       <div className={`stat-icon stat-icon--${tone}`}>
         {modelOk ? <CheckCircle2 className="h-6 w-6 text-white" /> : <Activity className="h-6 w-6 text-white" />}
       </div>
-      <div className="min-w-0">
+      <div className="min-w-0 flex-1">
         <div className="text-sm font-medium text-[var(--text-primary)]">{title}</div>
         <div className={`mt-1 inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${modelOk ? 'health-pill health-pill--ok' : 'health-pill health-pill--warn'}`}>
           {modelOk ? statusOk : statusIssues}
@@ -125,6 +142,23 @@ function HealthCard({
         <div className="mt-2 text-xs text-[var(--text-muted)]" data-testid="dashboard-health-summary">
           {summaryLabel}
         </div>
+        <div className="mt-2 text-xs">
+          <span
+            className={`inline-flex rounded-full px-2 py-0.5 ${correlationReady ? 'bg-emerald-950 text-emerald-300' : 'bg-amber-950 text-amber-300'}`}
+          >
+            {correlationReady ? correlationReadyLabel : correlationNotReadyLabel}
+          </span>
+        </div>
+        {warnings.length > 0 && (
+          <div className="mt-3 space-y-1 text-xs text-[var(--text-muted)]">
+            <div className="font-medium text-[var(--text-primary)]">{warningsTitle}</div>
+            {warnings.slice(0, 3).map((warning) => (
+              <div key={warning.type}>
+                {warning.message}: {warning.count}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </Link>
   )

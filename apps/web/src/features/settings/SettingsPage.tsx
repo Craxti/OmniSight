@@ -28,7 +28,7 @@ export default function SettingsPage() {
         onChange={s.setTab}
       />
 
-      <div className="card p-5" role="tabpanel">
+      <div className="card min-w-0 overflow-hidden p-5" role="tabpanel">
         {s.tab === 'types' && (
           <>
             <CiTypesTab

@@ -3,6 +3,7 @@ import { PageHeader, Button, CorrelationResultSkeleton } from '@/components/ui'
 import { CorrelationAlertForm } from '@/features/correlation/components/CorrelationAlertForm'
 import { CorrelationIngestJournal } from '@/features/correlation/components/CorrelationIngestJournal'
 import { CorrelationIngestResultView } from '@/features/correlation/components/CorrelationIngestResultView'
+import { CorrelationIngestWarnings } from '@/features/correlation/components/CorrelationIngestWarnings'
 import { OnboardingHint } from '@/shared/components/OnboardingHint'
 import { useI18n } from '@/context/useI18n'
 import { useDomainConstants } from '@/shared/hooks/useDomainConstants'
@@ -32,6 +33,7 @@ export default function CorrelationPage() {
       <div className="card p-5">
         <h2 className="mb-4 font-semibold text-[var(--text-primary)]">{t.correlation.manualIngestTitle}</h2>
         <p className="mb-4 text-sm text-[var(--text-muted)]">{t.correlation.manualIngestHint}</p>
+        <CorrelationIngestWarnings alerts={alerts} externalIdFields={externalIdFields} />
         <CorrelationAlertForm
           alerts={alerts}
           setAlerts={setAlerts}

@@ -8,6 +8,7 @@ from src.services.async_read.audit import AsyncAuditReadService
 from src.services.base.async_domain import AsyncDomainService
 from src.services.domain.dashboard import build_dashboard_overview
 from src.services.rsm.async_validation import validate_relations_async
+from src.services.rsm.model_health import compute_model_health
 
 
 class AsyncDashboardService(AsyncDomainService):
@@ -24,6 +25,12 @@ class AsyncDashboardService(AsyncDomainService):
         validation = RelationValidationResponse.model_validate(
             await validate_relations_async(ci_repo=ci_repo, rel_repo=rel_repo),
         )
+        model_health = await compute_model_health(
+            ci_repo=ci_repo,
+            rel_repo=rel_repo,
+            relation_valid=validation.valid,
+            relation_issue_count=validation.issue_count,
+        )
         audit = await AsyncAuditReadService(self._bundle).list_logs(limit=8)
         return build_dashboard_overview(
             total_ci=total_ci,
@@ -31,5 +38,6 @@ class AsyncDashboardService(AsyncDomainService):
             by_status=by_status,
             by_type=by_type,
             validation=validation,
+            model_health=model_health,
             recent_audit=audit.items,
         )

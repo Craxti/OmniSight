@@ -85,7 +85,8 @@ class AsyncCorrelationReadService(AsyncDomainService):
             skip=skip,
             limit=limit,
         )
-        return build_ingest_log_list(items, total, skip, limit)
+        stats = await self._bundle.correlation_ingest_logs.aggregate_stats(source=source)
+        return build_ingest_log_list(items, total, skip, limit, stats)
 
     async def get_ingest_log(self, log_id: int) -> CorrelationIngestLogDetail:
         from src.core.serializers import correlation_ingest_log_to_detail

@@ -3,6 +3,7 @@ import { paths } from '@/shared/api/paths'
 import type {
   CorrelationContextResponse,
   CorrelationIngestLogDetail,
+  CorrelationIngestLogStats,
   CorrelationIngestLogSummary,
   CorrelationIngestResponse,
   CorrelationResolveResponse,
@@ -17,6 +18,7 @@ type V1Envelope = {
 type CorrelationIngestLogListV1Response = V1Base & {
   items: CorrelationIngestLogSummary[]
   pagination: V1Pagination
+  stats: CorrelationIngestLogStats
 }
 
 type CorrelationIngestLogDetailV1Response = V1Base & {
@@ -35,7 +37,8 @@ export const correlationApi = {
     const body = await api<CorrelationIngestLogListV1Response>(
       `${paths.correlation.ingestLogs}${buildQuery(params ?? {})}`,
     )
-    return unwrapV1ListTotal<CorrelationIngestLogSummary>(body)
+    const { items, total } = unwrapV1ListTotal<CorrelationIngestLogSummary>(body)
+    return { items, total, stats: body.stats }
   },
   ingestLog: async (id: number) => {
     const body = await api<CorrelationIngestLogDetailV1Response>(paths.correlation.ingestLog(id))
