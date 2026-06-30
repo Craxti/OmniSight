@@ -202,7 +202,7 @@ function centerLayout(positions: Map<number, { x: number; y: number }>): void {
 }
 
 function buildGraphMaps(
-  nodes: LayoutNode[],
+  _nodes: LayoutNode[],
   edges: LayoutEdge[],
   nodeIds: Set<number>,
 ): {
@@ -448,7 +448,7 @@ function resolveLayerCollisions(
   spineIds: Set<number>,
 ): void {
   const byLayer = new Map<number, number[]>()
-  for (const [id, pos] of positions) {
+  for (const [id] of positions) {
     const l = layer.get(id) ?? 0
     if (!byLayer.has(l)) byLayer.set(l, [])
     byLayer.get(l)!.push(id)

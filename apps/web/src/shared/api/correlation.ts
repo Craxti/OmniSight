@@ -7,19 +7,19 @@ import type {
   CorrelationIngestResponse,
   CorrelationResolveResponse,
 } from '@/shared/api/types'
-import { type V1Pagination, unwrapV1Field, unwrapV1ListTotal } from '@/shared/api/v1Envelope'
+import { type V1Base, type V1Pagination, unwrapV1Field, unwrapV1ListTotal } from '@/shared/api/v1Envelope'
 
 type V1Envelope = {
   api_version?: string
   schema_version?: string
 }
 
-type CorrelationIngestLogListV1Response = V1Envelope & {
+type CorrelationIngestLogListV1Response = V1Base & {
   items: CorrelationIngestLogSummary[]
   pagination: V1Pagination
 }
 
-type CorrelationIngestLogDetailV1Response = V1Envelope & {
+type CorrelationIngestLogDetailV1Response = V1Base & {
   ingest_log: CorrelationIngestLogDetail
 }
 

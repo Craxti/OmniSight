@@ -1,9 +1,14 @@
-from typing import Any
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
 
 from src.models import CI, AuditLog, Relation
 from src.schemas.audit import AuditLogResponse
 from src.schemas.ci import CIDetailResponse, CIResponse
 from src.schemas.relations import RelationResponse
+
+if TYPE_CHECKING:
+    from src.schemas.correlation import CorrelationIngestLogDetail, CorrelationIngestLogSummary
 
 
 def ci_to_response(ci: CI) -> CIResponse:
@@ -64,7 +69,7 @@ def audit_to_response(entry: AuditLog) -> AuditLogResponse:
     )
 
 
-def correlation_ingest_log_to_summary(entry) -> "CorrelationIngestLogSummary":
+def correlation_ingest_log_to_summary(entry) -> CorrelationIngestLogSummary:
     from src.schemas.correlation import CorrelationIngestLogSummary
 
     return CorrelationIngestLogSummary(
@@ -78,7 +83,7 @@ def correlation_ingest_log_to_summary(entry) -> "CorrelationIngestLogSummary":
     )
 
 
-def correlation_ingest_log_to_detail(entry) -> "CorrelationIngestLogDetail":
+def correlation_ingest_log_to_detail(entry) -> CorrelationIngestLogDetail:
     from src.schemas.correlation import CorrelationIngestLogDetail
 
     return CorrelationIngestLogDetail(
